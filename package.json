@@ -1,0 +1,21 @@
+{
+	"name": "remap-istanbul",
+	"version": "1.0.0-pre",
+	"description": "A tool for remapping Istanbul coverage via Source Maps",
+	"homepage": "http://dojotoolkit.org",
+	"bugs": {
+		"url": "https://github.com/kitsonk/remap-istanbul"
+	},
+	"license": "BSD-3-Clause",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kitson/remap-istanbul.git"
+	},
+	"dependencies": {
+		"istanbul": "0.3.17",
+		"source-map": "0.4.2"
+	},
+	"devDependencies": {
+		"intern": "3.0.0"
+	}
+}
