@@ -1,3 +1,4 @@
 define([
-	'./lib/remap'
+	'./lib/remap',
+	'./lib/writeReport'
 ], function () {});
