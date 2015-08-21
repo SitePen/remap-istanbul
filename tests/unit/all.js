@@ -1,2 +1,3 @@
 define([
+	'./lib/remap'
 ], function () {});
