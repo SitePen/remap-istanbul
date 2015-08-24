@@ -16,9 +16,13 @@
 		"url": "https://github.com/kitsonk/remap-istanbul"
 	},
 	"license": "BSD-3-Clause",
+	"main": "main.js",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/kitson/remap-istanbul.git"
+	},
+	"scripts": {
+		"test": "tests/run.sh"
 	},
 	"dependencies": {
 		"amdefine": "1.0.0",
