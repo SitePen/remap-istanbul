@@ -3,6 +3,15 @@
 	"version": "1.0.0-pre",
 	"description": "A tool for remapping Istanbul coverage via Source Maps",
 	"homepage": "http://dojotoolkit.org",
+	"maintainers": [
+		{
+			"name": "kitsonk",
+			"email": "me@kitsonkelly.com"
+		}, {
+			"name": "bryanforbes",
+			"email": "bryan@reigndropsfall.net"
+		}
+	],
 	"bugs": {
 		"url": "https://github.com/kitsonk/remap-istanbul"
 	},
@@ -12,6 +21,7 @@
 		"url": "https://github.com/kitson/remap-istanbul.git"
 	},
 	"dependencies": {
+		"amdefine": "1.0.0",
 		"istanbul": "0.3.17",
 		"source-map": "0.4.2"
 	},
