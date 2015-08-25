@@ -1,17 +1,16 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
-	'../../../lib/node!istanbul/lib/collector',
 	'../../../lib/loadCoverage'
-], function (registerSuite, assert, Collector, loadCoverage) {
+], function (registerSuite, assert, loadCoverage) {
 	registerSuite({
 		name: 'remap-istanbul/lib/loadCoverage',
 
 		'single source': function () {
 			var coverage = loadCoverage('tests/unit/support/coverage.json');
-			assert.instanceOf(coverage, Collector, 'return should be instance of collector');
-			assert(coverage.store.map['tests/unit/support/basic.js'], 'coverage should be in the collection');
-			assert.strictEqual(Object.keys(coverage.store.map).length, 1, 'should only be one file in collection');
+			assert.isObject(coverage, 'return should be instance of collector');
+			assert(coverage['tests/unit/support/basic.js'], 'coverage should be in the collection');
+			assert.strictEqual(Object.keys(coverage).length, 1, 'should only be one file in collection');
 		},
 
 		'multi source': function () {
@@ -19,10 +18,10 @@ define([
 				'tests/unit/support/coverage.json',
 				'tests/unit/support/inline-coverage.json'
 			]);
-			assert.instanceOf(coverage, Collector, 'return should be instance of collector');
-			assert(coverage.store.map['tests/unit/support/basic.js'], 'coverage should be in the collection');
-			assert(coverage.store.map['tests/unit/support/inline.js'], 'coverage should be in the collection');
-			assert.strictEqual(Object.keys(coverage.store.map).length, 2, 'should only be one file in collection');
+			assert.isObject(coverage, 'return should be instance of collector');
+			assert(coverage['tests/unit/support/basic.js'], 'coverage should be in the collection');
+			assert(coverage['tests/unit/support/inline.js'], 'coverage should be in the collection');
+			assert.strictEqual(Object.keys(coverage).length, 2, 'should only be one file in collection');
 		},
 
 		'readJSON': function () {
