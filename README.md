@@ -93,7 +93,48 @@ var writeReport = require('remap-istanbul/lib/writeReport');
 
 ### Grunt Task
 
-**TODO**
+You can utilize this package as a [Grunt](http://gruntjs.com) task.  After installing it as a package, you need to add the following to your `Gruntfile.js`:
+
+```js
+grunt.loadNpmTasks('remap-istanbul');
+```
+
+The task is a multi-target task and a basic configuration for the task would look something like this:
+
+```js
+grunt.initConfig({
+	remapIstanbul: {
+		build: {
+			src: 'coverage-final.json',
+			options: {
+				reports: {
+					'lcovhtml': 'html-report',
+					'json': 'coverage-final.json'
+				}
+			}
+		}
+	}
+});
+```
+
+This would take in `coverage-final.json`, remap it and then output the Istanbul HTML report to `html-report`
+and overwrite the original `coverage-final.json`.
+
+The task also recognizes an abbreviated version of configuration:
+
+```js
+grunt.initConfig({
+	remapIstanbul: {
+		build: {
+			files: [ {
+				src: 'coverage.json',
+				dest: 'tmp/coverage.json',
+				type: 'json'
+			} ]
+		}
+	}
+});
+```
 
 ### Gulp Plugin
 
