@@ -33,6 +33,40 @@ define([
 			assert.strictEqual(Object.keys(map.statementMap).length, 28, 'Map should have 28 statements');
 			assert.strictEqual(Object.keys(map.fnMap).length, 6, 'Map should have 6 functions');
 			assert.strictEqual(Object.keys(map.branchMap).length, 6, 'Map should have 6 branches');
+		},
+
+		'invalid source path': function () {
+			var warnStack = [];
+			function warn() {
+				warnStack.push(arguments);
+			}
+
+			remap({
+				sources: [ 'badpath.json' ],
+				warn: warn
+			});
+
+			assert.instanceOf(warnStack[0][0], Error);
+			assert.strictEqual(warnStack[0][0].message, 'Cannot find file: "badpath.json"');
+		},
+
+		'empty sources': function () {
+			var warnStack = [];
+			function warn() {
+				warnStack.push(arguments);
+			}
+
+			remap({
+				sources: [],
+				warn: warn
+			});
+
+			assert.instanceOf(warnStack[0][0], SyntaxError);
+			assert.strictEqual(warnStack[0][0].message, 'No coverage files supplied!');
+		},
+
+		'empty options': function () {
+			assert.throws(remap, TypeError);
 		}
 	});
 });
