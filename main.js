@@ -1,5 +1,6 @@
 /* jshint node:true */
 /* global Promise */
+var loadCoverage = require('./lib/loadCoverage');
 var remap = require('./lib/remap');
 var writeReport = require('./lib/writeReport');
 
@@ -13,15 +14,13 @@ var writeReport = require('./lib/writeReport');
  * @return {Promise}         A promise that will resolve when all the reports are written.
  */
 module.exports = function (sources, reports) {
-	if (typeof sources === 'string') {
-		sources = [ sources ];
-	}
-	var collector = remap({ sources: sources });
+	var collector = remap(loadCoverage(sources));
 
 	var p = Object.keys(reports).map(function (reportType) {
 		return writeReport(collector, reportType, reports[reportType]);
 	});
 	return Promise.all(p);
 };
+module.exports.loadCoverage = loadCoverage;
 module.exports.remap = remap;
 module.exports.writeReport = writeReport;
