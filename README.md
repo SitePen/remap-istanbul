@@ -64,6 +64,10 @@ The `options` argument can take the following optional properties:
 |readJSON|Function|`JSON.parse(fs.readFileSync)`|A function that will synchronously read a file and return a POJO based on the JSON data in the file|
 |warn|Function|`console.warn`|A function that logs warning messages|
 
+#### `lib/remap`
+
+Usage of the `lib/remap` module would look something like this:
+
 ```js
 require([
 	'remap-istanbul/lib/loadCoverage',
@@ -89,6 +93,8 @@ The argument of `options` can contain the following properties:
 |readFile|Function|`fs.readFileSync`|A function that will synchronously read a file|
 |readJSON|Function|`JSON.parse(fs.readFileSync)`|A function that will synchronously read a file and return a POJO based on the JSON data in the file|
 |warn|Function|`console.warn`|A function that logs warning messages|
+
+#### `lib/writeReport`
 
 The `lib/writeReport` module would be used something like this:
 
