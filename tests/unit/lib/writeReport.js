@@ -2,9 +2,10 @@ define([
 	'intern!object',
 	'intern/chai!assert',
 	'../../../lib/node!fs',
+	'../../../lib/loadCoverage',
 	'../../../lib/remap',
 	'../../../lib/writeReport'
-], function (registerSuite, assert, fs, remap, writeReport) {
+], function (registerSuite, assert, fs, loadCoverage, remap, writeReport) {
 	var coverage;
 	var consoleLog;
 	var consoleOutput = [];
@@ -17,7 +18,7 @@ define([
 		name: 'remap-istanbul/lib/writeReport',
 
 		setup: function () {
-			coverage = remap({ sources: [ 'tests/unit/support/coverage.json' ] });
+			coverage = remap(loadCoverage('tests/unit/support/coverage.json'));
 		},
 
 		'invalid': function () {
