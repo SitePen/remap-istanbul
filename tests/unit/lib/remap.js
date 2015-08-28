@@ -38,6 +38,30 @@ define([
 
 		'empty options': function () {
 			assert.throws(remap, TypeError);
+		},
+
+		'missing coverage source': function () {
+			var warnStack = [];
+			function warn() {
+				warnStack.push(arguments);
+			}
+			remap(loadCoverage('tests/unit/support/badcoverage.json'), {
+				warn: warn
+			});
+			assert.strictEqual(warnStack.length, 2, 'warn should have been called twice');
+			assert.instanceOf(warnStack[0][0], Error, 'should have been called with error');
+			assert.strictEqual(warnStack[0][0].message, 'Could not find file: "tests/unit/support/bad.js"',
+				'proper error message should have been returend');
+			assert.instanceOf(warnStack[1][0], Error, 'should have been called with error');
+			assert.strictEqual(warnStack[1][0].message, 'Could not find source map for: "tests/unit/support/bad.js"',
+				'proper error message should have been returend');
+		},
+
+		'missing source map': function () {
+			var coverage = loadCoverage('tests/unit/support/missingmapcoverage.json');
+			assert.throws(function () {
+				remap(coverage);
+			}, Error);
 		}
 	});
 });
