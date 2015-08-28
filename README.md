@@ -8,17 +8,15 @@ A package that provides the ability to remap [Istanbul](https://gotwarlost.githu
 
 ## Usage
 
-There are two main modules, there is the `lib/remap` module and the `lib/writeReport` module.  The first one
-returns a function that provides the ability to remap the "native" `coverage.json` produced by Istanbul.  It
-will read the file, analyse the files looking for source maps and then go through a process of remapping the
-source maps back to the original file locations.
+There are three main modules that constitute the **remap-istanbul** package:
 
-The `lib/writeReport` is a wrapper module for generating Istanbul reports, being passed an instance of a
-coverage collector.
+ - **lib/loadCoverage** - does the basic loading of a Istanbul JSON coverage files.  It can "merge" several coverage files, for example if you are collecting remote coverage from other environments and combining it together.
+ - **lib/remap** - does the remapping of the coverage information.  It iterates through all the files in the coverage information and looks for JavaScript Source Maps which it will then use to remap the coverage information to the original source.
+ - **lib/writeReport** - a wrapper for the Istanbul report writers to output the any final coverage reports.
 
 ### Basic JavaScript
 
-The main CommonJS module provided combines the two main modules into a single API which basic usage can look like this:
+The main CommonJS module provided combines the modules above into a single API which basic usage can look like this:
 
 ```js
 var remapIstanbul = require('remap-istanbul');
@@ -37,21 +35,57 @@ This would take the coverage file provided.  The function accepts the following 
 
 ### AMD
 
-The two main modules are provided in AMD for usage.  The `lib/remap` module would be used something like this:
+The main modules are provided in AMD for usage (although they utilize `amdefine` to allow transparent loading by a CommonJS loader such as NodeJS's `require` - see blow).
+
+#### `lib/loadCoverage`
+
+The `lib/loadCoverage` module would be used something like this:
 
 ```js
-require([ 'remap-istanbul/lib/remap' ], function (remap) {
-	var collector = remap({
-		sources: [ 'coverage-final.json' ]
-	}); /* collector now contains the remapped coverage */
+require([ 'remap-istanbul/lib/loadCoverage' ], function (loadCoverage) {
+	var coverage = loadCoverage('coverage-final.json');
+	/* or if you have multiple files you want to merge */
+	coverage = loadCoverage([ 'coverage-ie.json', 'coverage-chrome.json', 'coverage-firefox.json' ]);
 });
 ```
 
-Remap takes a single argument of `options` which can contain the following properties:
+The argument signature for `loadCoverage` is:
+
+|Argument|Type|Description|
+|--------|----|-----------|
+|coverage|Array/string|Either an array of strings or a string representing the file path to the coverage file(s).|
+|options|Object?|An object that allows providing alternative methods, mainly used for integration with other systems (e.g. Grunt)|
+|*returns*|Object|A coverage object that is ready to be remapped|
+
+The `options` argument can take the following optional properties:
 
 |Property|Type|Default|Description|
 |--------|----|-------|-----------|
-|sources|Array|*required*|An array of source JSON coverage files that need to be remapped|
+|readJSON|Function|`JSON.parse(fs.readFileSync)`|A function that will synchronously read a file and return a POJO based on the JSON data in the file|
+|warn|Function|`console.warn`|A function that logs warning messages|
+
+```js
+require([
+	'remap-istanbul/lib/loadCoverage',
+	'remap-istanbul/lib/remap'
+], function (loadCoverage, remap) {
+	var coverage = loadCoverage('coverage-final.json');
+	var collector = remap(coverage); /* collector now contains the remapped coverage */
+});
+```
+
+The argument signature for `remap` is:
+
+|Argument|Type|Description|
+|--------|----|-----------|
+|coverage|Array/Object|Either an array of coverage objects or a single coverage object.|
+|options|Object?|An object that allows providing alternative methods, mainly used for integration with other systems (e.g. Grunt)|
+|*returns*|istanbul/lib/collector|An Istanbul coverage collector that is ready to be output|
+
+The argument of `options` can contain the following properties:
+
+|Property|Type|Default|Description|
+|--------|----|-------|-----------|
 |readFile|Function|`fs.readFileSync`|A function that will synchronously read a file|
 |readJSON|Function|`JSON.parse(fs.readFileSync)`|A function that will synchronously read a file and return a POJO based on the JSON data in the file|
 |warn|Function|`console.warn`|A function that logs warning messages|
@@ -60,12 +94,11 @@ The `lib/writeReport` module would be used something like this:
 
 ```js
 require([
+	'remap-istanbul/lib/loadCoverage',
 	'remap-istanbul/lib/remap',
 	'remap-istanbul/lib/writeReport'
 ], function (remap, writeReport) {
-	var collector = remap({
-		sources: [ 'coverage-final.json' ]
-	});
+	var collector = remap(loadCoverage('coverage-final.json'));
 	writeReport(collector, 'json', 'coverage-final.json').then(function () {
 		/* do something else now */
 	});
@@ -87,6 +120,7 @@ If you are not using an AMD loader, that is not a problem for consuming the modu
 CommonJS environment:
 
 ```js
+var loadCoverage = require('remap-istanbul/lib/loadCoverage');
 var remap = require('remap-istanbul/lib/remap');
 var writeReport = require('remap-istanbul/lib/writeReport');
 ```
