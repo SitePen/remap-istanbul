@@ -9,20 +9,25 @@ define([
 		name: 'lib/gulpRemapIstanbul',
 
 		'remap coverage': function () {
+			var dfd = this.async();
 			gulp.task('remap-istanbul', function () {
-				gulp.src('tests/unit/support/coverage.json')
+				return gulp.src('tests/unit/support/coverage.json')
 					.pipe(remapIstanbul())
 					.pipe(gulp.dest('tmp/gulp'));
 			});
 
-			gulp.start('remap-istanbul');
+			gulp.task('assertions', [ 'remap-istanbul' ], dfd.callback(function () {
+				assert.isTrue(fs.existsSync('tmp/gulp/coverage.json'));
+			}));
 
-			assert.isTrue(fs.existsSync('tmp/gulp/coverage.json'));
+			gulp.start('assertions');
 		},
 
 		'write reports': function () {
+			var dfd = this.async();
+
 			gulp.task('remap-istanbul', function () {
-				gulp.src('tests/unit/support/coverage.json')
+				return gulp.src('tests/unit/support/coverage.json')
 					.pipe(remapIstanbul({
 						reports: {
 							'lcovonly': 'tmp/gulp/lcov.info',
@@ -32,11 +37,13 @@ define([
 					}));
 			});
 
-			gulp.start('remap-istanbul');
+			gulp.task('assertions', [ 'remap-istanbul' ], dfd.callback(function () {
+				assert.isTrue(fs.existsSync('tmp/gulp/gulp-coverage.json'));
+				assert.isTrue(fs.existsSync('tmp/gulp/lcov.info'));
+				assert.isTrue(fs.existsSync('tmp/gulp/html-report'));
+			}));
 
-			assert.isTrue(fs.existsSync('tmp/gulp/gulp-coverage.json'));
-			assert.isTrue(fs.existsSync('tmp/gulp/lcov.info'));
-			assert.isTrue(fs.existsSync('tmp/gulp/html-report'));
+			gulp.start('assertions');
 		}
 	});
 });
