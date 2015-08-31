@@ -186,7 +186,7 @@ var grunt = require('grunt');
 var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
 
 grunt.task('remap-istanbul', function () {
-	grunt.src('coverage-final.json')
+	return grunt.src('coverage-final.json')
 		.pipe(remapIstanbul())
 		.pipe(gulp.dest('coverage-remapped.json'));
 });
@@ -201,7 +201,7 @@ var grunt = require('grunt');
 var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
 
 grunt.task('remap-istanbul', function () {
-	grunt.src('coverage-final.json')
+	return grunt.src('coverage-final.json')
 		.pipe(remapIstanbul({
 			reports: {
 				'json': 'coverage.json',
