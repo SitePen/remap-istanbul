@@ -178,4 +178,35 @@ grunt.initConfig({
 
 ### Gulp Plugin
 
-**TODO**
+You can utilize this package as a [gulp](http://gulpjs.com) plugin.  There are two main ways it can be
+used.  Just taking a coverage file, remapping and outputting it would look like this:
+
+```js
+var grunt = require('grunt');
+var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+
+grunt.task('remap-istanbul', function () {
+	grunt.src('coverage-final.json')
+		.pipe(remapIstanbul())
+		.pipe(gulp.dest('coverage-remapped.json'));
+});
+```
+
+Another way is to utilize the the plugin is to have the plugin write out the Istanbul reports directly.
+This can be accomplished by passing a `reports` property in the options.  For example, to have the JSON
+coverage report output in addition to the HTML coverage report, at task would look like this:
+
+```js
+var grunt = require('grunt');
+var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+
+grunt.task('remap-istanbul', function () {
+	grunt.src('coverage-final.json')
+		.pipe(remapIstanbul({
+			reports: {
+				'json': 'coverage.json',
+				'html': 'html-report'
+			}
+		}));
+});
+```
