@@ -1,9 +1,9 @@
 {
 	"name": "remap-istanbul",
-	"version": "1.0.0-pre",
+	"version": "0.1.0",
 	"description": "A tool for remapping Istanbul coverage via Source Maps",
 	"homepage": "http://dojotoolkit.org",
-	"keywords": [ "gulpplugin" ],
+	"keywords": [ "gulpplugin", "gruntplugin", "source-map", "istanbul", "coverage" ],
 	"maintainers": [
 		{
 			"name": "kitsonk",
@@ -14,13 +14,13 @@
 		}
 	],
 	"bugs": {
-		"url": "https://github.com/kitsonk/remap-istanbul"
+		"url": "https://github.com/SitePen/remap-istanbul"
 	},
 	"license": "BSD-3-Clause",
 	"main": "main.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/kitson/remap-istanbul.git"
+		"url": "https://github.com/SitePen/remap-istanbul.git"
 	},
 	"scripts": {
 		"test": "tests/run.sh"
