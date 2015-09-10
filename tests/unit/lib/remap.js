@@ -40,6 +40,16 @@ define([
 			assert.throws(remap, TypeError);
 		},
 
+		'override sources root path' : function() {
+			var coverage = remap(loadCoverage('tests/unit/support/inline-coverage.json'), { overrideSourcesRoot : 'src/app/' });
+
+      var map = JSON.parse(coverage.store.map['src/app/basic.ts']);
+
+			assert(coverage.store.map['src/app/basic.ts'],
+				'Should override sources root path');
+			assert.strictEqual(map.path, 'src/app/basic.ts');
+		},
+
 		'missing coverage source': function () {
 			var warnStack = [];
 			function warn() {
