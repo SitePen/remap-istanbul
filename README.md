@@ -183,11 +183,11 @@ You can utilize this package as a [gulp](http://gulpjs.com) plugin.  There are t
 used.  Just taking a coverage file, remapping and outputting it would look like this:
 
 ```js
-var grunt = require('grunt');
+var gulp = require('gulp');
 var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
 
-grunt.task('remap-istanbul', function () {
-	return grunt.src('coverage-final.json')
+gulp.task('remap-istanbul', function () {
+	return gulp.src('coverage-final.json')
 		.pipe(remapIstanbul())
 		.pipe(gulp.dest('coverage-remapped.json'));
 });
@@ -198,11 +198,11 @@ This can be accomplished by passing a `reports` property in the options.  For ex
 coverage report output in addition to the HTML coverage report, at task would look like this:
 
 ```js
-var grunt = require('grunt');
+var gulp = require('grunt');
 var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
 
-grunt.task('remap-istanbul', function () {
-	return grunt.src('coverage-final.json')
+gulp.task('remap-istanbul', function () {
+	return gulp.src('coverage-final.json')
 		.pipe(remapIstanbul({
 			reports: {
 				'json': 'coverage.json',
