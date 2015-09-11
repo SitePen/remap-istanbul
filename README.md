@@ -1,6 +1,6 @@
 # remap-istanbul
 
-[![Build Status](https://travis-ci.org/SitePen/remap-istanbul.svg?branch=master)](https://travis-ci.org/SitePen/remap-istanbul)
+[![Build Status](https://travis-ci.org/SitePen/remap-istanbul.svg?branch=master)](https://travis-ci.org/SitePen/remap-istanbul) [![codecov.io](http://codecov.io/github/SitePen/remap-istanbul/coverage.svg?branch=master)](http://codecov.io/github/SitePen/remap-istanbul?branch=master)
 
 A package that provides the ability to remap [Istanbul](https://gotwarlost.github.io/istanbul/) code coverage information to its original source positions based on a JavaScript [Source Maps v3](https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit#heading=h.djovrt4kdvga).
 
