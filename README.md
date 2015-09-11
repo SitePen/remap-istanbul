@@ -78,6 +78,20 @@ require([
 });
 ```
 
+If the source map no longer points properly at the source files, you can utilize the `basePath` option to override the path retrieved from the source map:
+
+```js
+require([
+	'remap-istanbul/lib/loadCoverage',
+	'remap-istanbul/lib/remap'
+], function (loadCoverage, remap) {
+	var coverage = loadCoverage('coverage-final.json');
+	var collector = remap(coverage, {
+		basePath: 'some/other/path/to/sources'
+	});
+});
+```
+
 The argument signature for `remap` is:
 
 |Argument|Type|Description|
@@ -90,10 +104,10 @@ The argument of `options` can contain the following properties:
 
 |Property|Type|Default|Description|
 |--------|----|-------|-----------|
+|basePath|String|Path found in source map|A string to use as the base path for the source locations|
 |readFile|Function|`fs.readFileSync`|A function that will synchronously read a file|
 |readJSON|Function|`JSON.parse(fs.readFileSync)`|A function that will synchronously read a file and return a POJO based on the JSON data in the file|
 |warn|Function|`console.warn`|A function that logs warning messages|
-|overrideSourcesRoot|String|`undefined`|A string containing new sources root path|
 
 #### `lib/writeReport`
 

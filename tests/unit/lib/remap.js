@@ -40,14 +40,16 @@ define([
 			assert.throws(remap, TypeError);
 		},
 
-		'override sources root path' : function() {
-			var coverage = remap(loadCoverage('tests/unit/support/inline-coverage.json'), { overrideSourcesRoot : 'src/app/' });
+		'basePath' : function() {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage.json'), {
+				basePath : 'foo/bar'
+			});
 
-      var map = JSON.parse(coverage.store.map['src/app/basic.ts']);
-
-			assert(coverage.store.map['src/app/basic.ts'],
-				'Should override sources root path');
-			assert.strictEqual(map.path, 'src/app/basic.ts');
+			assert(coverage.store.map['foo/bar/basic.ts'],  'The base path provided should have been used');
+			assert.strictEqual(Object.keys(coverage.store.map).length, 1,
+				'Collector should only have one map');
+			var map = JSON.parse(coverage.store.map['foo/bar/basic.ts']);
+			assert.strictEqual(map.path, 'foo/bar/basic.ts', 'The base path should be used in the map as well');
 		},
 
 		'missing coverage source': function () {
