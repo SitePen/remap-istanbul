@@ -6,4 +6,4 @@ cache:
   directories:
     - node_modules
 script:
-  - "tests/run.sh"
+  - "tests/run_ci.sh"
