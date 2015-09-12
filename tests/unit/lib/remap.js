@@ -74,6 +74,14 @@ define([
 			assert.throws(function () {
 				remap(coverage);
 			}, Error);
+		},
+
+		'unicode in map': function () {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-unicode.json'));
+
+			assert(coverage.store.map['tests/unit/support/unicode.ts'], 'The file should have been properly mapped.');
+			assert.strictEqual(Object.keys(coverage.store.map).length, 1,
+				'Collector should have only one map.');
 		}
 	});
 });
