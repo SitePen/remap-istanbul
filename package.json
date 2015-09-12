@@ -1,6 +1,6 @@
 {
 	"name": "remap-istanbul",
-	"version": "0.2.0",
+	"version": "0.3.0-pre",
 	"description": "A tool for remapping Istanbul coverage via Source Maps",
 	"homepage": "http://dojotoolkit.org",
 	"keywords": [ "gulpplugin", "gruntplugin", "source-map", "istanbul", "coverage" ],
