@@ -1,0 +1,138 @@
+#!/usr/bin/env node
+
+/* jshint node:true */
+/* global Promise */
+var loadCoverage = require('../lib/loadCoverage');
+var remap = require('../lib/remap');
+var writeReport = require('../lib/writeReport');
+
+/**
+ * Helper function that reads from standard in and resolves a Promise with the
+ * data or rejects with any errors.
+ * @return {Promise} A promsie that is resolved with the data from standard in
+ *                   or rejected with any errors.
+ */
+function readStdIn() {
+	/* istanbul ignore next */
+	return new Promise(function (resolve, reject) {
+		var stdin = process.stdin;
+		var buffer = '';
+
+		stdin.setEncoding('utf8');
+
+		stdin.on('data', function (data) {
+			buffer += data;
+		});
+
+		stdin.on('error', function (e) {
+			reject(e);
+		});
+
+		stdin.on('end', function () {
+			resolve(buffer);
+		});
+
+		try {
+			stdin.resume();
+		}
+		catch (e) {
+			reject(e);
+		}
+	});
+}
+
+/**
+ * The main wrapper to provide a CLI interface to remap-istanbul
+ * @param  {Array}   argv An array of arguments passed the process
+ * @return {Promise}      A promise that resolves when the remapping is complete
+ *                        or rejects if there is an error.
+ */
+function main (argv) {
+	/* jshint maxcomplexity:13 */
+
+	/**
+	 * Helper function that processes the arguments
+	 * @return {String} The next valid argument
+	 */
+	function getArg() {
+		var arg = argv.shift();
+		if (arg && arg.indexOf('--') === 0) {
+			arg = arg.split('=');
+			if (arg.length > 1) {
+				argv.unshift(arg.slice(1).join('='));
+			}
+			arg = arg[0];
+		}
+		else if (arg && arg[0] === '-') {
+			/* istanbul ignore if */
+			if (arg.length > 2) {
+				argv = arg.substring(1).split('').map(function (ch) {
+					return '-' + ch;
+				}).concat(argv);
+				arg = argv.shift();
+			}
+		}
+
+		return arg;
+	}
+
+	var arg;
+	var sources = [];
+	var output;
+	var reportType;
+	var basePath;
+	while ((arg = getArg())) {
+		switch (arg) {
+		case '-i':
+		case '--input':
+			sources.push(argv.shift());
+			break;
+		case '-o':
+		case '--output':
+			output = argv.shift();
+			break;
+		case '-b':
+		case '--basePath':
+			basePath = argv.shift();
+			break;
+		case '-t':
+		case '--type':
+			reportType = argv.shift();
+			break;
+		default:
+			throw new SyntaxError('Unrecognised argument: "' + arg + '".');
+		}
+	}
+
+	return new Promise(function (resolve) {
+		resolve(sources.length ? loadCoverage(sources) :
+			/* istanbul ignore next */ readStdIn().then(function (data) {
+				return JSON.parse(data);
+			}));
+	}).then(function (coverage) {
+		var collector = remap(coverage, basePath ? {
+			basePath: basePath
+		} : {});
+		/* istanbul ignore else */
+		if (output) {
+			return writeReport(collector, reportType || 'json', output);
+		}
+		else {
+			process.stdout.write(JSON.stringify(collector.getFinalCoverage()) + '\n');
+		}
+	});
+}
+
+/* istanbul ignore if */
+if (!module.parent) {
+	process.title = 'remap-istanbul';
+	/* first two arguments are meaningless to the process */
+	main(process.argv.slice(2)).then(function (code) {
+		return process.exit(code || 0);
+	}, function (err) {
+		throw err;
+	});
+}
+else {
+	module.exports = main;
+}

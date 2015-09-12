@@ -14,6 +14,35 @@ There are three main modules that constitute the **remap-istanbul** package:
  - **lib/remap** - does the remapping of the coverage information.  It iterates through all the files in the coverage information and looks for JavaScript Source Maps which it will then use to remap the coverage information to the original source.
  - **lib/writeReport** - a wrapper for the Istanbul report writers to output the any final coverage reports.
 
+### Command Line
+
+The package includes a command line interface which should be placed into the `./node_modules/.bin/remap-istanbul` when the package is installed.  The command line interface understands the following argument flags:
+
+|Flag                |Description|
+|--------------------|-----------|
+|`-i` or `--input`   |The path to the coverage input file. For example `remap-istanbul --input coverage.json`. If omitted, input will be taken from stdin.|
+|`-o` or `--output`  |The path to the remapped coverage output file.  For example `remap-istanbul --output coverage-final.json`. If omitted, `json` output will be sent to stdout.|
+|`-t` or `--type`    |The type of report the output should be.  For example `remap-istanbul --output html-report --type html`. If omitted, output defaults to `json`.|
+|`-b` or `--basePath`|When remapping the source files, instead of using the path in the source map, substitute this this path.|
+
+An example of piping a coverage file to the CLI and writing it out to a file:
+
+```bash
+$ cat coverage-final.json | ./node_modules/.bin/remap-istanbul -o coverage-remapped.json
+```
+
+An example of generating an HTML report off of remapped coverage:
+
+```bash
+$ ./node_modules/.bin/remap-istanbul -i coverage-final.json -o html-report -t html
+```
+
+An example of taking the stdin and writing the stdout in the CLI:
+
+```bash
+$ cat coverage-final.json | ./node_modules/.bin/remap-istanbul > coverage-remap.json
+```
+
 ### Basic JavaScript
 
 The main CommonJS module provided combines the modules above into a single API which basic usage can look like this:
