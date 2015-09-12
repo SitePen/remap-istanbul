@@ -13,7 +13,7 @@ var writeReport = require('../lib/writeReport');
  *                   or rejected with any errors.
  */
 function readStdIn() {
-	/* istanbul ignore next */
+	/* istanbul ignore next: too challenging to test for reading from stdin */
 	return new Promise(function (resolve, reject) {
 		var stdin = process.stdin;
 		var buffer = '';
@@ -113,7 +113,7 @@ function main (argv) {
 		var collector = remap(coverage, basePath ? {
 			basePath: basePath
 		} : {});
-		/* istanbul ignore else */
+		/* istanbul ignore else: too hard to test writing to stdout */
 		if (output) {
 			return writeReport(collector, reportType || 'json', output);
 		}
@@ -123,7 +123,7 @@ function main (argv) {
 	});
 }
 
-/* istanbul ignore if */
+/* istanbul ignore if: we use the module interface in testing */
 if (!module.parent) {
 	process.title = 'remap-istanbul';
 	/* first two arguments are meaningless to the process */
