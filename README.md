@@ -10,6 +10,10 @@ A package that provides the ability to remap [Istanbul](https://gotwarlost.githu
 
 `remap-istanbul` requires NodeJS 0.12 or later (which includes any version of io.js).
 
+## How to get Help
+
+This is covered in depth in the [CONTRIBUTING.md][CONTRIBUTING.md#how-to-get-help] document in the repo.
+
 ## Usage
 
 There are three main modules that constitute the **remap-istanbul** package:
