@@ -1,5 +1,7 @@
 # remap-istanbul
 
+[![Join the chat at https://gitter.im/SitePen/remap-istanbul](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/SitePen/remap-istanbul?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/SitePen/remap-istanbul.svg?branch=master)](https://travis-ci.org/SitePen/remap-istanbul) [![codecov.io](http://codecov.io/github/SitePen/remap-istanbul/coverage.svg?branch=master)](http://codecov.io/github/SitePen/remap-istanbul?branch=master)
 [![npm version](https://badge.fury.io/js/remap-istanbul.svg)](http://badge.fury.io/js/remap-istanbul)
 
