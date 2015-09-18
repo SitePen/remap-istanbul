@@ -14,7 +14,7 @@ If you are in a hurry, or just like clicking on links, try this link: [StackOver
 
 If we punt you and your question out of GitHub issues, it isn't because we don't like you, it is nothing personal, we just like to try to get people the right help.
 
-We are also experimenting with answering questions on [Gitter][https://gitter.im/SitePen/remap-istanbul].  So feel free to checkout out there as well.
+We are also experimenting with answering questions on [Gitter](https://gitter.im/SitePen/remap-istanbul).  So feel free to checkout out there as well.
 
 Of course [SitePen](https://www.sitepen.com/) is a commercial organization as well... We will gladly take your money to [support you](https://www.sitepen.com/support/index.html).  Even then, we will give you a better system for asking your questions than GitHub issues.
 

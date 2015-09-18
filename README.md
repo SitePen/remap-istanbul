@@ -12,7 +12,7 @@ A package that provides the ability to remap [Istanbul](https://gotwarlost.githu
 
 ## How to get Help
 
-This is covered in depth in the [CONTRIBUTING.md][CONTRIBUTING.md#how-to-get-help] document in the repo.
+This is covered in depth in the [CONTRIBUTING.md](CONTRIBUTING.md#how-to-get-help) document in the repo.
 
 ## Usage
 
