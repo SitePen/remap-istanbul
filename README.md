@@ -16,6 +16,8 @@ This is covered in depth in the [CONTRIBUTING.md](CONTRIBUTING.md#how-to-get-hel
 
 ## Usage
 
+For information on how to use `remap-istanbul` with common testing frameworks, please visit the [wiki](https://github.com/SitePen/remap-istanbul/wiki).
+
 There are three main modules that constitute the **remap-istanbul** package:
 
  - **lib/loadCoverage** - does the basic loading of a Istanbul JSON coverage files.  It can "merge" several coverage files, for example if you are collecting remote coverage from other environments and combining it together.
@@ -262,3 +264,13 @@ gulp.task('remap-istanbul', function () {
 		}));
 });
 ```
+
+### Intern Reporter
+
+The package comes with an [Intern](https://theintern.github.io/) reporter that makes it easy to output the `coverage.json` from a test run.  The most common usage from the command line would be something like:
+
+```sh
+node_modules/.bin/intern-runner config=tests/intern reporters=Console reporters=node_modules/remap-istanbul/lib/intern-reporters/JsonCoverage
+```
+
+This will output a `coverage-final.json` in the root of your project, which you can use with the rest of `remap-istanbul` to remap it back to the source files.
