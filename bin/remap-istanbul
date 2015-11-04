@@ -118,7 +118,6 @@ function main (argv) {
 
 		resolve(coverage);
 	}).then(function (coverage) {
-		console.log('here');
 		var collector = remap(coverage, basePath ? {
 			basePath: basePath
 		} : {});
