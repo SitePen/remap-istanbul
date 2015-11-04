@@ -82,6 +82,16 @@ define([
 			assert(coverage.store.map['tests/unit/support/unicode.ts'], 'The file should have been properly mapped.');
 			assert.strictEqual(Object.keys(coverage.store.map).length, 1,
 				'Collector should have only one map.');
+		},
+
+		'skip in source map': function () {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-skip.json'));
+
+			var coverageData = JSON.parse(coverage.store.map['tests/unit/support/basic.ts']);
+			assert.isTrue(coverageData.statementMap['18'].skip, 'skip is perpetuated');
+			assert.isUndefined(coverageData.statementMap['1'].skip, 'skip is not present');
+			assert.isTrue(coverageData.fnMap['5'].skip, 'skip is perpetuated');
+			assert.isUndefined(coverageData.fnMap['1'].skip, 'skip is not present');
 		}
 	});
 });
