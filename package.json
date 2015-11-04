@@ -28,15 +28,15 @@
 	},
 	"dependencies": {
 		"amdefine": "1.0.0",
-		"gulp-util": "3.0.6",
-		"istanbul": "0.3.17",
-		"source-map": "0.4.2",
+		"gulp-util": "3.0.7",
+		"istanbul": "0.4.0",
+		"source-map": "0.5.3",
 		"through2": "2.0.0"
 	},
 	"devDependencies": {
 		"codecov.io": "0.1.6",
 		"grunt": "~0.4.5",
 		"gulp": "3.9.0",
-		"intern": "3.0.4"
+		"intern": "3.0.6"
 	}
 }

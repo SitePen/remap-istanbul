@@ -37,7 +37,7 @@ define([
 			var writeReportCalled = false;
 			jsonCoverage._reporter.writeReport = function (collector) {
 				writeReportCalled = true;
-				assert.instanceOf(collector, Collector, 'Reporter#writeReport should be called with a Collector');
+				assert(collector.store, 'Collector has the right API');
 			};
 
 			jsonCoverage.runEnd();
