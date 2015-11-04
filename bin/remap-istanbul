@@ -104,12 +104,21 @@ function main (argv) {
 		}
 	}
 
-	return new Promise(function (resolve) {
-		resolve(sources.length ? loadCoverage(sources) :
+	return new Promise(function (resolve, reject) {
+		var coverage = sources.length ? loadCoverage(sources) :
 			/* istanbul ignore next */ readStdIn().then(function (data) {
-				return JSON.parse(data);
-			}));
+				try {
+					data = JSON.parse(data);
+				}
+				catch (err) {
+					console.error(err.stack);
+					reject(newErr);
+				}
+			}, reject);
+
+		resolve(coverage);
 	}).then(function (coverage) {
+		console.log('here');
 		var collector = remap(coverage, basePath ? {
 			basePath: basePath
 		} : {});
@@ -130,7 +139,8 @@ if (!module.parent) {
 	main(process.argv.slice(2)).then(function (code) {
 		return process.exit(code || 0);
 	}, function (err) {
-		throw err;
+		console.log(err.stack);
+		process.exit(1);
 	});
 }
 else {
