@@ -69,7 +69,7 @@ This would take the coverage file provided.  The function accepts the following 
 |Argument|Type|Description|
 |--------|----|-----------|
 |sources|Array, string|Either an array of strings or a string the represent the JSON Istanbul files to be remapped|
-|reports|Object|A hash of reports, where the keys are the Istanbul report types and the values are the destination for the report|
+|reports|Object|A hash of reports, where the keys are the Istanbul report types and the values are the destination for the report. To send output to the console use the destination null.|
 |*returns*|Promise|A promise that is resolved when all the reports are written|
 
 ### AMD
