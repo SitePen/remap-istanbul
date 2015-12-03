@@ -251,7 +251,7 @@ This can be accomplished by passing a `reports` property in the options.  For ex
 coverage report output in addition to the HTML coverage report, at task would look like this:
 
 ```js
-var gulp = require('grunt');
+var gulp = require('gulp');
 var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
 
 gulp.task('remap-istanbul', function () {
