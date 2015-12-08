@@ -128,7 +128,7 @@ define([
 		'exclude - RegEx': function () {
 			var warnStack = [];
 			
-			var coverage = remap(loadCoverage('tests/unit/support/coverage-import.json'), {
+			remap(loadCoverage('tests/unit/support/coverage-import.json'), {
 				warn: function () {
 					warnStack.push(arguments);
 				},
