@@ -4,7 +4,7 @@
 var loadCoverage = require('../lib/loadCoverage');
 var remap = require('../lib/remap');
 var writeReport = require('../lib/writeReport');
-var MemoryStore = require('istanbul/lib/store/Memory');
+var MemoryStore = require('istanbul/lib/store/memory');
 
 module.exports = function (grunt) {
 	grunt.registerMultiTask('remapIstanbul', function () {
