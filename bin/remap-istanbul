@@ -126,7 +126,12 @@ function main (argv) {
 			return writeReport(collector, reportType || 'json', output);
 		}
 		else {
-			process.stdout.write(JSON.stringify(collector.getFinalCoverage()) + '\n');
+			if (reportType && (reportType === 'lcovonly' || reportType === 'text-lcov')) {
+				return writeReport(collector, 'text-lcov');
+			}
+			else {
+				process.stdout.write(JSON.stringify(collector.getFinalCoverage()) + '\n');
+			}
 		}
 	});
 }
