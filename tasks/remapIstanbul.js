@@ -4,28 +4,35 @@
 var loadCoverage = require('../lib/loadCoverage');
 var remap = require('../lib/remap');
 var writeReport = require('../lib/writeReport');
+var MemoryStore = require('istanbul/lib/store/Memory');
 
 module.exports = function (grunt) {
 	grunt.registerMultiTask('remapIstanbul', function () {
 		var done = this.async();
 		var options = this.options();
+		var sources = new MemoryStore();
 		var p = [];
 		this.files.forEach(function (file) {
 			var coverage = remap(loadCoverage(file.src, {
 				readJSON: grunt.readJSON,
 				warn: grunt.fail.warn
-			}, {
+			}), {
 				readFile: grunt.readFile,
 				readJSON: grunt.readJSON,
-				warn: grunt.fail.warn
-			}));
+				warn: grunt.fail.warn,
+				sources: sources
+			});
+
+			if (!Object.keys(sources.map).length) {
+				sources = undefined;
+			}
 
 			if (file.type && file.dest) {
-				p.push(writeReport(coverage, file.type, file.dest));
+				p.push(writeReport(coverage, file.type, file.dest, sources));
 			}
 			else {
 				p = p.concat(Object.keys(options.reports).map(function (key) {
-					return writeReport(coverage, key, options.reports[key]);
+					return writeReport(coverage, key, options.reports[key], sources);
 				}));
 			}
 		});

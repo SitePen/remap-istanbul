@@ -44,6 +44,25 @@ define([
 			}));
 
 			gulp.start('assertions');
+		},
+		
+		'html report with inline sources': function () {
+			var dfd = this.async();
+			
+			gulp.task('remap-istanbul', function () {
+				return gulp.src('tests/unit/support/coverage-inlinesource.json')
+					.pipe(remapIstanbul({
+						reports: {
+							'html': 'tmp/gulp/html-report-inline'
+						}
+					}));
+			});
+			
+			gulp.task('assertions', ['remap-istanbul'], dfd.callback(function () {
+				assert.isTrue(fs.existsSync('tmp/gulp/html-report-inline'));
+			}));
+			
+			gulp.start('assertions');
 		}
 	});
 });

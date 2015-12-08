@@ -2,9 +2,10 @@ define([
 	'intern!object',
 	'intern/chai!assert',
 	'../../../lib/node!istanbul/lib/collector',
+	'../../../lib/node!istanbul/lib/store/memory',
 	'../../../lib/loadCoverage',
 	'../../../lib/remap'
-], function (registerSuite, assert, Collector, loadCoverage, remap) {
+], function (registerSuite, assert, Collector, MemoryStore, loadCoverage, remap) {
 	registerSuite({
 		name: 'remap-istanbul/lib/remap',
 
@@ -34,6 +35,15 @@ define([
 			assert.strictEqual(Object.keys(map.statementMap).length, 28, 'Map should have 28 statements');
 			assert.strictEqual(Object.keys(map.fnMap).length, 6, 'Map should have 6 functions');
 			assert.strictEqual(Object.keys(map.branchMap).length, 6, 'Map should have 6 branches');
+		},
+		
+		'base64 source map with sources': function () {
+			var store = new MemoryStore();
+			remap(loadCoverage('tests/unit/support/coverage-inlinesource.json'), {
+				sources: store
+			});
+			
+			assert(store.map['tests/unit/support/inlinesource.ts'], 'Source should have been retrieved from source map');
 		},
 
 		'empty options': function () {

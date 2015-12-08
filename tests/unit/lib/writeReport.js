@@ -2,10 +2,11 @@ define([
 	'intern!object',
 	'intern/chai!assert',
 	'../../../lib/node!fs',
+	'../../../lib/node!istanbul/lib/store/memory',
 	'../../../lib/loadCoverage',
 	'../../../lib/remap',
 	'../../../lib/writeReport'
-], function (registerSuite, assert, fs, loadCoverage, remap, writeReport) {
+], function (registerSuite, assert, fs, MemoryStore, loadCoverage, remap, writeReport) {
 	var coverage;
 	var consoleLog;
 	var consoleOutput = [];
@@ -51,6 +52,18 @@ define([
 				var html = fs.readFileSync('tmp/html-report/support/basic.ts.html', { encoding: 'utf8' });
 				assert(html, 'should have content for basic.ts');
 				assert.include(html, 'export class Foo {', 'should contain some of the origin file');
+			});
+		},
+		
+		'html with inlines sources': function () {
+			var sources = new MemoryStore();
+			var inlineSourceCoverage = remap(loadCoverage('tests/unit/support/coverage-inlinesource.json'), {
+				sources: sources
+			});
+			return writeReport(inlineSourceCoverage, 'html', 'tmp/html-report-inline', sources).then(function () {
+				var html = fs.readFileSync('tmp/html-report-inline/support/inlinesource.ts.html');
+				assert(html, 'should have content for inlinesource.ts');
+				assert.include(html, "let foo = new Foo", 'should contain some of the origin file');
 			});
 		},
 

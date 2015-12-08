@@ -52,6 +52,15 @@ define([
 							dest: 'tmp/srcdest.coverage.json',
 							type: 'json'
 						} ]
+					},
+					
+					inlineSource: {
+						options: {
+							reports: {
+								'html': 'tmp/remap-html-report-inline'
+							}
+						},
+						src: 'tests/unit/support/coverage-inlinesource.json'
 					}
 
 				}
@@ -70,6 +79,13 @@ define([
 			var dfd = this.async();
 			runGruntTask('remapIstanbul:srcdest', dfd.callback(function () {
 				assert.isTrue(fs.existsSync('tmp/srcdest.coverage.json'), 'file should exist');
+			}));
+		},
+		
+		'inline source': function () {
+			var dfd = this.async();
+			runGruntTask('remapIstanbul:inlineSource', dfd.callback(function () {
+				assert.isTrue(fs.existsSync('tmp/remap-html-report-inline'), 'file should exist');
 			}));
 		}
 	});
