@@ -109,6 +109,34 @@ define([
 			assert.instanceOf(warnStack[0][0], Error, 'should have been called with error');
 			assert.strictEqual(warnStack[0][0].message, 'Could not find source map for: "tests/unit/support/foo.js"',
 				'proper error message should have been returend');
+		},
+		
+		'exclude - string': function () {
+			var warnStack = [];
+			
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-import.json'), {
+				warn: function () {
+					warnStack.push(arguments);
+				},
+				exclude: 'foo.js'
+			});
+			
+			assert.strictEqual(1, warnStack.length);
+			assert.strictEqual(warnStack[0][0], 'Excluding: "tests/unit/support/foo.js"');
+		},
+		
+		'exclude - RegEx': function () {
+			var warnStack = [];
+			
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-import.json'), {
+				warn: function () {
+					warnStack.push(arguments);
+				},
+				exclude: /foo\.js$/
+			});
+			
+			assert.strictEqual(1, warnStack.length);
+			assert.strictEqual(warnStack[0][0], 'Excluding: "tests/unit/support/foo.js"');
 		}
 	});
 });
