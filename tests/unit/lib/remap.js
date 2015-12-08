@@ -92,6 +92,23 @@ define([
 			assert.isUndefined(coverageData.statementMap['1'].skip, 'skip is not present');
 			assert.isTrue(coverageData.fnMap['5'].skip, 'skip is perpetuated');
 			assert.isUndefined(coverageData.fnMap['1'].skip, 'skip is not present');
+		},
+		
+		'non transpiled coverage': function () {
+			var warnStack = [];
+
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-import.json'), {
+				warn: function () {
+					warnStack.push(arguments);
+				}
+			});
+			
+			var coverageData = JSON.parse(coverage.store.map['tests/unit/support/foo.js']);
+			assert.strictEqual(1, coverageData.statementMap['1'].start.line);
+			assert.strictEqual(1, warnStack.length);
+			assert.instanceOf(warnStack[0][0], Error, 'should have been called with error');
+			assert.strictEqual(warnStack[0][0].message, 'Could not find source map for: "tests/unit/support/foo.js"',
+				'proper error message should have been returend');
 		}
 	});
 });
