@@ -20,7 +20,8 @@ module.exports = function (grunt) {
 				readFile: grunt.readFile,
 				readJSON: grunt.readJSON,
 				warn: grunt.fail.warn,
-				sources: sources
+				sources: sources,
+				useAbsolutePaths: options.useAbsolutePaths
 			});
 
 			if (!Object.keys(sources.map).length) {
