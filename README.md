@@ -231,6 +231,23 @@ grunt.initConfig({
 });
 ```
 
+By default, the grunt task will log warnings/errors to the `grunt.log.error`.  If instead you wish the
+grunt task to `grunt.fail.warn` which will require `--force` to ensure the task does not fail the whole
+build, you should supply the `fail` option in the task configuration:
+
+```js
+grunt.initConfig({
+	remapIstanbul: {
+		build: {
+			src: 'coverage-final.json',
+			options: {
+				fail: true
+			}
+		}
+	}
+});
+```
+
 ### Gulp Plugin
 
 You can utilize this package as a [gulp](http://gulpjs.com) plugin.  There are two main ways it can be
