@@ -266,6 +266,22 @@ gulp.task('remap-istanbul', function () {
 });
 ```
 
+By default, errors in the gulp task will be considered non-fatal and will just be logged to the
+console.  If you wish errors to be emitted and fail the task, you need to supply the task with
+`fail` being truthy:
+
+```js
+var gulp = require('gulp');
+var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+
+gulp.task('remap-istanbul', function () {
+	return gulp.src('coverage-final.json')
+		.pipe(remapIstanbul({
+			fail: true
+		}));
+});
+```
+
 ### Intern Reporter
 
 The package comes with an [Intern](https://theintern.github.io/) reporter that makes it easy to output the `coverage.json` from a test run.  The most common usage from the command line would be something like:

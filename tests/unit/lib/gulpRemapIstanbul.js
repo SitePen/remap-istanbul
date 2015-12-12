@@ -45,10 +45,10 @@ define([
 
 			gulp.start('assertions');
 		},
-		
+
 		'html report with inline sources': function () {
 			var dfd = this.async();
-			
+
 			gulp.task('remap-istanbul', function () {
 				return gulp.src('tests/unit/support/coverage-inlinesource.json')
 					.pipe(remapIstanbul({
@@ -57,12 +57,62 @@ define([
 						}
 					}));
 			});
-			
-			gulp.task('assertions', ['remap-istanbul'], dfd.callback(function () {
+
+			gulp.task('assertions', [ 'remap-istanbul' ], dfd.callback(function () {
 				assert.isTrue(fs.existsSync('tmp/gulp/html-report-inline'));
 			}));
-			
+
 			gulp.start('assertions');
+		},
+		
+		'non-transpiled coverage': {
+			'warn': function () {
+				var dfd = this.async();
+
+				gulp.task('remap-istanbul', function () {
+					return gulp.src('tests/unit/support/coverage-import.json')
+						.pipe(remapIstanbul({
+							reports: {
+								'html': 'tmp/gulp/html-report-import'
+							}
+						}));
+				});
+
+				gulp.task('assertions', [ 'remap-istanbul' ], dfd.callback(function () {
+					assert.isTrue(fs.existsSync('tmp/gulp/html-report-import'));
+				}));
+
+				gulp.start('assertions');
+			},
+
+			'fail': function () {
+				var dfd = this.async();
+
+				var errorStack = [];
+
+				function trapError(error) {
+					errorStack.push(error);
+					this.emit('end');
+				}
+
+				gulp.task('remap-istanbul', function () {
+					return gulp.src('tests/unit/support/coverage-import.json')
+						.pipe(remapIstanbul({
+							fail: true,
+							reports: {
+								'html': 'tmp/gulp/html-report-fail'
+							}
+						}))
+						.on('error', trapError);
+				});
+
+				gulp.task('assertions', ['remap-istanbul'], dfd.callback(function () {
+					assert.strictEqual(errorStack.length, 1, 'One error should have been logged');
+					assert.instanceOf(errorStack[0], Error, 'should be of type error');
+				}));
+
+				gulp.start('assertions');
+			}
 		}
 	});
 });
