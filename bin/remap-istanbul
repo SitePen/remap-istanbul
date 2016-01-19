@@ -121,13 +121,14 @@ function main (argv) {
 		var collector = remap(coverage, basePath ? {
 			basePath: basePath
 		} : {});
+		var reportOptions = {};
 		/* istanbul ignore else: too hard to test writing to stdout */
 		if (output) {
-			return writeReport(collector, reportType || 'json', output);
+			return writeReport(collector, reportType || 'json', reportOptions, output);
 		}
 		else {
 			if (reportType && (reportType === 'lcovonly' || reportType === 'text-lcov')) {
-				return writeReport(collector, 'text-lcov');
+				return writeReport(collector, 'text-lcov', reportOptions);
 			}
 			else {
 				process.stdout.write(JSON.stringify(collector.getFinalCoverage()) + '\n');

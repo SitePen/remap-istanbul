@@ -28,6 +28,7 @@
 	},
 	"dependencies": {
 		"amdefine": "1.0.0",
+		"extend": "3.0.0",
 		"gulp-util": "3.0.7",
 		"istanbul": "0.4.1",
 		"source-map": "0.5.3",

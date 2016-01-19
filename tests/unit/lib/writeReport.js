@@ -24,7 +24,7 @@ define([
 
 		'invalid': function () {
 			var dfd = this.async();
-			writeReport(coverage, 'foo', 'bar').then(dfd.reject, dfd.callback(function (error) {
+			writeReport(coverage, 'foo', {}, 'bar').then(dfd.reject, dfd.callback(function (error) {
 				assert.instanceOf(error, SyntaxError, 'should be rejected with SyntaxError');
 				assert.strictEqual(error.message, 'Unrecognized report type of "foo".',
 					'should have proper error message');
@@ -32,7 +32,7 @@ define([
 		},
 
 		'clover': function () {
-			return writeReport(coverage, 'clover', 'tmp/clover.xml').then(function () {
+			return writeReport(coverage, 'clover', {}, 'tmp/clover.xml').then(function () {
 				var contents = fs.readFileSync('tmp/clover.xml', { encoding: 'utf8' });
 				assert(contents, 'the report should exist');
 				assert.include(contents, 'path="tests/unit/support/basic.ts"', 'contains the remapped file');
@@ -40,7 +40,7 @@ define([
 		},
 
 		'cobertura': function () {
-			return writeReport(coverage, 'cobertura', 'tmp/cobertura.xml').then(function () {
+			return writeReport(coverage, 'cobertura', {}, 'tmp/cobertura.xml').then(function () {
 				var contents = fs.readFileSync('tmp/cobertura.xml', { encoding: 'utf8' });
 				assert(contents, 'the report should exist');
 				assert.include(contents, 'filename="tests/unit/support/basic.ts"', 'contains the remapped file');
@@ -48,7 +48,7 @@ define([
 		},
 
 		'html': function () {
-			return writeReport(coverage, 'html', 'tmp/html-report').then(function () {
+			return writeReport(coverage, 'html', {}, 'tmp/html-report').then(function () {
 				var html = fs.readFileSync('tmp/html-report/support/basic.ts.html', { encoding: 'utf8' });
 				assert(html, 'should have content for basic.ts');
 				assert.include(html, 'export class Foo {', 'should contain some of the origin file');
@@ -60,7 +60,7 @@ define([
 			var inlineSourceCoverage = remap(loadCoverage('tests/unit/support/coverage-inlinesource.json'), {
 				sources: sources
 			});
-			return writeReport(inlineSourceCoverage, 'html', 'tmp/html-report-inline', sources).then(function () {
+			return writeReport(inlineSourceCoverage, 'html', {}, 'tmp/html-report-inline', sources).then(function () {
 				var html = fs.readFileSync('tmp/html-report-inline/support/inlinesource.ts.html');
 				assert(html, 'should have content for inlinesource.ts');
 				assert.include(html, "let foo = new Foo", 'should contain some of the origin file');
@@ -68,7 +68,7 @@ define([
 		},
 
 		'json-summary': function () {
-			return writeReport(coverage, 'json-summary', 'tmp/summary.json').then(function () {
+			return writeReport(coverage, 'json-summary', {}, 'tmp/summary.json').then(function () {
 				var contents = fs.readFileSync('tmp/summary.json', { encoding: 'utf8' });
 				assert(contents, 'there should be contensts');
 				var summary = JSON.parse(contents);
@@ -79,7 +79,7 @@ define([
 		},
 
 		'json': function () {
-			return writeReport(coverage, 'json', 'tmp/coverage-out.json').then(function () {
+			return writeReport(coverage, 'json', {}, 'tmp/coverage-out.json').then(function () {
 				var contents = fs.readFileSync('tmp/coverage-out.json', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
 				var report = JSON.parse(contents);
@@ -89,7 +89,7 @@ define([
 		},
 
 		'lcovonly': function () {
-			return writeReport(coverage, 'lcovonly', 'tmp/lcov.info').then(function () {
+			return writeReport(coverage, 'lcovonly', {}, 'tmp/lcov.info').then(function () {
 				var contents = fs.readFileSync('tmp/lcov.info', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
 				assert.include(contents, 'SF:tests/unit/support/basic.ts',
@@ -98,7 +98,7 @@ define([
 		},
 
 		'teamcity': function () {
-			return writeReport(coverage, 'teamcity', 'tmp/teamcity.txt').then(function () {
+			return writeReport(coverage, 'teamcity', {}, 'tmp/teamcity.txt').then(function () {
 				var contents = fs.readFileSync('tmp/teamcity.txt', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
 				assert.include(contents, '##teamcity[blockOpened name=\'Code Coverage Summary\']',
@@ -110,7 +110,7 @@ define([
 			'no dest': function () {
 				consoleLog = console.log;
 				console.log = mockLog;
-				return writeReport(coverage, 'text-lcov').then(function () {
+				return writeReport(coverage, 'text-lcov', {}).then(function () {
 					console.log = consoleLog;
 					assert.strictEqual(consoleOutput.length, 59,
 						'console should have the right number of lines');
@@ -120,7 +120,7 @@ define([
 				});
 			},
 			'dest': function () {
-				return writeReport(coverage, 'text-lcov', function () {
+				return writeReport(coverage, 'text-lcov', {}, function () {
 					consoleOutput.push(arguments);
 				}).then(function () {
 					assert.strictEqual(consoleOutput.length, 59,
@@ -133,7 +133,7 @@ define([
 		},
 
 		'text-summary': function () {
-			return writeReport(coverage, 'text-summary', 'tmp/summary.txt').then(function () {
+			return writeReport(coverage, 'text-summary', {}, 'tmp/summary.txt').then(function () {
 				var contents = fs.readFileSync('tmp/summary.txt', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
 				assert.include(contents, 'Coverage summary', 'contains a summary header');
@@ -141,7 +141,7 @@ define([
 		},
 
 		'text': function () {
-			return writeReport(coverage, 'text', 'tmp/coverage.txt').then(function () {
+			return writeReport(coverage, 'text', {}, 'tmp/coverage.txt').then(function () {
 				var contents = fs.readFileSync('tmp/coverage.txt', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
 				assert.include(contents, 'basic.ts', 'contains the file we remapped');
