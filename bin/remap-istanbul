@@ -82,6 +82,7 @@ function main (argv) {
 	var output;
 	var reportType;
 	var basePath;
+	var exclude;
 	while ((arg = getArg())) {
 		switch (arg) {
 		case '-i':
@@ -99,6 +100,13 @@ function main (argv) {
 		case '-t':
 		case '--type':
 			reportType = argv.shift();
+			break;
+		case '-e':
+		case '--exclude':
+			exclude = argv.shift();
+			if (exclude.indexOf(',') !== -1) {
+				exclude = new RegExp(exclude.replace(/,/g, '|'))
+			}
 			break;
 		default:
 			throw new SyntaxError('Unrecognised argument: "' + arg + '".');
@@ -120,7 +128,11 @@ function main (argv) {
 		resolve(coverage);
 	}).then(function (coverage) {
 		var sources = new MemoryStore();
-		var collector = remap(coverage, { sources: sources, basePath: basePath || undefined });
+		var collector = remap(coverage, {
+			sources: sources,
+			basePath: basePath || undefined,
+			exclude: exclude || undefined
+		});
 		if (!Object.keys(sources.map).length) {
 			sources = undefined;
 		}
