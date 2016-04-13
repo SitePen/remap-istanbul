@@ -36,14 +36,22 @@ define([
 			assert.strictEqual(Object.keys(map.fnMap).length, 6, 'Map should have 6 functions');
 			assert.strictEqual(Object.keys(map.branchMap).length, 6, 'Map should have 6 branches');
 		},
-		
+
 		'base64 source map with sources': function () {
 			var store = new MemoryStore();
 			remap(loadCoverage('tests/unit/support/coverage-inlinesource.json'), {
 				sources: store
 			});
-			
+
 			assert(store.map['tests/unit/support/inlinesource.ts'], 'Source should have been retrieved from source map');
+		},
+
+		'coverage includes code': function () {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-code.json'));
+			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
+			assert(coverage.store.map['tests/unit/support/inlinesource.ts']);
+			var map = JSON.parse(coverage.store.map['tests/unit/support/inlinesource.ts']);
+			assert(map.code);
 		},
 
 		'empty options': function () {
@@ -103,7 +111,7 @@ define([
 			assert.isTrue(coverageData.fnMap['5'].skip, 'skip is perpetuated');
 			assert.isUndefined(coverageData.fnMap['1'].skip, 'skip is not present');
 		},
-		
+
 		'non transpiled coverage': function () {
 			var warnStack = [];
 
@@ -112,7 +120,7 @@ define([
 					warnStack.push(arguments);
 				}
 			});
-			
+
 			var coverageData = JSON.parse(coverage.store.map['tests/unit/support/foo.js']);
 			assert.strictEqual(1, coverageData.statementMap['1'].start.line);
 			assert.strictEqual(1, warnStack.length);
@@ -120,31 +128,31 @@ define([
 			assert.strictEqual(warnStack[0][0].message, 'Could not find source map for: "tests/unit/support/foo.js"',
 				'proper error message should have been returend');
 		},
-		
+
 		'exclude - string': function () {
 			var warnStack = [];
-			
+
 			var coverage = remap(loadCoverage('tests/unit/support/coverage-import.json'), {
 				warn: function () {
 					warnStack.push(arguments);
 				},
 				exclude: 'foo.js'
 			});
-			
+
 			assert.strictEqual(1, warnStack.length);
 			assert.strictEqual(warnStack[0][0], 'Excluding: "tests/unit/support/foo.js"');
 		},
-		
+
 		'exclude - RegEx': function () {
 			var warnStack = [];
-			
+
 			remap(loadCoverage('tests/unit/support/coverage-import.json'), {
 				warn: function () {
 					warnStack.push(arguments);
 				},
 				exclude: /foo\.js$/
 			});
-			
+
 			assert.strictEqual(1, warnStack.length);
 			assert.strictEqual(warnStack[0][0], 'Excluding: "tests/unit/support/foo.js"');
 		}
