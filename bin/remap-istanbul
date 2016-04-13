@@ -112,7 +112,7 @@ function main (argv) {
 				}
 				catch (err) {
 					console.error(err.stack);
-					reject(newErr);
+					reject(err);
 				}
 			}, reject);
 

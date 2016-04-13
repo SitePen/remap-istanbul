@@ -23,7 +23,7 @@ module.exports = function (sources, reports, reportOptions) {
 
 	if (!Object.keys(sourceStore.map).length) {
 		sourceStore = undefined;
-	} 
+	}
 
 	var p = Object.keys(reports).map(function (reportType) {
 		return writeReport(collector, reportType, reportOptions || {}, reports[reportType], sourceStore);
