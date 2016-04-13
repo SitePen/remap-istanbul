@@ -12,7 +12,7 @@ module.exports = function (grunt) {
 		var options = this.options();
 		var sources = new MemoryStore();
 		var p = [];
-		
+
 		function warn(message) {
 			if (options.fail) {
 				grunt.fail.warn(message);
@@ -23,6 +23,7 @@ module.exports = function (grunt) {
 		}
 
 		this.files.forEach(function (file) {
+
 			var coverage = remap(loadCoverage(file.src, {
 				readJSON: grunt.readJSON,
 				warn: warn
@@ -30,7 +31,8 @@ module.exports = function (grunt) {
 				readFile: grunt.readFile,
 				readJSON: grunt.readJSON,
 				warn: warn,
-				sources: sources
+				sources: sources,
+				basePath: file.basePath
 			});
 
 			if (!Object.keys(sources.map).length) {
