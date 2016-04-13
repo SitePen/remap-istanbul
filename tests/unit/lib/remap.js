@@ -1,11 +1,12 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
+	'intern/dojo/node!path',
 	'../../../lib/node!istanbul/lib/collector',
 	'../../../lib/node!istanbul/lib/store/memory',
 	'../../../lib/loadCoverage',
 	'../../../lib/remap'
-], function (registerSuite, assert, Collector, MemoryStore, loadCoverage, remap) {
+], function (registerSuite, assert, path, Collector, MemoryStore, loadCoverage, remap) {
 	registerSuite({
 		name: 'remap-istanbul/lib/remap',
 
@@ -155,6 +156,18 @@ define([
 
 			assert.strictEqual(1, warnStack.length);
 			assert.strictEqual(warnStack[0][0], 'Excluding: "tests/unit/support/foo.js"');
+		},
+
+		'useAbsolutePaths': function () {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage.json'), {
+				useAbsolutePaths: true
+			});
+
+			var absoluteKey = path.resolve(process.cwd(), 'tests/unit/support/basic.ts');
+			assert(coverage.store.map[absoluteKey],
+				'The Collector should have a key with absolute path');
+			assert.strictEqual(Object.keys(coverage.store.map).length, 1,
+				'Collector should only have one map');
 		}
 	});
 });

@@ -32,7 +32,8 @@ module.exports = function (grunt) {
 				readJSON: grunt.readJSON,
 				warn: warn,
 				sources: sources,
-				basePath: file.basePath
+				basePath: file.basePath,
+				useAbsolutePaths: options.useAbsolutePaths
 			});
 
 			if (!Object.keys(sources.map).length) {
