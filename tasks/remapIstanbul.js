@@ -21,7 +21,7 @@ module.exports = function (grunt) {
 				grunt.log.error(message);
 			}
 		}
-		
+
 		this.files.forEach(function (file) {
 			var coverage = remap(loadCoverage(file.src, {
 				readJSON: grunt.readJSON,
@@ -38,11 +38,11 @@ module.exports = function (grunt) {
 			}
 
 			if (file.type && file.dest) {
-				p.push(writeReport(coverage, file.type, file.dest, sources));
+				p.push(writeReport(coverage, file.type, {}, file.dest, sources));
 			}
 			else {
 				p = p.concat(Object.keys(options.reports).map(function (key) {
-					return writeReport(coverage, key, options.reports[key], sources);
+					return writeReport(coverage, key, options.reportOpts || {}, options.reports[key], sources);
 				}));
 			}
 		});

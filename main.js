@@ -12,9 +12,10 @@ var MemoryStore = require('istanbul/lib/store/memory');
  *                                an array of strings.
  * @param  {Object} reports An object where each key is the report type required and the value
  *                          is the destination for the report.
+ * @param  {Object} reportOptions? An object containing the report options.
  * @return {Promise}         A promise that will resolve when all the reports are written.
  */
-module.exports = function (sources, reports) {
+module.exports = function (sources, reports, reportOptions) {
 	var sourceStore = new MemoryStore();
 	var collector = remap(loadCoverage(sources), {
 		sources: sourceStore
@@ -25,7 +26,7 @@ module.exports = function (sources, reports) {
 	} 
 
 	var p = Object.keys(reports).map(function (reportType) {
-		return writeReport(collector, reportType, reports[reportType], sourceStore);
+		return writeReport(collector, reportType, reportOptions || {}, reports[reportType], sourceStore);
 	});
 	return Promise.all(p);
 };
