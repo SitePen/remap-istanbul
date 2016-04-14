@@ -5,6 +5,7 @@
 var loadCoverage = require('../lib/loadCoverage');
 var remap = require('../lib/remap');
 var writeReport = require('../lib/writeReport');
+var MemoryStore = require('istanbul/lib/store/memory');
 
 /**
  * Helper function that reads from standard in and resolves a Promise with the
@@ -77,7 +78,7 @@ function main (argv) {
 	}
 
 	var arg;
-	var sources = [];
+	var inputFiles = [];
 	var output;
 	var reportType;
 	var basePath;
@@ -85,7 +86,7 @@ function main (argv) {
 		switch (arg) {
 		case '-i':
 		case '--input':
-			sources.push(argv.shift());
+			inputFiles.push(argv.shift());
 			break;
 		case '-o':
 		case '--output':
@@ -105,7 +106,7 @@ function main (argv) {
 	}
 
 	return new Promise(function (resolve, reject) {
-		var coverage = sources.length ? loadCoverage(sources) :
+		var coverage = inputFiles.length ? loadCoverage(inputFiles) :
 			/* istanbul ignore next */ readStdIn().then(function (data) {
 				try {
 					data = JSON.parse(data);
@@ -118,13 +119,15 @@ function main (argv) {
 
 		resolve(coverage);
 	}).then(function (coverage) {
-		var collector = remap(coverage, basePath ? {
-			basePath: basePath
-		} : {});
+		var sources = new MemoryStore();
+		var collector = remap(coverage, { sources: sources, basePath: basePath || undefined });
+		if (!Object.keys(sources.map).length) {
+			sources = undefined;
+		}
 		var reportOptions = {};
 		/* istanbul ignore else: too hard to test writing to stdout */
 		if (output) {
-			return writeReport(collector, reportType || 'json', reportOptions, output);
+			return writeReport(collector, reportType || 'json', reportOptions, output, sources);
 		}
 		else {
 			if (reportType && (reportType === 'lcovonly' || reportType === 'text-lcov')) {

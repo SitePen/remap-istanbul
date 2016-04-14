@@ -41,6 +41,13 @@ define([
 				]);
 			}
 		},
+		'html with inlined sources': function () {
+			remapIstanbul([
+				'--input', 'tests/unit/support/coverage-inlinesource.json',
+				'--output', 'tmp/cli-coverage-inline',
+				'--type', 'html'
+			]);
+		},
 		'bad argument': function () {
 			assert.throws(function () {
 				remapIstanbul([
