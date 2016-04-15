@@ -41,6 +41,32 @@ define([
 				]);
 			}
 		},
+		'exclude': {
+			'terse': function () {
+				remapIstanbul([
+					'-i', 'tests/unit/support/coverage.json',
+					'-o', 'tmp/coverage-cli-4.json',
+					'-e', 'node_modules',
+					'-t', 'json'
+				]);
+			},
+			'full': function () {
+				remapIstanbul([
+					'--input', 'tests/unit/support/coverage.json',
+					'--output', 'tmp/coverage-cli-4.json',
+					'--exclude', 'node_modules',
+					'--type', 'json'
+				]);
+			},
+			'regex': function () {
+				remapIstanbul([
+					'--input', 'tests/unit/support/coverage.json',
+					'--output', 'tmp/coverage-cli-4.json',
+					'--exclude', 'node_modules,bower_components',
+					'--type', 'json'
+				]);
+			}
+		},
 		'html with inlined sources': function () {
 			remapIstanbul([
 				'--input', 'tests/unit/support/coverage-inlinesource.json',
