@@ -33,12 +33,12 @@ define([
 					'should have key named after mapped file');
 			});
 		},
-		
+
 		'inline sources': function () {
 			return main('tests/unit/support/coverage-inlinesource.json', {
 				'html': 'tmp/html-report-main'
 			}).then(function () {
-				assert.isTrue(fs.existsSync('tmp/html-report-main/support/inlinesource.ts.html'));
+				assert.isTrue(fs.existsSync('tmp/html-report-main/__root__/inlinesource.ts.html'));
 			});
 		}
 	});

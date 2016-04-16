@@ -61,7 +61,7 @@ define([
 				sources: sources
 			});
 			return writeReport(inlineSourceCoverage, 'html', {}, 'tmp/html-report-inline', sources).then(function () {
-				var html = fs.readFileSync('tmp/html-report-inline/support/inlinesource.ts.html', { encoding: 'utf8' });
+				var html = fs.readFileSync('tmp/html-report-inline/__root__/inlinesource.ts.html', { encoding: 'utf8' });
 				assert(html, 'should have content for inlinesource.ts');
 				assert.include(html, "let foo = new Foo", 'should contain some of the origin file');
 			});
