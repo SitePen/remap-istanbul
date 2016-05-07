@@ -6,7 +6,6 @@ var loadCoverage = require('../lib/loadCoverage');
 var remap = require('../lib/remap');
 var writeReport = require('../lib/writeReport');
 var MemoryStore = require('istanbul/lib/store/memory');
-var Collector = require('istanbul/lib/collector');
 
 /**
  * Helper function that reads from standard in and resolves a Promise with the
@@ -119,9 +118,6 @@ function main (argv) {
 			/* istanbul ignore next */ readStdIn().then(function (data) {
 				try {
 					data = JSON.parse(data);
-					var collector = new Collector();
-					collector.add(data);
-					return collector.getFinalCoverage();
 				}
 				catch (err) {
 					console.error(err.stack);
