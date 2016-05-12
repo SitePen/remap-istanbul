@@ -113,6 +113,10 @@ define([
 			assert.isUndefined(coverageData.fnMap['1'].skip, 'skip is not present');
 		},
 
+		'lineless items in source map should not error': function () {
+			remap(loadCoverage('tests/unit/support/nosourceline.json'));
+		},
+
 		'non transpiled coverage': function () {
 			var warnStack = [];
 
