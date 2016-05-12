@@ -52,7 +52,15 @@ define([
 			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
 			assert(coverage.store.map['inlinesource.ts']);
 			var map = JSON.parse(coverage.store.map['inlinesource.ts']);
-			assert(map.code);
+			assert.typeOf(map.code, 'string', 'should respect source mapping');
+		},
+
+		'coverage includes code as array': function () {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-code-array.json'));
+			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
+			assert(coverage.store.map['inlinesource.ts']);
+			var map = JSON.parse(coverage.store.map['inlinesource.ts']);
+			assert.isTrue(Array.isArray(map.code));
 		},
 
 		'empty options': function () {
