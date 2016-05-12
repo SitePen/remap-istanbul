@@ -265,7 +265,7 @@ gulp.task('remap-istanbul', function () {
 });
 ```
 
-Another way is to utilize the the plugin is to have the plugin write out the Istanbul reports directly.
+Another way is to utilize the plugin is to have the plugin write out the Istanbul reports directly.
 This can be accomplished by passing a `reports` property in the options.  For example, to have the JSON
 coverage report output in addition to the HTML coverage report, at task would look like this:
 
