@@ -1,11 +1,11 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
-	'../../../lib/node!fs',
-	'../../../lib/node!istanbul/lib/store/memory',
-	'../../../lib/loadCoverage',
-	'../../../lib/remap',
-	'../../../lib/writeReport'
+	'../../node!fs',
+	'../../node!istanbul/lib/store/memory',
+	'../../node!../../../lib/loadCoverage',
+	'../../node!../../../lib/remap',
+	'../../node!../../../lib/writeReport'
 ], function (registerSuite, assert, fs, MemoryStore, loadCoverage, remap, writeReport) {
 	var coverage;
 	var consoleLog;

@@ -5,7 +5,7 @@ define([
 	'intern/dojo/node!istanbul/lib/report/json',
 	'intern/dojo/node!fs',
 	'./support/mocks',
-	'../../../../lib/intern-reporters/JsonCoverage'
+	'../../../node!../../../../lib/intern-reporters/JsonCoverage'
 ], function (registerSuite, assert, Collector, Reporter, fs, mock, JsonCoverage) {
 	var sessionId = 'foo';
 

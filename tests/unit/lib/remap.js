@@ -2,10 +2,10 @@ define([
 	'intern!object',
 	'intern/chai!assert',
 	'intern/dojo/node!path',
-	'../../../lib/node!istanbul/lib/collector',
-	'../../../lib/node!istanbul/lib/store/memory',
-	'../../../lib/loadCoverage',
-	'../../../lib/remap'
+	'../../node!istanbul/lib/collector',
+	'../../node!istanbul/lib/store/memory',
+	'../../node!../../../lib/loadCoverage',
+	'../../node!../../../lib/remap'
 ], function (registerSuite, assert, path, Collector, MemoryStore, loadCoverage, remap) {
 	registerSuite({
 		name: 'remap-istanbul/lib/remap',

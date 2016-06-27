@@ -1,8 +1,8 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
-	'../../../lib/node!grunt',
-	'../../../lib/node!fs'
+	'../../node!grunt',
+	'../../node!fs'
 ], function (registerSuite, assert, grunt, fs) {
 
 	/* creating a mock for logging */
