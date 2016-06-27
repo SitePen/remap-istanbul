@@ -32,7 +32,7 @@ module.exports = function (grunt) {
         sources,
         basePath: file.basePath,
         useAbsolutePaths: options.useAbsolutePaths,
-				exclude: options.exclude
+        exclude: options.exclude,
       });
 
       if (!Object.keys(sources.map).length) {
