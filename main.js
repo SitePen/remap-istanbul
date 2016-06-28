@@ -18,7 +18,7 @@ var MemoryStore = require('istanbul/lib/store/memory');
 module.exports = function (sources, reports, reportOptions) {
 	var sourceStore = new MemoryStore();
 	var collector = remap(loadCoverage(sources), {
-		sources: sourceStore
+		sources: sourceStore,
 	});
 
 	if (!Object.keys(sourceStore.map).length) {
