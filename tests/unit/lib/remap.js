@@ -51,7 +51,7 @@ define([
 			var coverage = remap(loadCoverage('tests/unit/support/coverage-inlinesource.json'), {
 				basePath: basePath
 			});
-			assert(coverage.store.map[basePath + '/tests/unit/support/inlinesource.ts'], 'Source should have been retrieved from source map using base path');
+			assert(coverage.store.map[basePath + '/inlinesource.ts'], 'Source should have been retrieved from source map using base path');
 		},
 
 		'coverage includes code': function () {
