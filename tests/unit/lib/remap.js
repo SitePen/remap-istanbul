@@ -62,6 +62,18 @@ define([
 			assert.isTrue(Array.isArray(map.code));
 		},
 
+		'coverage includes code but missing sourceMappingURL': function () {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-code-withoutSourceMappingURL.json'));
+			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
+			assert(coverage.store.map['tests/unit/support/basic.ts'] || coverage.store.map['tests\\unit\\support\\basic.ts']);
+		},
+
+		'coverage includes code as array but missing sourceMappingURL': function () {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-code-array-withoutSourceMappingURL.json'));
+			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
+			assert(coverage.store.map['tests/unit/support/basic.ts'] || coverage.store.map['tests\\unit\\support\\basic.ts']);
+		},
+
 		'empty options': function () {
 			assert.throws(remap, TypeError);
 		},
