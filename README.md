@@ -34,7 +34,7 @@ The package includes a command line interface which should be placed into the `.
 |`-o` or `--output`  |The path to the remapped coverage output file.  For example `remap-istanbul --output coverage-final.json`. If omitted, `json` output will be sent to stdout.|
 |`-t` or `--type`    |The type of report the output should be.  For example `remap-istanbul --output html-report --type html`. If omitted, output defaults to `json`.|
 |`-b` or `--basePath`|When remapping the source files, instead of using the path in the source map, substitute this this path.|
-|`-e` or `--exclude`|Pass in a comma seperated string of patterns to exclude from the output.  For example `remap-istanbul --output coverage-final.json --exclude node_modules,tests`|
+|`-e` or `--exclude`|Pass in a comma seperated string of patterns (exact strings or regexps) to exclude from the output.  For example `remap-istanbul --output coverage-final.json --exclude node_modules,tests`|
 
 An example of piping a coverage file to the CLI and writing it out to a file:
 
