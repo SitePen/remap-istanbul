@@ -86,7 +86,7 @@ define([
 			remap(loadCoverage('tests/unit/support/badcoverage.json'), {
 				warn: warn
 			});
-			assert.strictEqual(warnStack.length, 2, 'warn should have been called twice');
+			assert.strictEqual(warnStack.length, 3, 'warn should have been called three times');
 			assert.instanceOf(warnStack[0][0], Error, 'should have been called with error');
 			assert.strictEqual(warnStack[0][0].message, 'Could not find file: "tests/unit/support/bad.js"',
 				'proper error message should have been returned');
