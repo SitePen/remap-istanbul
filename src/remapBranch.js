@@ -2,7 +2,7 @@ function remapBranch(genItem, getMapping) {
   const locations = [];
   let source;
 
-  for (let i = 0; i < genItem.locations.length; ++i) {
+  for (let i = 0; i < genItem.locations.length; i += 1) {
     const mapping = getMapping(genItem.locations[i]);
     if (!mapping) {
       return null;
@@ -10,10 +10,8 @@ function remapBranch(genItem, getMapping) {
     /* istanbul ignore else: edge case too hard to test for */
     if (!source) {
       source = mapping.source;
-    } else {
-      if (source !== mapping.source) {
-        return null;
-      }
+    } else if (source !== mapping.source) {
+      return null;
     }
     locations.push(mapping.loc);
   }

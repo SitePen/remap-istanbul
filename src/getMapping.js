@@ -41,7 +41,7 @@ function getMapping(sourceMap, location) {
       column: location.end.column,
       bias: SourceMapConsumer.LEAST_UPPER_BOUND,
     });
-    end.column = end.column - 1;
+    end.column -= 1;
   }
 
   return {

@@ -61,15 +61,13 @@ function main(argv) {
         argv.unshift(arg.slice(1).join('='));
       }
       arg = arg[0];
-    } else {
-      if (arg && arg[0] === '-') {
-        /* istanbul ignore if */
-        if (arg.length > 2) {
-          argv = arg.substring(1).split('')
-            .map((ch) => '-' + ch)
-            .concat(argv);
-          arg = argv.shift();
-        }
+    } else if (arg && arg[0] === '-') {
+      /* istanbul ignore if */
+      if (arg.length > 2) {
+        argv = arg.substring(1).split('')
+          .map((ch) => '-' + ch)
+          .concat(argv);
+        arg = argv.shift();
       }
     }
 

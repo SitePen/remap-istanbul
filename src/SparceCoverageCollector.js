@@ -58,7 +58,8 @@ class SparceCoverageCollector {
 
     let index = meta.indexes[key];
     if (!index) {
-      index = ++meta.lastIndex.b;
+      meta.lastIndex.b += 1;
+      index = meta.lastIndex.b;
       meta.indexes[key] = index;
       data.branchMap[index] = srcItem;
     }
@@ -66,7 +67,7 @@ class SparceCoverageCollector {
     if (!data.b[index]) {
       data.b[index] = hits.map(v => v);
     } else {
-      for (let i = 0; i < hits.length; ++i) {
+      for (let i = 0; i < hits.length; i += 1) {
         data.b[index][i] += hits[i];
       }
     }
@@ -83,7 +84,8 @@ class SparceCoverageCollector {
 
     let index = meta.indexes[key];
     if (!index) {
-      index = ++meta.lastIndex.f;
+      meta.lastIndex.f += 1;
+      index = meta.lastIndex.f;
       meta.indexes[key] = index;
       data.fnMap[index] = srcItem;
     }
@@ -103,7 +105,8 @@ class SparceCoverageCollector {
 
     let index = meta.indexes[key];
     if (!index) {
-      index = ++meta.lastIndex.s;
+      meta.lastIndex.s += 1;
+      index = meta.lastIndex.s;
       meta.indexes[key] = index;
       data.statementMap[index] = srcItem;
     }
