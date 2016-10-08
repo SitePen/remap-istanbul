@@ -3,9 +3,9 @@ define([
 	'intern/chai!assert',
 	'../../node!fs',
 	'../../node!istanbul/lib/store/memory',
-	'../../node!../../../lib/loadCoverage',
-	'../../node!../../../lib/remap',
-	'../../node!../../../lib/writeReport'
+	'../../node!../../../src/loadCoverage',
+	'../../node!../../../src/remap',
+	'../../node!../../../src/writeReport'
 ], function (registerSuite, assert, fs, MemoryStore, loadCoverage, remap, writeReport) {
 	var coverage;
 	var consoleLog;

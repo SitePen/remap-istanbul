@@ -3,7 +3,7 @@ define([
 	'intern/chai!assert',
 	'intern/dojo/node!gulp',
 	'intern/dojo/node!fs',
-	'intern/dojo/node!../../../lib/gulpRemapIstanbul'
+	'intern/dojo/node!../../../src/gulpRemapIstanbul'
 ], function (registerSuite, assert, gulp, fs, remapIstanbul) {
 	registerSuite({
 		name: 'lib/gulpRemapIstanbul',
@@ -64,7 +64,7 @@ define([
 
 			gulp.start('assertions');
 		},
-		
+
 		'non-transpiled coverage': {
 			'warn': function () {
 				var dfd = this.async();

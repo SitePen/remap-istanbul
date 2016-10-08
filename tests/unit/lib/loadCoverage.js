@@ -1,7 +1,7 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
-	'../../node!../../../lib/loadCoverage'
+	'../../node!../../../src/loadCoverage'
 ], function (registerSuite, assert, loadCoverage) {
 	registerSuite({
 		name: 'remap-istanbul/lib/loadCoverage',

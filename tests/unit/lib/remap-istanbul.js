@@ -2,7 +2,7 @@ define([
 	'intern!object',
 	'intern/chai!assert',
 	'../../node!fs',
-	'../../node!../../../bin/remap-istanbul'
+	'../../node!../../../src/remap-istanbul'
 ], function (registerSuite, assert, fs, remapIstanbul) {
 	registerSuite({
 		name: 'bin/remapIstanbul',

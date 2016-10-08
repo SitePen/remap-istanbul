@@ -1,8 +1,8 @@
 /* jshint node:true */
 /* global Promise */
-const loadCoverage = require('./lib/loadCoverage');
-const remap = require('./lib/remap');
-const writeReport = require('./lib/writeReport');
+const loadCoverage = require('./loadCoverage');
+const remap = require('./remap');
+const writeReport = require('./writeReport');
 const MemoryStore = require('istanbul/lib/store/memory');
 
 /**

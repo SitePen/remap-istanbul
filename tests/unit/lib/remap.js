@@ -4,8 +4,8 @@ define([
 	'intern/dojo/node!path',
 	'../../node!istanbul/lib/collector',
 	'../../node!istanbul/lib/store/memory',
-	'../../node!../../../lib/loadCoverage',
-	'../../node!../../../lib/remap'
+	'../../node!../../../src/loadCoverage',
+	'../../node!../../../src/remap'
 ], function (registerSuite, assert, path, Collector, MemoryStore, loadCoverage, remap) {
 	registerSuite({
 		name: 'remap-istanbul/lib/remap',

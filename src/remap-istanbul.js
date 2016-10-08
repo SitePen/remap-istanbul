@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const loadCoverage = require('../lib/loadCoverage');
-const remap = require('../lib/remap');
-const writeReport = require('../lib/writeReport');
+const loadCoverage = require('./loadCoverage');
+const remap = require('./remap');
+const writeReport = require('./writeReport');
 const MemoryStore = require('istanbul/lib/store/memory');
 const Collector = require('istanbul/lib/collector');
 

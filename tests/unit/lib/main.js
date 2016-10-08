@@ -1,8 +1,8 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
-	'../node!fs',
-	'../node!../../../main'
+	'../../node!fs',
+	'../../node!../../../src/main'
 ], function (registerSuite, assert, fs, main) {
 	registerSuite({
 		name: 'main',
