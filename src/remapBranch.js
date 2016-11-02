@@ -1,28 +1,28 @@
 function remapBranch(genItem, getMapping) {
-  const locations = [];
-  let source;
+	const locations = [];
+	let source;
 
-  for (let i = 0; i < genItem.locations.length; i += 1) {
-    const mapping = getMapping(genItem.locations[i]);
-    if (!mapping) {
-      return null;
-    }
-    /* istanbul ignore else: edge case too hard to test for */
-    if (!source) {
-      source = mapping.source;
-    } else if (source !== mapping.source) {
-      return null;
-    }
-    locations.push(mapping.loc);
-  }
+	for (let i = 0; i < genItem.locations.length; i += 1) {
+		const mapping = getMapping(genItem.locations[i]);
+		if (!mapping) {
+			return null;
+		}
+		/* istanbul ignore else: edge case too hard to test for */
+		if (!source) {
+			source = mapping.source;
+		} else if (source !== mapping.source) {
+			return null;
+		}
+		locations.push(mapping.loc);
+	}
 
-  const srcItem = {
-    line: locations[0].start.line,
-    type: genItem.type,
-    locations,
-  };
+	const srcItem = {
+		line: locations[0].start.line,
+		type: genItem.type,
+		locations,
+	};
 
-  return { source, srcItem };
+	return { source, srcItem };
 }
 
 module.exports = remapBranch;

@@ -1,16 +1,16 @@
 require('istanbul/index');
 
 const istanbulReportTypes = {
-  clover: 'file',
-  cobertura: 'file',
-  html: 'directory',
-  'json-summary': 'file',
-  json: 'file',
-  lcovonly: 'file',
-  teamcity: 'file',
-  'text-lcov': 'console',
-  'text-summary': 'file',
-  text: 'file',
+	clover: 'file',
+	cobertura: 'file',
+	html: 'directory',
+	'json-summary': 'file',
+	json: 'file',
+	lcovonly: 'file',
+	teamcity: 'file',
+	'text-lcov': 'console',
+	'text-summary': 'file',
+	text: 'file',
 };
 
 /**
@@ -29,30 +29,30 @@ const istanbulReportTypes = {
  *                                         report is complete.
  */
 module.exports = function writeReport(collector, reportType, reportOptions, dest, sources) {
-  return new Promise((resolve, reject) => {
-    if (!(reportType in istanbulReportTypes)) {
-      reject(new SyntaxError(`Unrecognized report type of "${reportType}".`));
-      return;
-    }
-    const Reporter = require(`istanbul/lib/report/${reportType}`);
-    const options = Object.assign({}, reportOptions);
-    switch (istanbulReportTypes[reportType]) {
-      case 'file':
-        options.file = dest;
-        break;
-      case 'directory':
-        options.dir = dest;
-        break;
-      case 'console':
-        options.log = dest || console.log;
-        break;
-      default:
-        throw new Error('Unknown reporter type');
-    }
-    if (sources) {
-      options.sourceStore = sources;
-    }
-    const reporter = new Reporter(options);
-    resolve(reporter.writeReport(collector, true));
-  });
+	return new Promise((resolve, reject) => {
+		if (!(reportType in istanbulReportTypes)) {
+			reject(new SyntaxError(`Unrecognized report type of "${reportType}".`));
+			return;
+		}
+		const Reporter = require(`istanbul/lib/report/${reportType}`);
+		const options = Object.assign({}, reportOptions);
+		switch (istanbulReportTypes[reportType]) {
+			case 'file':
+				options.file = dest;
+				break;
+			case 'directory':
+				options.dir = dest;
+				break;
+			case 'console':
+				options.log = dest || console.log;
+				break;
+			default:
+				throw new Error('Unknown reporter type');
+		}
+		if (sources) {
+			options.sourceStore = sources;
+		}
+		const reporter = new Reporter(options);
+		resolve(reporter.writeReport(collector, true));
+	});
 };

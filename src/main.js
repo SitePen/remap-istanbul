@@ -16,22 +16,22 @@ const MemoryStore = require('istanbul/lib/store/memory');
  * @return {Promise}         A promise that will resolve when all the reports are written.
  */
 module.exports = function (sources, reports, reportOptions) {
-  let sourceStore = new MemoryStore();
-  const collector = remap(loadCoverage(sources), {
-    sources: sourceStore,
-  });
+	let sourceStore = new MemoryStore();
+	const collector = remap(loadCoverage(sources), {
+		sources: sourceStore,
+	});
 
-  if (!Object.keys(sourceStore.map).length) {
-    sourceStore = undefined;
-  }
+	if (!Object.keys(sourceStore.map).length) {
+		sourceStore = undefined;
+	}
 
 
-  return Promise.all(
-    Object.keys(reports)
-      .map(reportType =>
-        writeReport(collector, reportType, reportOptions || {}, reports[reportType], sourceStore)
-      )
-  );
+	return Promise.all(
+		Object.keys(reports)
+			.map(reportType =>
+				writeReport(collector, reportType, reportOptions || {}, reports[reportType], sourceStore)
+			)
+	);
 };
 
 module.exports.loadCoverage = loadCoverage;

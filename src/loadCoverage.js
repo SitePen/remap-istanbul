@@ -11,27 +11,27 @@ const fs = require('fs');
  * @return {Object}                          The loaded coverage object
  */
 module.exports = function loadCoverage(sources, options = {}) {
-  const warn = options.warn || console.warn;
+	const warn = options.warn || console.warn;
 
-  const readJSON = options.readJSON
-    || function (filePath) {
-      if (!fs.existsSync(filePath)) {
-        warn(new Error(`Cannot find file: "${filePath}"`));
-        return {};
-      }
-      return JSON.parse(fs.readFileSync(filePath));
-    };
+	const readJSON = options.readJSON
+		|| function (filePath) {
+			if (!fs.existsSync(filePath)) {
+				warn(new Error(`Cannot find file: "${filePath}"`));
+				return {};
+			}
+			return JSON.parse(fs.readFileSync(filePath));
+		};
 
-  if (typeof sources === 'string') {
-    sources = [sources];
-  }
-  if (!sources.length) {
-    warn(new SyntaxError('No coverage files supplied!'));
-  }
-  const collector = new Collector();
-  sources.forEach((filePath) => {
-    collector.add(readJSON(filePath));
-  });
+	if (typeof sources === 'string') {
+		sources = [sources];
+	}
+	if (!sources.length) {
+		warn(new SyntaxError('No coverage files supplied!'));
+	}
+	const collector = new Collector();
+	sources.forEach((filePath) => {
+		collector.add(readJSON(filePath));
+	});
 
-  return collector.getFinalCoverage();
+	return collector.getFinalCoverage();
 };

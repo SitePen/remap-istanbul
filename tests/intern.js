@@ -5,7 +5,7 @@ define({
 		]
 	},
 
-	suites: [ 'remap-istanbul/tests/unit/all' ],
+	suites: ['remap-istanbul/tests/unit/all'],
 
 	excludeInstrumentation: /^(?:tests|node_modules)\//
 });

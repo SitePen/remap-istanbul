@@ -1,8 +1,8 @@
 {
   "name": "remap-istanbul",
-  "version": "0.6.5-pre",
+  "version": "0.8.0-pre",
   "description": "A tool for remapping Istanbul coverage via Source Maps",
-  "homepage": "http://dojotoolkit.org",
+  "homepage": "https://github.com/SitePen/remap-istanbul",
   "keywords": [
     "gulpplugin",
     "gruntplugin",
@@ -37,7 +37,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "amdefine": "1.0.0",
+    "amdefine": "^1.0.0",
     "babel-runtime": "^6.11.6",
     "gulp-util": "3.0.7",
     "istanbul": "0.4.5",
@@ -51,8 +51,8 @@
     "babel-preset-es2015": "^6.16.0",
     "codecov.io": "0.1.6",
     "eslint": "^3.7.0",
-    "eslint-config-airbnb-base": "^8.0.0",
-    "eslint-plugin-import": "^1.16.0",
+    "eslint-config-airbnb-base": "^9.0.0",
+    "eslint-plugin-import": "^2.0.1",
     "grunt": "^1.0.1",
     "gulp": "3.9.1",
     "intern": "^3.3.0",

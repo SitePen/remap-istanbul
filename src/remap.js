@@ -5,7 +5,7 @@ const { CoverageTransformer } = require('./CoverageTransformer');
  * covered files and returns a coverage Collector that contains the remappped
  * data.
  * @param  {Array|Object} coverage The coverage (or array of coverages) that need to be
- *                                                 remapped
+ *                                 remapped
  * @param  {Object} options A configuration object:
  *                              basePath? - a string containing to utilise as the base path
  *                                          for determining the location of the source file
@@ -21,17 +21,17 @@ const { CoverageTransformer } = require('./CoverageTransformer');
  * @return {istanbul/lib/_collector}         The remapped collector
  */
 function remap(coverage, options = {}) {
-  const smc = new CoverageTransformer(options);
+	const smc = new CoverageTransformer(options);
 
-  if (!Array.isArray(coverage)) {
-    coverage = [coverage];
-  }
+	if (!Array.isArray(coverage)) {
+		coverage = [coverage];
+	}
 
-  coverage.forEach(item => {
-    smc.addCoverage(item);
-  });
+	coverage.forEach(item => {
+		smc.addCoverage(item);
+	});
 
-  return smc.getFinalCoverage();
+	return smc.getFinalCoverage();
 }
 
 module.exports = remap;
