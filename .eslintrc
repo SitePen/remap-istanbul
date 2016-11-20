@@ -26,8 +26,15 @@
 		"arrow-parens": 0,
 		"no-param-reassign": 1,
 		"global-require": 1,
-		"no-underscore-dangle": 1,
+		"no-underscore-dangle": 0,
 		"no-shadow": 1,
-		"consistent-return": 1
+		"consistent-return": 1,
+		"comma-dangle": ["error", {
+			"arrays": "always-multiline",
+			"objects": "always-multiline",
+			"imports": "always-multiline",
+			"exports": "always-multiline",
+			"functions": "ignore"
+		}]
 	}
 }
