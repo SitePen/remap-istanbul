@@ -3,10 +3,11 @@ define([
 	'intern/chai!assert',
 	'../../../lib/node!fs',
 	'../../../lib/node!istanbul/lib/store/memory',
+	'../../../lib/node!path',
 	'../../../lib/loadCoverage',
 	'../../../lib/remap',
 	'../../../lib/writeReport'
-], function (registerSuite, assert, fs, MemoryStore, loadCoverage, remap, writeReport) {
+], function (registerSuite, assert, fs, MemoryStore, path, loadCoverage, remap, writeReport) {
 	var coverage;
 	var consoleLog;
 	var consoleOutput = [];
@@ -35,7 +36,7 @@ define([
 			return writeReport(coverage, 'clover', {}, 'tmp/clover.xml').then(function () {
 				var contents = fs.readFileSync('tmp/clover.xml', { encoding: 'utf8' });
 				assert(contents, 'the report should exist');
-				assert.include(contents, 'path="tests/unit/support/basic.ts"', 'contains the remapped file');
+				assert.include(contents, 'path="' + path.normalize('tests/unit/support/basic.ts') + '"', 'contains the remapped file');
 			});
 		},
 
@@ -43,7 +44,7 @@ define([
 			return writeReport(coverage, 'cobertura', {}, 'tmp/cobertura.xml').then(function () {
 				var contents = fs.readFileSync('tmp/cobertura.xml', { encoding: 'utf8' });
 				assert(contents, 'the report should exist');
-				assert.include(contents, 'filename="tests/unit/support/basic.ts"', 'contains the remapped file');
+				assert.include(contents, 'filename="' + path.normalize('tests/unit/support/basic.ts') + '"', 'contains the remapped file');
 			});
 		},
 
@@ -72,7 +73,7 @@ define([
 				var contents = fs.readFileSync('tmp/summary.json', { encoding: 'utf8' });
 				assert(contents, 'there should be contensts');
 				var summary = JSON.parse(contents);
-				assert(summary['tests/unit/support/basic.ts'], 'there should be a key with a summary');
+				assert(summary[path.normalize('tests/unit/support/basic.ts')], 'there should be a key with a summary');
 				assert(summary.total, 'there should be a total key');
 				assert.strictEqual(Object.keys(summary).length, 2, 'there should be only two keys');
 			});
@@ -83,7 +84,7 @@ define([
 				var contents = fs.readFileSync('tmp/coverage-out.json', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
 				var report = JSON.parse(contents);
-				assert(report['tests/unit/support/basic.ts'], 'there should be a key with coverage');
+				assert(report[path.normalize('tests/unit/support/basic.ts')], 'there should be a key with coverage');
 				assert.strictEqual(Object.keys(report).length, 1, 'there should be only one key in report');
 			});
 		},
@@ -92,7 +93,7 @@ define([
 			return writeReport(coverage, 'lcovonly', {}, 'tmp/lcov.info').then(function () {
 				var contents = fs.readFileSync('tmp/lcov.info', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
-				assert.include(contents, 'SF:tests/unit/support/basic.ts',
+				assert.include(contents, 'SF:' + path.normalize('tests/unit/support/basic.ts'),
 					'should contain the name of the remapped file');
 			});
 		},
@@ -114,7 +115,7 @@ define([
 					console.log = consoleLog;
 					assert.strictEqual(consoleOutput.length, 59,
 						'console should have the right number of lines');
-					assert.strictEqual(consoleOutput[1][0], 'SF:tests/unit/support/basic.ts',
+					assert.strictEqual(consoleOutput[1][0], 'SF:' + path.normalize('tests/unit/support/basic.ts'),
 						'console should have logged the right file');
 					consoleOutput = [];
 				});
@@ -125,7 +126,7 @@ define([
 				}).then(function () {
 					assert.strictEqual(consoleOutput.length, 59,
 						'console should have the right number of lines');
-					assert.strictEqual(consoleOutput[1][0], 'SF:tests/unit/support/basic.ts',
+					assert.strictEqual(consoleOutput[1][0], 'SF:' + path.normalize('tests/unit/support/basic.ts'),
 						'console should have logged the right file');
 					consoleOutput = [];
 				});

@@ -2,8 +2,9 @@ define([
 	'intern!object',
 	'intern/chai!assert',
 	'../../../lib/node!fs',
+	'../../../lib/node!path',
 	'../../../lib/node!../../../main'
-], function (registerSuite, assert, fs, main) {
+], function (registerSuite, assert, fs, path, main) {
 	registerSuite({
 		name: 'main',
 
@@ -14,11 +15,11 @@ define([
 			}).then(function () {
 				var lcovonly = fs.readFileSync('tmp/main.lcov.info', { encoding: 'utf8' });
 				assert(lcovonly, 'should have returned content');
-				assert.include(lcovonly, 'SF:tests/unit/support/basic.ts',
+				assert.include(lcovonly, 'SF:'+path.normalize('tests/unit/support/basic.ts'),
 					'should have the mapped file name');
 				var json = JSON.parse(fs.readFileSync('tmp/main.json', { encoding: 'utf8' }));
 				assert(json, 'should have returned content');
-				assert(json['tests/unit/support/basic.ts'],
+				assert(json[path.normalize('tests/unit/support/basic.ts')],
 					'should have key named after mapped file');
 			});
 		},
@@ -29,7 +30,7 @@ define([
 			}).then(function () {
 				var json = JSON.parse(fs.readFileSync('tmp/main-string.json', { encoding: 'utf8' }));
 				assert(json, 'should have returned content');
-				assert(json['tests/unit/support/basic.ts'],
+				assert(json[path.normalize('tests/unit/support/basic.ts')],
 					'should have key named after mapped file');
 			});
 		},
