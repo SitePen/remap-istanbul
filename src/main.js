@@ -1,9 +1,9 @@
 /* jshint node:true */
 /* global Promise */
-var loadCoverage = require('./lib/loadCoverage');
-var remap = require('./lib/remap');
-var writeReport = require('./lib/writeReport');
-var MemoryStore = require('istanbul/lib/store/memory');
+const loadCoverage = require('./loadCoverage');
+const remap = require('./remap');
+const writeReport = require('./writeReport');
+const MemoryStore = require('istanbul/lib/store/memory');
 
 /**
  * The basic API for utilising remap-istanbul
@@ -16,20 +16,24 @@ var MemoryStore = require('istanbul/lib/store/memory');
  * @return {Promise}         A promise that will resolve when all the reports are written.
  */
 module.exports = function (sources, reports, reportOptions) {
-	var sourceStore = new MemoryStore();
-	var collector = remap(loadCoverage(sources), {
-		sources: sourceStore
+	let sourceStore = new MemoryStore();
+	const collector = remap(loadCoverage(sources), {
+		sources: sourceStore,
 	});
 
 	if (!Object.keys(sourceStore.map).length) {
 		sourceStore = undefined;
 	}
 
-	var p = Object.keys(reports).map(function (reportType) {
-		return writeReport(collector, reportType, reportOptions || {}, reports[reportType], sourceStore);
-	});
-	return Promise.all(p);
+
+	return Promise.all(
+		Object.keys(reports)
+			.map(reportType =>
+				writeReport(collector, reportType, reportOptions || {}, reports[reportType], sourceStore)
+			)
+	);
 };
+
 module.exports.loadCoverage = loadCoverage;
 module.exports.remap = remap;
 module.exports.writeReport = writeReport;

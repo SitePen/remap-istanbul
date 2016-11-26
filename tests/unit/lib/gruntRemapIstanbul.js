@@ -1,9 +1,10 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
-	'../../../lib/node!grunt',
-	'../../../lib/node!fs'
-], function (registerSuite, assert, grunt, fs) {
+	'../../node!grunt',
+	'../../node!fs',
+  '../../node!../../../src/gruntRemapIstanbul'
+], function (registerSuite, assert, grunt, fs, gruntPlugin) {
 
 	/* creating a mock for logging */
 	var logStack = [];
@@ -24,7 +25,7 @@ define([
 	}
 
 	registerSuite({
-		name: 'tasks/remapIstanbul',
+		name: 'src/gruntRemapIstanbul',
 		setup: function () {
 			grunt.initConfig({
 				remapIstanbul: {
@@ -71,7 +72,7 @@ define([
 						},
 						src: 'tests/unit/support/coverage-import.json'
 					},
-					
+
 					nonTransFail: {
 						options: {
 							fail: true,
@@ -84,7 +85,7 @@ define([
 
 				}
 			});
-			grunt.loadTasks('tasks');
+      gruntPlugin(grunt);
 		},
 
 		'basic': function () {
