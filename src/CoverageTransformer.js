@@ -20,7 +20,9 @@ class CoverageTransformer {
 
 		this.exclude = () => false;
 		if (options.exclude) {
-			if (typeof options.exclude === 'string') {
+			if (typeof options.exclude === 'function') {
+				this.exclude = options.exclude;
+			} else if (typeof options.exclude === 'string') {
 				this.exclude = (fileName) => fileName.indexOf(options.exclude) > -1;
 			} else {
 				this.exclude = (fileName) => fileName.match(options.exclude);

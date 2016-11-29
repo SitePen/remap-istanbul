@@ -200,6 +200,23 @@ define([
 			assert.strictEqual(warnStack[0][0], 'Excluding: "tests/unit/support/foo.js"');
 		},
 
+		'exclude - Function': function () {
+			var warnStack = [];
+
+			remap(loadCoverage('tests/unit/support/coverage-import.json'), {
+				warn: function () {
+					warnStack.push(arguments);
+				},
+				exclude: function(filename) {
+					return filename === 'tests/unit/support/foo.js';
+				}
+			});
+
+			assert.strictEqual(1, warnStack.length);
+			assert.strictEqual(warnStack[0][0], 'Excluding: "tests/unit/support/foo.js"');
+
+		},
+
 		'useAbsolutePaths': function () {
 			var coverage = remap(loadCoverage('tests/unit/support/coverage.json'), {
 				useAbsolutePaths: true
