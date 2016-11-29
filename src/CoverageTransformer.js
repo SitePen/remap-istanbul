@@ -75,7 +75,9 @@ class CoverageTransformer {
 		let sourceMapDir = path.dirname(filePath);
 		let rawSourceMap;
 
-		if (!match && !codeFromFile) {
+		if (fileCoverage.inputSourceMap) {
+			rawSourceMap = fileCoverage.inputSourceMap;
+		} else if (!match && !codeFromFile) {
 			codeIsArray = false;
 			jsText = this.readFile(filePath);
 			match = sourceMapRegEx.exec(jsText);
@@ -91,7 +93,7 @@ class CoverageTransformer {
 			}
 		}
 
-		if (!match || !rawSourceMap) {
+		if (!rawSourceMap) {
 			/* We couldn't find a source map, so will copy coverage after warning. */
 			this.warn(new Error(`Could not find source map for: "${filePath}"`));
 			try {
