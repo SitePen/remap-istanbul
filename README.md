@@ -147,7 +147,7 @@ The argument of `options` can contain the following properties:
 |Property|Type|Default|Description|
 |--------|----|-------|-----------|
 |basePath|String|Path found in source map|A string to use as the base path for the source locations|
-|exclude|String/RegEx|`undefined`|If the filename of the source coverage file matches, it will be skipped while mapping the coverage|
+|exclude|String/RegEx/Function|`undefined`|If the filename of the source coverage file matches the String or RegEx, it will be skipped while mapping the coverage. Optionally, you can use a function that accepts the filename as the argument, and returns true if the file should be skipped.|
 |readFile|Function|`fs.readFileSync`|A function that will synchronously read a file|
 |readJSON|Function|`JSON.parse(fs.readFileSync)`|A function that will synchronously read a file and return a POJO based on the JSON data in the file|
 |warn|Function|`console.warn`|A function that logs warning messages|
