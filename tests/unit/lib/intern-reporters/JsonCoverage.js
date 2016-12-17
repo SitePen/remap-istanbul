@@ -5,7 +5,7 @@ define([
 	'intern/dojo/node!istanbul/lib/report/json',
 	'intern/dojo/node!fs',
 	'./support/mocks',
-	'../../../node!../../../../src/intern-reporters/JsonCoverage'
+	'../../../../utils/node!../../../../lib/intern-reporters/JsonCoverage'
 ], function (registerSuite, assert, Collector, Reporter, fs, mock, JsonCoverage) {
 	var sessionId = 'foo';
 
@@ -13,7 +13,7 @@ define([
 		name: 'remap-istanbul/lib/intern-reporters/JsonCoverage',
 
 		coverage: function () {
-			var jsonCoverage = new JsonCoverage();
+			var jsonCoverage = new JsonCoverage.default();
 			var collectorCalled = false;
 			jsonCoverage._collector.add = function (coverage) {
 				collectorCalled = true;
@@ -32,7 +32,7 @@ define([
 		},
 
 		runEnd: function () {
-			var jsonCoverage = new JsonCoverage();
+			var jsonCoverage = new JsonCoverage.default();
 
 			var writeReportCalled = false;
 			jsonCoverage._reporter.writeReport = function (collector) {
@@ -48,7 +48,7 @@ define([
 		},
 
 		'File output': function () {
-			var jsonCoverage = new JsonCoverage();
+			var jsonCoverage = new JsonCoverage.default();
 
 			try {
 				jsonCoverage.coverage(sessionId, mock.coverage);

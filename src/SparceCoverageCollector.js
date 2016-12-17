@@ -1,4 +1,4 @@
-class SparceCoverageCollector {
+export default class SparceCoverageCollector {
 	constructor() {
 		this.srcCoverage = {};
 		this.metaInfo = {};
@@ -115,5 +115,3 @@ class SparceCoverageCollector {
 		data.s[index] += hits;
 	}
 }
-
-module.exports.SparceCoverageCollector = SparceCoverageCollector;

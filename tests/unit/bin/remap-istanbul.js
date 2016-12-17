@@ -1,8 +1,8 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
-	'../../node!fs',
-	'../../node!../../../src/remap-istanbul'
+	'../../../utils/node!fs',
+	'../../../utils/node!../../../bin/remap-istanbul'
 ], function (registerSuite, assert, fs, remapIstanbul) {
 	registerSuite({
 		name: 'bin/remapIstanbul',

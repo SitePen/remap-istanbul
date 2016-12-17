@@ -28,7 +28,7 @@ const istanbulReportTypes = {
  * @return {Promise}                       A promise that resolves when the
  *                                         report is complete.
  */
-module.exports = function writeReport(collector, reportType, reportOptions, dest, sources) {
+export default function writeReport(collector, reportType, reportOptions, dest, sources) {
 	return new Promise((resolve, reject) => {
 		if (!(reportType in istanbulReportTypes)) {
 			reject(new SyntaxError(`Unrecognized report type of "${reportType}".`));

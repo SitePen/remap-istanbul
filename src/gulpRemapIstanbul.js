@@ -1,14 +1,14 @@
 /* jshint node: true */
 /* jshint -W079 */
-const remap = require('./remap');
-const writeReport = require('./writeReport');
-const MemoryStore = require('istanbul/lib/store/memory');
-const { PluginError } = require('gulp-util');
-const through = require('through2');
+import remap from './remap';
+import writeReport from './writeReport';
+import MemoryStore from '../utils/node!istanbul/lib/store/memory';
+import { PluginError } from '../utils/node!gulp-util';
+import through from '../utils/node!through2';
 
 /* global Promise */
 
-module.exports = function (opts = {}) {
+export default function gulpPlugin(opts = {}) {
 	return through.obj((file, enc, cb) => {
 		if (!opts.warn) {
 			opts.warn = (message) => {

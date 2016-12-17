@@ -1,9 +1,9 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
-	'../../node!grunt',
-	'../../node!fs',
-  '../../node!../../../src/gruntRemapIstanbul'
+	'../../../utils/node!grunt',
+	'../../../utils/node!fs',
+  	'../../../utils/node!../../../lib/gruntRemapIstanbul'
 ], function (registerSuite, assert, grunt, fs, gruntPlugin) {
 
 	/* creating a mock for logging */
@@ -25,7 +25,7 @@ define([
 	}
 
 	registerSuite({
-		name: 'src/gruntRemapIstanbul',
+		name: 'lib/gruntRemapIstanbul',
 		setup: function () {
 			grunt.initConfig({
 				remapIstanbul: {
@@ -85,7 +85,7 @@ define([
 
 				}
 			});
-      gruntPlugin(grunt);
+      		gruntPlugin.default(grunt);
 		},
 
 		'basic': function () {

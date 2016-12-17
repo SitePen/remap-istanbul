@@ -1,4 +1,4 @@
-const { CoverageTransformer } = require('./CoverageTransformer');
+import CoverageTransformer from './CoverageTransformer';
 
 /**
  * Remaps coverage data based on the source maps it discovers in the
@@ -20,7 +20,7 @@ const { CoverageTransformer } = require('./CoverageTransformer');
  *                              warn?     - a function that logs warnings
  * @return {istanbul/lib/_collector}         The remapped collector
  */
-function remap(coverage, options = {}) {
+export default function remap(coverage, options = {}) {
 	const smc = new CoverageTransformer(options);
 
 	if (!Array.isArray(coverage)) {
@@ -33,5 +33,3 @@ function remap(coverage, options = {}) {
 
 	return smc.getFinalCoverage();
 }
-
-module.exports = remap;

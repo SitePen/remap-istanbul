@@ -85,9 +85,9 @@ The `lib/loadCoverage` module would be used something like this:
 
 ```js
 require([ 'remap-istanbul/lib/loadCoverage' ], function (loadCoverage) {
-	var coverage = loadCoverage('coverage-final.json');
+	var coverage = loadCoverage.default('coverage-final.json');
 	/* or if you have multiple files you want to merge */
-	coverage = loadCoverage([ 'coverage-ie.json', 'coverage-chrome.json', 'coverage-firefox.json' ]);
+	coverage = loadCoverage.default([ 'coverage-ie.json', 'coverage-chrome.json', 'coverage-firefox.json' ]);
 });
 ```
 
@@ -115,8 +115,8 @@ require([
 	'remap-istanbul/lib/loadCoverage',
 	'remap-istanbul/lib/remap'
 ], function (loadCoverage, remap) {
-	var coverage = loadCoverage('coverage-final.json');
-	var collector = remap(coverage); /* collector now contains the remapped coverage */
+	var coverage = loadCoverage.default('coverage-final.json');
+	var collector = remap.default(coverage); /* collector now contains the remapped coverage */
 });
 ```
 
@@ -127,8 +127,8 @@ require([
 	'remap-istanbul/lib/loadCoverage',
 	'remap-istanbul/lib/remap'
 ], function (loadCoverage, remap) {
-	var coverage = loadCoverage('coverage-final.json');
-	var collector = remap(coverage, {
+	var coverage = loadCoverage.default('coverage-final.json');
+	var collector = remap.default(coverage, {
 		basePath: 'some/other/path/to/sources'
 	});
 });
@@ -161,9 +161,9 @@ require([
 	'remap-istanbul/lib/loadCoverage',
 	'remap-istanbul/lib/remap',
 	'remap-istanbul/lib/writeReport'
-], function (remap, writeReport) {
-	var collector = remap(loadCoverage('coverage-final.json'));
-	writeReport(collector, 'json', 'coverage-final.json').then(function () {
+], function (loadCoverage, remap, writeReport) {
+	var collector = remap.default(loadCoverage.default('coverage-final.json'));
+	writeReport.default(collector, 'json', 'coverage-final.json').then(function () {
 		/* do something else now */
 	});
 });
@@ -184,9 +184,9 @@ If you are not using an AMD loader, that is not a problem for consuming the modu
 CommonJS environment:
 
 ```js
-var loadCoverage = require('remap-istanbul/lib/loadCoverage');
-var remap = require('remap-istanbul/lib/remap');
-var writeReport = require('remap-istanbul/lib/writeReport');
+var loadCoverage = require('remap-istanbul/lib/loadCoverage').default;
+var remap = require('remap-istanbul/lib/remap').default;
+var writeReport = require('remap-istanbul/lib/writeReport').default;
 ```
 
 ### Grunt Task
@@ -258,7 +258,7 @@ used.  Just taking a coverage file, remapping and outputting it would look like 
 
 ```js
 var gulp = require('gulp');
-var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul').default;
 
 gulp.task('remap-istanbul', function () {
 	return gulp.src('coverage-final.json')
@@ -273,7 +273,7 @@ coverage report output in addition to the HTML coverage report, at task would lo
 
 ```js
 var gulp = require('gulp');
-var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul').default;
 
 gulp.task('remap-istanbul', function () {
 	return gulp.src('coverage-final.json')
@@ -292,7 +292,7 @@ console.  If you wish errors to be emitted and fail the task, you need to supply
 
 ```js
 var gulp = require('gulp');
-var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul').default;
 
 gulp.task('remap-istanbul', function () {
 	return gulp.src('coverage-final.json')
