@@ -1,4 +1,4 @@
-import { Collector } from '../../utils/node!istanbul';
+import Collector from '../../utils/node!istanbul/lib/collector';
 import Reporter from '../../utils/node!istanbul/lib/report/json';
 
 function JsonCoverageReporter(config = {}) {
