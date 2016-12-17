@@ -74,6 +74,23 @@ define([
 				'--type', 'html'
 			]);
 		},
+		'lcovonly': function () {
+			remapIstanbul([
+				'--input', 'tests/unit/support/coverage-inlinesource.json',
+				'--type', 'lcovonly'
+			]);
+		},
+		'text-lcov': function () {
+			remapIstanbul([
+				'--input', 'tests/unit/support/coverage-inlinesource.json',
+				'--type', 'text-lcov'
+			]);
+		},
+		'stdout': function () {
+			remapIstanbul([
+				'--input', 'tests/unit/support/coverage-inlinesource.json'
+			]);
+		},
 		'bad argument': function () {
 			assert.throws(function () {
 				remapIstanbul([
