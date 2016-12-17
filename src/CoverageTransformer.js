@@ -1,19 +1,15 @@
-const { Collector } = require('istanbul');
-const path = require('path');
-const fs = require('fs');
-const { SourceMapConsumer } = require('source-map');
+import { Collector } from '../utils/node!istanbul';
+import path from '../utils/node!path';
+import fs from '../utils/node!fs';
+import { SourceMapConsumer } from '../utils/node!source-map';
+import SparceCoverageCollector from './SparceCoverageCollector';
+import getMapping from './getMapping';
+import remapFunction from './remapFunction';
+import remapBranch from './remapBranch';
 
 const sourceMapRegEx = /(?:\/{2}[#@]{1,2}|\/\*)\s+sourceMappingURL\s*=\s*(data:(?:[^;]+;)+base64,)?(\S+)/;
 
-const SparceCoverageCollector = require('./SparceCoverageCollector').SparceCoverageCollector;
-
-const getMapping = require('./getMapping');
-
-const remapFunction = require('./remapFunction');
-const remapBranch = require('./remapBranch');
-
-
-class CoverageTransformer {
+export default class CoverageTransformer {
 	constructor(options) {
 		this.basePath = options.basePath;
 		this.warn = options.warn || console.warn;
@@ -246,5 +242,3 @@ class CoverageTransformer {
 		return collector;
 	}
 }
-
-module.exports.CoverageTransformer = CoverageTransformer;

@@ -1,4 +1,4 @@
-function remapFunction(genItem, getMapping) {
+export default function remapFunction(genItem, getMapping) {
 	const mapping = getMapping(genItem.loc);
 
 	if (!mapping) {
@@ -17,5 +17,3 @@ function remapFunction(genItem, getMapping) {
 
 	return { srcItem, source: mapping.source };
 }
-
-module.exports = remapFunction;

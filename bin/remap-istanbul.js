@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const loadCoverage = require('./loadCoverage');
-const remap = require('./remap');
-const writeReport = require('./writeReport');
+const loadCoverage = require('../lib/loadCoverage');
+const remap = require('../lib/remap');
+const writeReport = require('../lib/writeReport');
 const MemoryStore = require('istanbul/lib/store/memory');
 const Collector = require('istanbul/lib/collector');
 
@@ -111,7 +111,7 @@ function main(argv) {
 	}
 
 	return new Promise((resolve, reject) => {
-		const coverage = inputFiles.length ? loadCoverage(inputFiles) :
+		const coverage = inputFiles.length ? loadCoverage.default(inputFiles) :
 			/* istanbul ignore next */
 			readStdIn().then((data) => {
 				try {
@@ -128,7 +128,7 @@ function main(argv) {
 		resolve(coverage);
 	}).then((coverage) => {
 		let sources = new MemoryStore();
-		const collector = remap(coverage, {
+		const collector = remap.default(coverage, {
 			sources,
 			basePath: basePath || undefined,
 			exclude: exclude || undefined,
@@ -138,10 +138,10 @@ function main(argv) {
 		}
 		const reportOptions = {};
 		if (output) {
-			return writeReport(collector, reportType || 'json', reportOptions, output, sources);
+			return writeReport.default(collector, reportType || 'json', reportOptions, output, sources);
 		}
 		if (reportType && (reportType === 'lcovonly' || reportType === 'text-lcov')) {
-			return writeReport(collector, 'text-lcov', reportOptions);
+			return writeReport.default(collector, 'text-lcov', reportOptions);
 		}
 		process.stdout.write(JSON.stringify(collector.getFinalCoverage()) + '\n');
 		return null;

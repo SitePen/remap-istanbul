@@ -1,20 +1,20 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
-	'../../node!../../../src/loadCoverage'
+	'../../../utils/node!../../../lib/loadCoverage'
 ], function (registerSuite, assert, loadCoverage) {
 	registerSuite({
 		name: 'remap-istanbul/lib/loadCoverage',
 
 		'single source': function () {
-			var coverage = loadCoverage('tests/unit/support/coverage.json');
+			var coverage = loadCoverage.default('tests/unit/support/coverage.json');
 			assert.isObject(coverage, 'return should be instance of collector');
 			assert(coverage['tests/unit/support/basic.js'], 'coverage should be in the collection');
 			assert.strictEqual(Object.keys(coverage).length, 1, 'should only be one file in collection');
 		},
 
 		'multi source': function () {
-			var coverage = loadCoverage([
+			var coverage = loadCoverage.default([
 				'tests/unit/support/coverage.json',
 				'tests/unit/support/inline-coverage.json'
 			]);
@@ -26,7 +26,7 @@ define([
 
 		'readJSON': function () {
 			var called;
-			loadCoverage('tests/unit/support/coverage.json', {
+			loadCoverage.default('tests/unit/support/coverage.json', {
 				readJSON: function () {
 					called = true;
 					return {};
@@ -37,7 +37,7 @@ define([
 
 		'bad source/warn': function () {
 			var warnStack = [];
-			loadCoverage('badsource.json', {
+			loadCoverage.default('badsource.json', {
 				warn: function () {
 					warnStack.push(arguments);
 				}
@@ -51,7 +51,7 @@ define([
 
 		'empty sources': function () {
 			var warnStack = [];
-			loadCoverage([], {
+			loadCoverage.default([], {
 				warn: function () {
 					warnStack.push(arguments);
 				}

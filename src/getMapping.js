@@ -1,4 +1,4 @@
-const { SourceMapConsumer } = require('source-map');
+import { SourceMapConsumer } from '../utils/node!source-map';
 
 /**
  * A function that determines the original position for a given location
@@ -6,7 +6,7 @@ const { SourceMapConsumer } = require('source-map');
  * @param  {Object}            location         The original location Object
  * @return {Object}                             The remapped location Object
  */
-function getMapping(sourceMap, location) {
+export default function getMapping(sourceMap, location) {
 	/* istanbul ignore if: edge case too hard to test for with babel malformation */
 	if (location.start.line < 1 || location.start.column < 0) {
 		return null;
@@ -59,5 +59,3 @@ function getMapping(sourceMap, location) {
 		},
 	};
 }
-
-module.exports = getMapping;

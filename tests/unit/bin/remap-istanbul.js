@@ -1,8 +1,8 @@
 define([
 	'intern!object',
 	'intern/chai!assert',
-	'../../node!fs',
-	'../../node!../../../src/remap-istanbul'
+	'../../../utils/node!fs',
+	'../../../utils/node!../../../bin/remap-istanbul'
 ], function (registerSuite, assert, fs, remapIstanbul) {
 	registerSuite({
 		name: 'bin/remapIstanbul',
@@ -72,6 +72,23 @@ define([
 				'--input', 'tests/unit/support/coverage-inlinesource.json',
 				'--output', 'tmp/cli-coverage-inline',
 				'--type', 'html'
+			]);
+		},
+		'lcovonly': function () {
+			remapIstanbul([
+				'--input', 'tests/unit/support/coverage-inlinesource.json',
+				'--type', 'lcovonly'
+			]);
+		},
+		'text-lcov': function () {
+			remapIstanbul([
+				'--input', 'tests/unit/support/coverage-inlinesource.json',
+				'--type', 'text-lcov'
+			]);
+		},
+		'stdout': function () {
+			remapIstanbul([
+				'--input', 'tests/unit/support/coverage-inlinesource.json'
 			]);
 		},
 		'bad argument': function () {

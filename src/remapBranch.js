@@ -1,4 +1,4 @@
-function remapBranch(genItem, getMapping) {
+export default function remapBranch(genItem, getMapping) {
 	const locations = [];
 	let source;
 
@@ -24,5 +24,3 @@ function remapBranch(genItem, getMapping) {
 
 	return { source, srcItem };
 }
-
-module.exports = remapBranch;

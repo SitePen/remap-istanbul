@@ -1,12 +1,12 @@
 /* jshint node: true */
 /* global Promise */
 
-const loadCoverage = require('./loadCoverage');
-const remap = require('./remap');
-const writeReport = require('./writeReport');
-const MemoryStore = require('istanbul/lib/store/memory');
+import loadCoverage from './loadCoverage';
+import remap from './remap';
+import writeReport from './writeReport';
+import MemoryStore from '../utils/node!istanbul/lib/store/memory';
 
-module.exports = function (grunt) {
+export default function gruntPlugin(grunt) {
 	grunt.registerMultiTask('remapIstanbul', function () {
 		const done = this.async();
 		const options = this.options();

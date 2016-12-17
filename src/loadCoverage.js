@@ -1,6 +1,5 @@
-const { Collector } = require('istanbul');
-
-const fs = require('fs');
+import { Collector } from '../utils/node!istanbul';
+import fs from 'fs';
 /**
  * Takes sources of coverage information and adds them to a collector which then can be subsequently
  * remapped.
@@ -10,7 +9,7 @@ const fs = require('fs');
  *                                               warn?: A function that logs warning messages
  * @return {Object}                          The loaded coverage object
  */
-module.exports = function loadCoverage(sources, options = {}) {
+export default function loadCoverage(sources, options = {}) {
 	const warn = options.warn || console.warn;
 
 	const readJSON = options.readJSON
