@@ -2,9 +2,8 @@ const template = require('babel-template');
 
 const buildAmdDefine = template(`
 	(function (define) {
-		if (typeof define !== 'function') { /* istanbul ignore next */ var define = require('amdefine')(module); }
 		CODE;
-	})(define);
+	})(typeof define !== 'function' ? require('amdefine')(module) : define);
 `);
 
 module.exports = function ({ types: t }) {
