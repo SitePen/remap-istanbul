@@ -1,3 +1,6 @@
+// inspired by https://github.com/59naga/babel-plugin-add-module-exports/blob/master/src/index.js
+// however we didn't use the module itself because it didn't work with amd and didn't handle non-default
+// exports at the time of this comment anyway. 
 module.exports = function ({ types: t }) {
 	return {
 		visitor: {
