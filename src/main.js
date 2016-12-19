@@ -1,9 +1,13 @@
 /* jshint node:true */
 /* global Promise */
-import loadCoverage from './loadCoverage';
-import remap from './remap';
-import writeReport from './writeReport';
+import _loadCoverage from './loadCoverage';
+import _remap from './remap';
+import _writeReport from './writeReport';
 import MemoryStore from '../utils/node!istanbul/lib/store/memory';
+
+export const loadCoverage = _loadCoverage;
+export const remap = _remap;
+export const writeReport = _writeReport;
 
 /**
  * The basic API for utilising remap-istanbul
@@ -17,7 +21,7 @@ import MemoryStore from '../utils/node!istanbul/lib/store/memory';
  */
 export default function (sources, reports, reportOptions) {
 	let sourceStore = new MemoryStore();
-	const collector = remap(loadCoverage(sources), {
+	const collector = _remap(_loadCoverage(sources), {
 		sources: sourceStore,
 	});
 
@@ -29,7 +33,7 @@ export default function (sources, reports, reportOptions) {
 	return Promise.all(
 		Object.keys(reports)
 			.map(reportType =>
-				writeReport(collector, reportType, reportOptions || {}, reports[reportType], sourceStore)
+				_writeReport(collector, reportType, reportOptions || {}, reports[reportType], sourceStore)
 			)
 	);
 };

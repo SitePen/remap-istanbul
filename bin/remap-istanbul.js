@@ -111,7 +111,7 @@ function main(argv) {
 	}
 
 	return new Promise((resolve, reject) => {
-		const coverage = inputFiles.length ? loadCoverage.default(inputFiles) :
+		const coverage = inputFiles.length ? loadCoverage(inputFiles) :
 			/* istanbul ignore next */
 			readStdIn().then((data) => {
 				try {
@@ -128,7 +128,7 @@ function main(argv) {
 		resolve(coverage);
 	}).then((coverage) => {
 		let sources = new MemoryStore();
-		const collector = remap.default(coverage, {
+		const collector = remap(coverage, {
 			sources,
 			basePath: basePath || undefined,
 			exclude: exclude || undefined,
@@ -138,10 +138,10 @@ function main(argv) {
 		}
 		const reportOptions = {};
 		if (output) {
-			return writeReport.default(collector, reportType || 'json', reportOptions, output, sources);
+			return writeReport(collector, reportType || 'json', reportOptions, output, sources);
 		}
 		if (reportType && (reportType === 'lcovonly' || reportType === 'text-lcov')) {
-			return writeReport.default(collector, 'text-lcov', reportOptions);
+			return writeReport(collector, 'text-lcov', reportOptions);
 		}
 		process.stdout.write(JSON.stringify(collector.getFinalCoverage()) + '\n');
 		return null;

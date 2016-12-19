@@ -12,7 +12,7 @@ define([
 			var dfd = this.async();
 			gulp.task('remap-istanbul', function () {
 				return gulp.src('tests/unit/support/coverage.json')
-					.pipe(remapIstanbul.default())
+					.pipe(remapIstanbul())
 					.pipe(gulp.dest('tmp/gulp'));
 			});
 
@@ -28,7 +28,7 @@ define([
 
 			gulp.task('remap-istanbul', function () {
 				return gulp.src('tests/unit/support/coverage.json')
-					.pipe(remapIstanbul.default({
+					.pipe(remapIstanbul({
 						reports: {
 							'lcovonly': 'tmp/gulp/lcov.info',
 							'html': 'tmp/gulp/html-report',
@@ -51,7 +51,7 @@ define([
 
 			gulp.task('remap-istanbul', function () {
 				return gulp.src('tests/unit/support/coverage-inlinesource.json')
-					.pipe(remapIstanbul.default({
+					.pipe(remapIstanbul({
 						reports: {
 							'html': 'tmp/gulp/html-report-inline'
 						}
@@ -71,7 +71,7 @@ define([
 
 				gulp.task('remap-istanbul', function () {
 					return gulp.src('tests/unit/support/coverage-import.json')
-						.pipe(remapIstanbul.default({
+						.pipe(remapIstanbul({
 							reports: {
 								'html': 'tmp/gulp/html-report-import'
 							}
@@ -97,7 +97,7 @@ define([
 
 				gulp.task('remap-istanbul', function () {
 					return gulp.src('tests/unit/support/coverage-import.json')
-						.pipe(remapIstanbul.default({
+						.pipe(remapIstanbul({
 							fail: true,
 							reports: {
 								'html': 'tmp/gulp/html-report-fail'

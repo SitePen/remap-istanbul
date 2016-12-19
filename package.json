@@ -33,7 +33,7 @@
   "scripts": {
     "lint": "eslint ./src/",
     "test": "tests/run.sh",
-    "build": "rimraf lib && babel --presets es2015 src --out-dir ./lib --source-maps",
+    "build": "rimraf lib && babel src --out-dir ./lib --source-maps",
     "prepublish": "npm run build"
   },
   "dependencies": {
