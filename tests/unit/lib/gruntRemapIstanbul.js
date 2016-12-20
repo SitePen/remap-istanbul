@@ -85,7 +85,7 @@ define([
 
 				}
 			});
-      		gruntPlugin.default(grunt);
+      		gruntPlugin(grunt);
 		},
 
 		'basic': function () {

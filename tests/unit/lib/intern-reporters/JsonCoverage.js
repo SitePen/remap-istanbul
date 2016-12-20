@@ -13,7 +13,7 @@ define([
 		name: 'remap-istanbul/lib/intern-reporters/JsonCoverage',
 
 		coverage: function () {
-			var jsonCoverage = new JsonCoverage.default();
+			var jsonCoverage = new JsonCoverage();
 			var collectorCalled = false;
 			jsonCoverage._collector.add = function (coverage) {
 				collectorCalled = true;
@@ -32,7 +32,7 @@ define([
 		},
 
 		runEnd: function () {
-			var jsonCoverage = new JsonCoverage.default();
+			var jsonCoverage = new JsonCoverage();
 
 			var writeReportCalled = false;
 			jsonCoverage._reporter.writeReport = function (collector) {
@@ -48,7 +48,7 @@ define([
 		},
 
 		'File output': function () {
-			var jsonCoverage = new JsonCoverage.default();
+			var jsonCoverage = new JsonCoverage();
 
 			try {
 				jsonCoverage.coverage(sessionId, mock.coverage);

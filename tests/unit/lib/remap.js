@@ -11,7 +11,7 @@ define([
 		name: 'remap-istanbul/lib/remap',
 
 		'remapping': function () {
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage.json'));
+			var coverage = remap(loadCoverage('tests/unit/support/coverage.json'));
 			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
 			assert(coverage.store.map['tests/unit/support/basic.ts'],
 				'The Collector should have a remapped key');
@@ -25,7 +25,7 @@ define([
 		},
 
 		'base64 source map': function () {
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/inline-coverage.json'));
+			var coverage = remap(loadCoverage('tests/unit/support/inline-coverage.json'));
 			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
 			assert(coverage.store.map['tests/unit/support/basic.ts'],
 				'The Collector should have a remapped key');
@@ -40,7 +40,7 @@ define([
 
 		'base64 source map with sources': function () {
 			var store = new MemoryStore();
-			remap.default(loadCoverage.default('tests/unit/support/coverage-inlinesource.json'), {
+			remap(loadCoverage('tests/unit/support/coverage-inlinesource.json'), {
 				sources: store
 			});
 			assert(store.map['tests/unit/support/inlinesource.ts'], 'Source should have been retrieved from source map');
@@ -48,14 +48,14 @@ define([
 
 		'base64 source map with base path': function () {
 			var basePath = 'foo/bar';
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage-inlinesource.json'), {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-inlinesource.json'), {
 				basePath: basePath
 			});
 			assert(coverage.store.map[basePath + '/inlinesource.ts'], 'Source should have been retrieved from source map using base path');
 		},
 
 		'coverage includes code': function () {
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage-code.json'));
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-code.json'));
 			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
 			assert(coverage.store.map['tests/unit/support/basic-code.ts']);
 			var map = JSON.parse(coverage.store.map['tests/unit/support/basic-code.ts']);
@@ -63,7 +63,7 @@ define([
 		},
 
 		'coverage includes code as array': function () {
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage-code-array.json'));
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-code-array.json'));
 			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
 			assert(coverage.store.map['tests/unit/support/basic-code.ts']);
 			var map = JSON.parse(coverage.store.map['tests/unit/support/basic-code.ts']);
@@ -71,23 +71,23 @@ define([
 		},
 
 		'coverage includes code but missing sourceMappingURL': function () {
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage-code-withoutSourceMappingURL.json'));
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-code-withoutSourceMappingURL.json'));
 			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
 			assert(coverage.store.map['tests/unit/support/basic.ts'] || coverage.store.map['tests\\unit\\support\\basic.ts']);
 		},
 
 		'coverage includes code as array but missing sourceMappingURL': function () {
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage-code-array-withoutSourceMappingURL.json'));
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-code-array-withoutSourceMappingURL.json'));
 			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
 			assert(coverage.store.map['tests/unit/support/basic.ts'] || coverage.store.map['tests\\unit\\support\\basic.ts']);
 		},
 
 		'empty options': function () {
-			assert.throws(remap.default, TypeError);
+			assert.throws(remap, TypeError);
 		},
 
 		'basePath' : function() {
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage.json'), {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage.json'), {
 				basePath : 'foo/bar'
 			});
 
@@ -103,7 +103,7 @@ define([
 			function warn() {
 				warnStack.push(arguments);
 			}
-			remap.default(loadCoverage.default('tests/unit/support/badcoverage.json'), {
+			remap(loadCoverage('tests/unit/support/badcoverage.json'), {
 				warn: warn
 			});
 			assert.strictEqual(warnStack.length, 3, 'warn should have been called three times');
@@ -120,7 +120,7 @@ define([
 			function warn() {
 				warnStack.push(arguments);
 			}
-			remap.default(loadCoverage.default('tests/unit/support/missingmapcoverage.json'), {
+			remap(loadCoverage('tests/unit/support/missingmapcoverage.json'), {
 				warn: warn
 			});
 
@@ -134,7 +134,7 @@ define([
 		},
 
 		'unicode in map': function () {
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage-unicode.json'));
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-unicode.json'));
 
 			assert(coverage.store.map['tests/unit/support/unicode.ts'], 'The file should have been properly mapped.');
 			assert.strictEqual(Object.keys(coverage.store.map).length, 1,
@@ -142,7 +142,7 @@ define([
 		},
 
 		'skip in source map': function () {
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage-skip.json'));
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-skip.json'));
 
 			var coverageData = JSON.parse(coverage.store.map['tests/unit/support/basic.ts']);
 			assert.isTrue(coverageData.statementMap['18'].skip, 'skip is perpetuated');
@@ -152,13 +152,13 @@ define([
 		},
 
 		'lineless items in source map should not error': function () {
-			remap.default(loadCoverage.default('tests/unit/support/nosourceline.json'));
+			remap(loadCoverage('tests/unit/support/nosourceline.json'));
 		},
 
 		'non transpiled coverage': function () {
 			var warnStack = [];
 
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage-import.json'), {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-import.json'), {
 				warn: function () {
 					warnStack.push(arguments);
 				}
@@ -175,7 +175,7 @@ define([
 		'exclude - string': function () {
 			var warnStack = [];
 
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage-import.json'), {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-import.json'), {
 				warn: function () {
 					warnStack.push(arguments);
 				},
@@ -189,7 +189,7 @@ define([
 		'exclude - RegEx': function () {
 			var warnStack = [];
 
-			remap.default(loadCoverage.default('tests/unit/support/coverage-import.json'), {
+			remap(loadCoverage('tests/unit/support/coverage-import.json'), {
 				warn: function () {
 					warnStack.push(arguments);
 				},
@@ -203,7 +203,7 @@ define([
 		'exclude - Function': function () {
 			var warnStack = [];
 
-			remap.default(loadCoverage.default('tests/unit/support/coverage-import.json'), {
+			remap(loadCoverage('tests/unit/support/coverage-import.json'), {
 				warn: function () {
 					warnStack.push(arguments);
 				},
@@ -218,7 +218,7 @@ define([
 		},
 
 		'useAbsolutePaths': function () {
-			var coverage = remap.default(loadCoverage.default('tests/unit/support/coverage.json'), {
+			var coverage = remap(loadCoverage('tests/unit/support/coverage.json'), {
 				useAbsolutePaths: true
 			});
 
