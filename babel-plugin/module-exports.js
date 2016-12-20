@@ -26,8 +26,6 @@ module.exports = function ({ types: t }) {
                         }
                     });
 
-					const node = path.node;
-
                     if (hasExportDefault) {
                         path.pushContainer('body', [
                             t.expressionStatement(t.assignmentExpression(
