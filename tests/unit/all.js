@@ -1,10 +1,10 @@
 define([
-	'./lib/main',
 	'./bin/remap-istanbul',
+	'./tasks/remapIstanbul',
+	'./lib/main',
 	'./lib/gulpRemapIstanbul',
 	'./lib/loadCoverage',
 	'./lib/remap',
 	'./lib/writeReport',
-	'./lib/intern-reporters/JsonCoverage',
-	'./lib/gruntRemapIstanbul'
+	'./lib/intern-reporters/JsonCoverage'
 ], function () {});

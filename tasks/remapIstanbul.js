@@ -1,1 +1,1 @@
-module.exports = require('../lib/gruntRemapIstanbul').default;
+module.exports = require('../lib/gruntRemapIstanbul');
