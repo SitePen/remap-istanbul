@@ -1,6 +1,6 @@
 define([
 	'./bin/remap-istanbul',
-	'./tasks/remapistanbul',
+	'./tasks/remapIstanbul',
 	'./lib/main',
 	'./lib/gulpRemapIstanbul',
 	'./lib/loadCoverage',

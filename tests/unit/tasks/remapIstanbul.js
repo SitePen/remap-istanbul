@@ -3,7 +3,7 @@ define([
 	'intern/chai!assert',
 	'../../../utils/node!grunt',
 	'../../../utils/node!fs',
-  	'../../../utils/node!../../../tasks/remapistanbul'
+  	'../../../utils/node!../../../tasks/remapIstanbul'
 ], function (registerSuite, assert, grunt, fs, gruntPlugin) {
 
 	/* creating a mock for logging */
@@ -25,7 +25,7 @@ define([
 	}
 
 	registerSuite({
-		name: 'tasks/remapistanbul',
+		name: 'tasks/remapIstanbul',
 		setup: function () {
 			grunt.initConfig({
 				remapIstanbul: {
