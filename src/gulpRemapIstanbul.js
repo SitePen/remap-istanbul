@@ -2,6 +2,7 @@
 /* jshint -W079 */
 import remap from './remap';
 import writeReport from './writeReport';
+import checkThreshold from './checkThreshold';
 import MemoryStore from '../utils/node!istanbul/lib/store/memory';
 import { PluginError } from '../utils/node!gulp-util';
 import through from '../utils/node!through2';
@@ -32,6 +33,11 @@ export default function gulpPlugin(opts = {}) {
 
 		const collector = remap(JSON.parse(file.contents.toString('utf8')), opts);
 
+		let thresholdCheckFailed = false;
+		if (opts.check) {				
+			thresholdCheckFailed = checkThreshold(opts.check, collector);
+		}
+
 		let sources;
 		if (Object.keys(opts.sources.map).length) {
 			sources = opts.sources;
@@ -47,7 +53,11 @@ export default function gulpPlugin(opts = {}) {
 		file.contents = new Buffer(JSON.stringify(collector.getFinalCoverage()));
 
 		Promise.all(p).then(() => {
-			cb(null, file);
+			if (thresholdCheckFailed) {
+				return cb(new PluginError('remap-istanbul', 'Coverage threshold not met'));					
+			} else {
+				cb(null, file);
+			}			
 		});
 	});
 };
