@@ -58,6 +58,7 @@ export default class CoverageTransformer {
 
 		let rawSourceMap;
 		let sourceMapDir = path.dirname(filePath);
+		let codeIsArray = true;
 		if (fileCoverage.inputSourceMap) {
 			rawSourceMap = fileCoverage.inputSourceMap;
 		} else {
@@ -70,14 +71,17 @@ export default class CoverageTransformer {
 			}
 			if (Array.isArray(jsText)) { /* sometimes the source is an array */
 				jsText = jsText.join('\n');
+			} else {
+				codeIsArray = false;
 			}
 			let match = sourceMapRegEx.exec(jsText);
 			
 			if (!match && !codeFromFile) {
+				codeIsArray = false;
 				jsText = this.readFile(filePath);
 				match = sourceMapRegEx.exec(jsText);
 			}
-
+			
 			if (match) {
 				if (match[1]) {
 					rawSourceMap = JSON.parse((new Buffer(match[2], 'base64').toString('utf8')));
@@ -134,7 +138,7 @@ export default class CoverageTransformer {
 				inlineSourceMap[sourceMap.sources[idx]] = true;
 				this.sparceCoverageCollector.setSourceCode(
 					sourceMap.sources[idx],
-					Array.isArray(source) ? source.split('\n') : source
+					codeIsArray ? source.split('\n') : source
 				);
 				if (this.sourceStore) {
 					this.sourceStore.set(sourceMap.sources[idx], source);
