@@ -175,6 +175,7 @@ The `writeReport` function can take the following arguments:
 |--------|----|-----------|
 |collector|istanbul/lib/collector|This is an Istanbul coverage collector (usually returned from `remap` which is to be written out in a report)|
 |reportType|string|The type of the report. Valid values are: `clover`, `cobertura`, `html`, `json-summary`, `json`, `file`, `lcovonly`, `teamcity`, `text-lcov`, `text-summary` or `text`|
+|reportOptions|object|Options object of key/value pairs to pass to the reporter|
 |dest|string, Function|The destination file, directory or console logging function that is the destination of the report. Only `text-lcov` takes the logging function and will default to `console.log` if no value is passed.|
 |*returns*|Promise|A promise that is resolved when the report is written.|
 
