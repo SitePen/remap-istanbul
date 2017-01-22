@@ -56,38 +56,40 @@ export default class CoverageTransformer {
 			return;
 		}
 
-		/* coverage.json can sometimes include the code inline */
-		let codeIsArray = true;
-		let codeFromFile = false;
-		let jsText = fileCoverage.code;
-		if (!jsText) {
-			jsText = this.readFile(filePath);
-			codeFromFile = true;
-		}
-		if (Array.isArray(jsText)) { /* sometimes the source is an array */
-			jsText = jsText.join('\n');
-		} else {
-			codeIsArray = false;
-		}
-		let match = sourceMapRegEx.exec(jsText);
-		let sourceMapDir = path.dirname(filePath);
 		let rawSourceMap;
-
+		let sourceMapDir = path.dirname(filePath);
+		let codeIsArray = true;
 		if (fileCoverage.inputSourceMap) {
 			rawSourceMap = fileCoverage.inputSourceMap;
-		} else if (!match && !codeFromFile) {
-			codeIsArray = false;
-			jsText = this.readFile(filePath);
-			match = sourceMapRegEx.exec(jsText);
-		}
-
-		if (match) {
-			if (match[1]) {
-				rawSourceMap = JSON.parse((new Buffer(match[2], 'base64').toString('utf8')));
+		} else {
+			/* coverage.json can sometimes include the code inline */
+			let codeFromFile = false;
+			let jsText = fileCoverage.code;
+			if (!jsText) {
+				jsText = this.readFile(filePath);
+				codeFromFile = true;
+			}
+			if (Array.isArray(jsText)) { /* sometimes the source is an array */
+				jsText = jsText.join('\n');
 			} else {
-				const sourceMapPath = path.join(sourceMapDir, match[2]);
-				rawSourceMap = this.readJSON(sourceMapPath);
-				sourceMapDir = path.dirname(sourceMapPath);
+				codeIsArray = false;
+			}
+			let match = sourceMapRegEx.exec(jsText);
+			
+			if (!match && !codeFromFile) {
+				codeIsArray = false;
+				jsText = this.readFile(filePath);
+				match = sourceMapRegEx.exec(jsText);
+			}
+			
+			if (match) {
+				if (match[1]) {
+					rawSourceMap = JSON.parse((new Buffer(match[2], 'base64').toString('utf8')));
+				} else {
+					const sourceMapPath = path.join(sourceMapDir, match[2]);
+					rawSourceMap = this.readJSON(sourceMapPath);
+					sourceMapDir = path.dirname(sourceMapPath);
+				}
 			}
 		}
 

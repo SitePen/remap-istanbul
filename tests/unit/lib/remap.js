@@ -81,6 +81,12 @@ define([
 			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
 			assert(coverage.store.map['tests/unit/support/basic.ts'] || coverage.store.map['tests\\unit\\support\\basic.ts']);
 		},
+		
+		'coverage includes sourcemap': function () {
+			var coverage = remap(loadCoverage('tests/unit/support/inline-coverage-inputSourceMap-customSourceRoot.json'));
+			assert(coverage.store.map['tests/unit/support/customSourceRoot/basic.ts'] || coverage.store.map['tests\\unit\\support\\customSourceRoot\\basic.ts'],
+				'The inputSourceMap in coverage should have been used');
+		},
 
 		'empty options': function () {
 			assert.throws(remap, TypeError);
