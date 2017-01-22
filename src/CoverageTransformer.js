@@ -105,13 +105,21 @@ export default class CoverageTransformer {
 
 		sourceMapDir = this.basePath || sourceMapDir;
 
-		// replace relative paths in source maps with absolute
-		rawSourceMap.sources = rawSourceMap.sources.map((srcPath) => (
-			srcPath.substr(0, 1) === '.'
-				? path.resolve(sourceMapDir, srcPath)
-				: srcPath
-		));
-
+		// Clean up source map paths:
+		// * prepend sourceRoot if it is set
+		// * replace relative paths in source maps with absolute
+		rawSourceMap.sources = rawSourceMap.sources.map((srcPath) => {
+			let tempVal = srcPath;
+			if (rawSourceMap.sourceRoot) {
+				tempVal = rawSourceMap.sourceRoot + srcPath;
+			}
+			if (tempVal.substr(0, 1) === '.') {
+				return path.resolve(sourceMapDir, tempVal);
+			} else {
+				return tempVal;
+			}
+		});		
+		
 		let sourceMap = new SourceMapConsumer(rawSourceMap);
 
 		/* if there are inline sources and a store to put them into, we will populate it */
