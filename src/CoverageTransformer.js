@@ -113,13 +113,13 @@ export default class CoverageTransformer {
 		rawSourceMap.sources = rawSourceMap.sources.map((srcPath) => {
 			let tempVal = srcPath;
 			if (rawSourceMap.sourceRoot) {
-				tempVal = rawSourceMap.sourceRoot + srcPath;
+				tempVal = /\/$/g.test(rawSourceMap.sourceRoot)
+					? rawSourceMap.sourceRoot + srcPath
+					: srcPath;
 			}
-			if (tempVal.substr(0, 1) === '.') {
-				return path.resolve(sourceMapDir, tempVal);
-			} else {
-				return tempVal;
-			}
+			return tempVal.substr(0, 1) === '.'
+				? path.resolve(sourceMapDir, tempVal)
+				: tempVal
 		});		
 		
 		let sourceMap = new SourceMapConsumer(rawSourceMap);
