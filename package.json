@@ -34,12 +34,14 @@
     "lint": "eslint ./src/",
     "test": "tests/run.sh",
     "build": "rimraf lib && babel src --out-dir ./lib --source-maps",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "install": "npm run build"
   },
   "dependencies": {
     "amdefine": "^1.0.0",
     "gulp-util": "3.0.7",
     "istanbul": "0.4.5",
+    "minimatch": "^3.0.3",
     "source-map": ">=0.5.6",
     "through2": "2.0.1"
   },
