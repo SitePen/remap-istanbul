@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict';
+
 const loadCoverage = require('../lib/loadCoverage');
 const remap = require('../lib/remap');
 const writeReport = require('../lib/writeReport');
