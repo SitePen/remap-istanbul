@@ -1,2 +1,4 @@
 tests
+tmp
+typings
 .travis.yml
