@@ -81,7 +81,7 @@ define([
 			assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
 			assert(coverage.store.map['tests/unit/support/basic.ts'] || coverage.store.map['tests\\unit\\support\\basic.ts']);
 		},
-		
+
 		'coverage includes sourcemap': function () {
 			var coverage = remap(loadCoverage('tests/unit/support/inline-coverage-inputSourceMap-customSourceRoot.json'));
 			assert(coverage.store.map['tests/unit/support/customSourceRoot/basic.ts'] || coverage.store.map['tests\\unit\\support\\customSourceRoot\\basic.ts'],
@@ -119,6 +119,20 @@ define([
 			assert.instanceOf(warnStack[1][0], Error, 'should have been called with error');
 			assert.strictEqual(warnStack[1][0].message, 'Could not find source map for: "tests/unit/support/bad.js"',
 				'proper error message should have been returned');
+		},
+
+		'duplicate sourceMappingURL': function () {
+			var warnStack = [];
+			function warn() {
+				warnStack.push(arguments);
+			}
+
+			var coverage = remap(loadCoverage('tests/unit/support/coverage-duplicatemap.json'), {
+				warn: warn
+			});
+
+			assert.strictEqual(warnStack.length, 0);
+			assert(coverage.store.map['tests/unit/support/duplicatemap.ts'] || coverage.store.map['tests\\unit\\support\\duplicatemap.ts']);
 		},
 
 		'missing source map': function () {
