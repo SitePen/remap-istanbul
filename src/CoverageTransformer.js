@@ -25,6 +25,8 @@ export default class CoverageTransformer {
 			}
 		}
 
+		this.mapFileName = options.mapFileName || ((fileName) => fileName);
+
 		this.useAbsolutePaths = !!options.useAbsolutePaths;
 
 		this.readJSON = options.readJSON
@@ -239,12 +241,15 @@ export default class CoverageTransformer {
 
 		const srcCoverage = this.sparceCoverageCollector.getFinalCoverage();
 
-		collector.add(Object.keys(srcCoverage)
+		Object.keys(srcCoverage)
 			.filter((filePath) => !this.exclude(filePath))
-			.reduce((obj, name) => {
-				obj[name] = srcCoverage[name];
-				return obj;
-			}, {}));
+			.forEach((filename) => {
+				const coverage = Object.assign({}, srcCoverage[filename]);
+				coverage.path = this.mapFileName(filename);
+				collector.add({
+					[coverage.path]: coverage
+				});
+			});
 
 		/* refreshes the line counts for reports */
 		collector.getFinalCoverage();
