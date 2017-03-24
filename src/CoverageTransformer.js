@@ -7,7 +7,7 @@ import getMapping from './getMapping';
 import remapFunction from './remapFunction';
 import remapBranch from './remapBranch';
 
-const sourceMapRegEx = /(?:\/{2}[#@]{1,2}|\/\*)\s+sourceMappingURL\s*=\s*(data:(?:[^;]+;)+base64,)?(\S+)/;
+const sourceMapRegEx = /(?:\/{2}[#@]{1,2}|\/\*)\s+sourceMappingURL\s*=\s*(data:(?:[^;]+;)+base64,)?(\S+)(?:\n\s*)?$/;
 
 export default class CoverageTransformer {
 	constructor(options) {
@@ -75,13 +75,13 @@ export default class CoverageTransformer {
 				codeIsArray = false;
 			}
 			let match = sourceMapRegEx.exec(jsText);
-			
+
 			if (!match && !codeFromFile) {
 				codeIsArray = false;
 				jsText = this.readFile(filePath);
 				match = sourceMapRegEx.exec(jsText);
 			}
-			
+
 			if (match) {
 				if (match[1]) {
 					rawSourceMap = JSON.parse((new Buffer(match[2], 'base64').toString('utf8')));
@@ -120,8 +120,8 @@ export default class CoverageTransformer {
 			return tempVal.substr(0, 1) === '.'
 				? path.resolve(sourceMapDir, tempVal)
 				: tempVal
-		});		
-		
+		});
+
 		let sourceMap = new SourceMapConsumer(rawSourceMap);
 
 		/* if there are inline sources and a store to put them into, we will populate it */
