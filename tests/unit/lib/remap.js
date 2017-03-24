@@ -254,6 +254,18 @@ define([
 			assert.strictEqual(coverageData.path, 'bar/tests/unit/support/basic.ts');
 		},
 
+		'mapFileName with sources': function () {
+			var store = new MemoryStore();
+			remap(loadCoverage('tests/unit/support/coverage-inlinesource.json'), {
+				sources: store,
+
+				mapFileName: function (filename) {
+					return 'bar/' + filename;
+				}
+			});
+			assert(store.map['bar/tests/unit/support/inlinesource.ts'], 'Source should be available on renamed file');
+		},
+
 		'useAbsolutePaths': function () {
 			var coverage = remap(loadCoverage('tests/unit/support/coverage.json'), {
 				useAbsolutePaths: true

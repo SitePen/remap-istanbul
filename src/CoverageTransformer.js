@@ -246,6 +246,10 @@ export default class CoverageTransformer {
 			.forEach((filename) => {
 				const coverage = Object.assign({}, srcCoverage[filename]);
 				coverage.path = this.mapFileName(filename);
+				if (this.sourceStore && coverage.path !== filename) {
+					const source = this.sourceStore.get(filename);
+					this.sourceStore.set(coverage.path, source);
+				}
 				collector.add({
 					[coverage.path]: coverage
 				});
