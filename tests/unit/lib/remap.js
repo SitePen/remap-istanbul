@@ -237,6 +237,23 @@ define([
 
 		},
 
+		'mapFileName': function () {
+			var warnStack = [];
+
+			var coverage = remap(loadCoverage('tests/unit/support/coverage.json'), {
+				warn: function () {
+					warnStack.push(arguments);
+				},
+				mapFileName: function (filename) {
+					return 'bar/' + filename;
+				}
+			});
+
+			assert.strictEqual(warnStack.length, 0);
+			var coverageData = JSON.parse(coverage.store.map['bar/tests/unit/support/basic.ts']);
+			assert.strictEqual(coverageData.path, 'bar/tests/unit/support/basic.ts');
+		},
+
 		'useAbsolutePaths': function () {
 			var coverage = remap(loadCoverage('tests/unit/support/coverage.json'), {
 				useAbsolutePaths: true
