@@ -29,6 +29,7 @@ export default function gruntPlugin(grunt) {
 				readFile: grunt.readFile,
 				readJSON: grunt.readJSON,
 				warn,
+				warnMissingSourceMaps: options.warnMissingSourceMaps,
 				sources,
 				basePath: file.basePath,
 				useAbsolutePaths: options.useAbsolutePaths,

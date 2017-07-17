@@ -13,6 +13,7 @@ export default class CoverageTransformer {
 	constructor(options) {
 		this.basePath = options.basePath;
 		this.warn = options.warn || console.warn;
+		this.warnMissingSourceMaps = options.warnMissingSourceMaps || true;
 
 		this.exclude = () => false;
 		if (options.exclude) {
@@ -97,7 +98,9 @@ export default class CoverageTransformer {
 
 		if (!rawSourceMap) {
 			/* We couldn't find a source map, so will copy coverage after warning. */
-			this.warn(new Error(`Could not find source map for: "${filePath}"`));
+			if (this.warnMissingSourceMap) {
+				this.warn(new Error(`Could not find source map for: "${filePath}"`));
+			}
 			try {
 				fileCoverage.code = String(fs.readFileSync(filePath)).split('\n');
 			} catch (error) {
