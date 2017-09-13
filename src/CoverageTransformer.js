@@ -98,7 +98,7 @@ export default class CoverageTransformer {
 
 		if (!rawSourceMap) {
 			/* We couldn't find a source map, so will copy coverage after warning. */
-			if (this.warnMissingSourceMap) {
+			if (this.warnMissingSourceMaps) {
 				this.warn(new Error(`Could not find source map for: "${filePath}"`));
 			}
 			try {
