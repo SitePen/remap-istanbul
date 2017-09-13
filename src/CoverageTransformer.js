@@ -210,7 +210,7 @@ export default class CoverageTransformer {
 		// todo: refactor exposing implementation details
 		const srcCoverage = this.sparceCoverageCollector.getFinalCoverage();
 
-		if (sourceMap.sourcesContent && this.basePath) {
+		if (sourceMap.sourcesContent && this.basePath && origFileName) {
 			// Convert path to use base path option
 			const getPath = filePath => {
 				const absolutePath = path.resolve(this.basePath, filePath);
