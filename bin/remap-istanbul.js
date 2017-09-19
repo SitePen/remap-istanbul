@@ -140,6 +140,9 @@ function main(argv) {
 		}
 		const reportOptions = {};
 		if (output) {
+			if (output === 'null') {
+				output = null;
+			}
 			return writeReport(collector, reportType || 'json', reportOptions, output, sources);
 		}
 		if (reportType && (reportType === 'lcovonly' || reportType === 'text-lcov')) {
