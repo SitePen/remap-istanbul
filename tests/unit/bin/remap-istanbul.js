@@ -86,10 +86,18 @@ define([
 				'--type', 'text-lcov'
 			]);
 		},
-		'stdout': function () {
-			remapIstanbul([
-				'--input', 'tests/unit/support/coverage-inlinesource.json'
-			]);
+		'stdout': {
+			'default': function () {
+				remapIstanbul([
+					'--input', 'tests/unit/support/coverage-inlinesource.json'
+				]);
+			},
+			'text-summary': function () {
+				remapIstanbul([
+					'--input', 'tests/unit/support/coverage-inlinesource.json',
+					'--output', 'null'
+				]);
+			}
 		},
 		'bad argument': function () {
 			assert.throws(function () {
