@@ -4,7 +4,7 @@ import remap from './remap';
 import writeReport from './writeReport';
 import checkThreshold from './checkThreshold';
 import MemoryStore from '../utils/node!istanbul/lib/store/memory';
-import { PluginError } from '../utils/node!gulp-util';
+import PluginError from '../utils/node!plugin-error';
 import through from '../utils/node!through2';
 
 /* global Promise */
@@ -34,7 +34,7 @@ export default function gulpPlugin(opts = {}) {
 		const collector = remap(JSON.parse(file.contents.toString('utf8')), opts);
 
 		let thresholdCheckFailed = false;
-		if (opts.check) {				
+		if (opts.check) {
 			thresholdCheckFailed = checkThreshold(opts.check, collector);
 		}
 
@@ -54,10 +54,10 @@ export default function gulpPlugin(opts = {}) {
 
 		Promise.all(p).then(() => {
 			if (thresholdCheckFailed) {
-				return cb(new PluginError('remap-istanbul', 'Coverage threshold not met'));					
+				return cb(new PluginError('remap-istanbul', 'Coverage threshold not met'));
 			} else {
 				cb(null, file);
-			}			
+			}
 		});
 	});
 };
