@@ -1,6 +1,6 @@
 {
   "name": "remap-istanbul",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "A tool for remapping Istanbul coverage via Source Maps",
   "homepage": "https://github.com/SitePen/remap-istanbul",
   "keywords": [
@@ -41,7 +41,7 @@
     "gulp-util": "3.0.7",
     "istanbul": "0.4.5",
     "minimatch": "^3.0.3",
-    "source-map": ">=0.5.6",
+    "source-map": "^0.6.1",
     "through2": "2.0.1"
   },
   "devDependencies": {
