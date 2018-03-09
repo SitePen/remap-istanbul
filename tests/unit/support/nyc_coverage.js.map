@@ -1,0 +1,10 @@
+{
+	"version": 3,
+	"file": "nyc_coverage.js",
+	"sourceRoot": "",
+	"sources": [
+		"nyc_coverage.ts"
+	],
+	"names": [],
+	"mappings": ";;AAAA;IACC,MAAM,CAAC,GAAG,OAAO,CAAC,GAAG,EAAE,CAAC;IACxB,EAAE,CAAC,CAAC,CAAC,CAAC;QACL,OAAO,CAAC,GAAG,CAAC,OAAO,CAAC,GAAG,EAAE,CAAC,CAAC;AAC7B,CAAC;AAJD,8BAIC"
+}

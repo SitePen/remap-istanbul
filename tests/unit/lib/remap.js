@@ -276,6 +276,20 @@ define([
 				'The Collector should have a key with absolute path');
 			assert.strictEqual(Object.keys(coverage.store.map).length, 1,
 				'Collector should only have one map');
-		}
+		},
+
+		'fnMap with decl': function () {
+			var coverage = remap(loadCoverage('tests/unit/support/nyc_coverage.json'));
+			var coverageData = JSON.parse(coverage.store.map['tests/unit/support/nyc_coverage.ts']);
+
+			assert(coverageData.fnMap[1].decl);
+		},
+
+		'branchMap with loc': function () {
+			var coverage = remap(loadCoverage('tests/unit/support/nyc_coverage.json'));
+			var coverageData = JSON.parse(coverage.store.map['tests/unit/support/nyc_coverage.ts']);
+
+			assert(coverageData.branchMap[1].loc);
+		},
 	});
 });

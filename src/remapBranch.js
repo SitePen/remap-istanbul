@@ -16,10 +16,13 @@ export default function remapBranch(genItem, getMapping) {
 		locations.push(mapping.loc);
 	}
 
+	const locMapping = genItem.loc && getMapping(genItem.loc);
+
 	const srcItem = {
 		line: locations[0].start.line,
 		type: genItem.type,
 		locations,
+		loc: locMapping ? locMapping.loc : undefined,
 	};
 
 	return { source, srcItem };
