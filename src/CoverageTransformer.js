@@ -13,7 +13,8 @@ export default class CoverageTransformer {
 	constructor(options) {
 		this.basePath = options.basePath;
 		this.warn = options.warn || console.warn;
-		this.warnMissingSourceMaps = options.warnMissingSourceMaps === false ? false : true;
+		this.warnMissingSourceMaps =
+			(typeof options.warnMissingSourceMaps !== 'undefined') ? options.warnMissingSourceMaps : true;
 
 		this.exclude = () => false;
 		if (options.exclude) {
