@@ -140,7 +140,7 @@ export default class CoverageTransformer {
 			origSourceFilename = rawSourceMap.sources[0];
 
 			if (origSourceFilename && path.extname(origSourceFilename) !== '' && rawSourceMap.sources.length === 1) {
-				origFileName = rawSourceMap.file;
+				origFileName = rawSourceMap.file || rawSourceMap.sources[0];
 				fileName = filePath.replace(path.extname(origFileName), path.extname(origSourceFilename));
 				rawSourceMap.file = fileName;
 				rawSourceMap.sources = [fileName];
