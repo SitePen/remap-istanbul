@@ -90,7 +90,7 @@ export default class CoverageTransformer {
 				if (match[1]) {
 					rawSourceMap = JSON.parse((new Buffer(match[2], 'base64').toString('utf8')));
 				} else {
-					const sourceMapPath = path.join(sourceMapDir, match[2]);
+					const sourceMapPath = path.join(sourceMapDir, path.basename(match[2]));
 					rawSourceMap = this.readJSON(sourceMapPath);
 					sourceMapDir = path.dirname(sourceMapPath);
 				}
