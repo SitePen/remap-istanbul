@@ -7,7 +7,7 @@ import getMapping from './getMapping';
 import remapFunction from './remapFunction';
 import remapBranch from './remapBranch';
 
-const sourceMapRegEx = /(?:\/{2}[#@]{1,2}|\/\*)\s+sourceMappingURL\s*=\s*(data:(?:[^;]+;)+base64,)?(\S+)(?:\n\s*)?$/;
+const sourceMapRegEx = /(?:\/{2}[#@]{1,2}|\/\*)\s+sourceMappingURL\s*=\s*(data:(?:[^;]+;)*(base64)?,)?(\S+)(?:\n\s*)?$/;
 
 export default class CoverageTransformer {
 	constructor(options) {
@@ -88,9 +88,13 @@ export default class CoverageTransformer {
 
 			if (match) {
 				if (match[1]) {
-					rawSourceMap = JSON.parse((new Buffer(match[2], 'base64').toString('utf8')));
+					if (match[2]) {
+						rawSourceMap = JSON.parse((new Buffer(match[3], 'base64').toString('utf8')));
+					} else {
+						rawSourceMap = JSON.parse(decodeURIComponent(match[3]));
+					}
 				} else {
-					const sourceMapPath = path.join(sourceMapDir, match[2]);
+					const sourceMapPath = path.join(sourceMapDir, match[3]);
 					rawSourceMap = this.readJSON(sourceMapPath);
 					sourceMapDir = path.dirname(sourceMapPath);
 				}
