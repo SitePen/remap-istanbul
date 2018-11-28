@@ -11,7 +11,7 @@ const Collector = require('istanbul/lib/collector');
 /**
  * Helper function that reads from standard in and resolves a Promise with the
  * data or rejects with any errors.
- * @return {Promise} A promsie that is resolved with the data from standard in
+ * @return {Promise} A promise that is resolved with the data from standard in
  *                   or rejected with any errors.
  */
 function readStdIn() {
