@@ -1,13 +1,7 @@
-/* jshint node:true */
-/* global Promise */
-import _loadCoverage from './loadCoverage';
-import _remap from './remap';
-import _writeReport from './writeReport';
-import MemoryStore from '../utils/node!istanbul/lib/store/memory';
-
-export const loadCoverage = _loadCoverage;
-export const remap = _remap;
-export const writeReport = _writeReport;
+const MemoryStore = require('istanbul/lib/store/memory');
+const loadCoverage = require('./loadCoverage');
+const remap = require('./remap');
+const writeReport = require('./writeReport');
 
 /**
  * The basic API for utilising remap-istanbul
@@ -19,9 +13,9 @@ export const writeReport = _writeReport;
  * @param  {Object} reportOptions? An object containing the report options.
  * @return {Promise}         A promise that will resolve when all the reports are written.
  */
-export default function (sources, reports, reportOptions) {
+function remapIstanbul (sources, reports, reportOptions) {
 	let sourceStore = new MemoryStore();
-	const collector = _remap(_loadCoverage(sources), {
+	const collector = remap(loadCoverage(sources), {
 		sources: sourceStore,
 	});
 
@@ -33,7 +27,14 @@ export default function (sources, reports, reportOptions) {
 	return Promise.all(
 		Object.keys(reports)
 			.map(reportType =>
-				_writeReport(collector, reportType, reportOptions || {}, reports[reportType], sourceStore)
+				writeReport(collector, reportType, reportOptions || {}, reports[reportType], sourceStore)
 			)
 	);
-};
+}
+
+// TODO: is this the desired public API?
+remapIstanbul.loadCoverage = loadCoverage;
+remapIstanbul.remap = remap;
+remapIstanbul.writeReport = writeReport;
+
+module.exports = remapIstanbul;

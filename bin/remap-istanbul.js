@@ -2,9 +2,9 @@
 
 'use strict';
 
-const loadCoverage = require('../lib/loadCoverage');
-const remap = require('../lib/remap');
-const writeReport = require('../lib/writeReport');
+const loadCoverage = require('../src/loadCoverage');
+const remap = require('../src/remap');
+const writeReport = require('../src/writeReport');
 const MemoryStore = require('istanbul/lib/store/memory');
 const Collector = require('istanbul/lib/collector');
 

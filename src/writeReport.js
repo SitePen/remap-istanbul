@@ -14,7 +14,7 @@ const istanbulReportTypes = {
 };
 
 /**
- * Generates an Instanbul Coverage report based on the information passed.
+ * Generates an Istanbul Coverage report based on the information passed.
  * @param  {istanbul/lib/_collector} collector  An instance of an coverage
  *                                             collector
  * @param  {string}          reportType    The name of the report type to
@@ -28,7 +28,7 @@ const istanbulReportTypes = {
  * @return {Promise}                       A promise that resolves when the
  *                                         report is complete.
  */
-export default function writeReport(collector, reportType, reportOptions, dest, sources) {
+module.exports = function writeReport(collector, reportType, reportOptions, dest, sources) {
 	return new Promise((resolve, reject) => {
 		if (!(reportType in istanbulReportTypes)) {
 			reject(new SyntaxError(`Unrecognized report type of "${reportType}".`));

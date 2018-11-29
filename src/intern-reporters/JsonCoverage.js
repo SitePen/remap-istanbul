@@ -1,5 +1,5 @@
-import Collector from '../../utils/node!istanbul/lib/collector';
-import Reporter from '../../utils/node!istanbul/lib/report/json';
+const Collector = require('istanbul/lib/collector');
+const Reporter = require('istanbul/lib/report/json');
 
 function JsonCoverageReporter(config = {}) {
 	this._collector = new Collector();
@@ -17,4 +17,4 @@ JsonCoverageReporter.prototype.runEnd = function runEnd() {
 	this._reporter.writeReport(this._collector, true);
 };
 
-export default JsonCoverageReporter;
+module.exports = JsonCoverageReporter;

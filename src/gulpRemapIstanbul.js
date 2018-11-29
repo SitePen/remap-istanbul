@@ -1,15 +1,11 @@
-/* jshint node: true */
-/* jshint -W079 */
-import remap from './remap';
-import writeReport from './writeReport';
-import checkThreshold from './checkThreshold';
-import MemoryStore from '../utils/node!istanbul/lib/store/memory';
-import PluginError from '../utils/node!plugin-error';
-import through from '../utils/node!through2';
+const MemoryStore = require('istanbul/lib/store/memory');
+const PluginError = require('plugin-error');
+const through = require('through2');
+const remap = require('./remap');
+const writeReport = require('./writeReport');
+const checkThreshold = require('./checkThreshold');
 
-/* global Promise */
-
-export default function gulpPlugin(opts = {}) {
+module.exports = function gulpPlugin(opts = {}) {
 	return through.obj((file, enc, cb) => {
 		if (!opts.warn) {
 			opts.warn = (message) => {

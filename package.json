@@ -1,6 +1,6 @@
 {
   "name": "remap-istanbul",
-  "version": "0.13.0-pre",
+  "version": "0.14.0-pre",
   "description": "A tool for remapping Istanbul coverage via Source Maps",
   "homepage": "https://github.com/SitePen/remap-istanbul",
   "keywords": [
@@ -24,7 +24,7 @@
     "url": "https://github.com/SitePen/remap-istanbul"
   },
   "license": "BSD-3-Clause",
-  "main": "./lib/main.js",
+  "main": "./src/main.js",
   "bin": "./bin/remap-istanbul.js",
   "repository": {
     "type": "git",
@@ -32,23 +32,16 @@
   },
   "scripts": {
     "lint": "eslint ./src/",
-    "test": "tests/run.sh",
-    "build": "rimraf lib && babel src --out-dir ./lib --source-maps",
-    "prepublishOnly": "npm run build"
+    "test": "rimraf ./tmp && npx intern config=tests/intern.json"
   },
   "dependencies": {
-    "amdefine": "^1.0.1",
     "istanbul": "0.4.5",
     "minimatch": "^3.0.4",
     "plugin-error": "^1.0.1",
-    "source-map": "^0.7.3",
+    "source-map": "0.6.1",
     "through2": "3.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.6",
-    "@babel/plugin-transform-modules-amd": "^7.1.0",
-    "@babel/preset-env": "^7.1.6",
     "codecov.io": "0.1.6",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",

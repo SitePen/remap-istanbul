@@ -1,27 +1,25 @@
-define([
-	'intern!object',
-	'intern/chai!assert',
-	'../../../utils/node!fs',
-	'../../../utils/node!istanbul/lib/store/memory',
-	'../../../utils/node!../../../lib/loadCoverage',
-	'../../../utils/node!../../../lib/remap',
-	'../../../utils/node!../../../lib/writeReport'
-], function (registerSuite, assert, fs, MemoryStore, loadCoverage, remap, writeReport) {
-	var coverage;
-	var consoleLog;
-	var consoleOutput = [];
+const fs = require('fs');
+const MemoryStore = require('istanbul/lib/store/memory');
+const loadCoverage = require('../../../src/loadCoverage');
+const remap = require('../../../src/remap');
+const writeReport = require('../../../src/writeReport');
 
-	function mockLog() {
-		consoleOutput.push(arguments);
-	}
+const registerSuite = intern.getPlugin('interface.object').registerSuite;
+const assert = intern.getPlugin('chai').assert;
+let coverage;
+let consoleLog;
+let consoleOutput = [];
 
-	registerSuite({
-		name: 'remap-istanbul/lib/writeReport',
+function mockLog() {
+	consoleOutput.push(arguments);
+}
 
-		setup: function () {
-			coverage = remap(loadCoverage('tests/unit/support/coverage.json'));
-		},
+registerSuite('remap-istanbul/lib/writeReport', {
+	before: function () {
+		coverage = remap(loadCoverage('tests/unit/support/coverage.json'));
+	},
 
+	tests: {
 		'invalid': function () {
 			var dfd = this.async();
 			writeReport(coverage, 'foo', {}, 'bar').then(dfd.reject, dfd.callback(function (error) {
@@ -70,7 +68,7 @@ define([
 		'json-summary': function () {
 			return writeReport(coverage, 'json-summary', {}, 'tmp/summary.json').then(function () {
 				var contents = fs.readFileSync('tmp/summary.json', { encoding: 'utf8' });
-				assert(contents, 'there should be contensts');
+				assert(contents, 'there should be contents');
 				var summary = JSON.parse(contents);
 				assert(summary['tests/unit/support/basic.ts'], 'there should be a key with a summary');
 				assert(summary.total, 'there should be a total key');
@@ -147,5 +145,5 @@ define([
 				assert.include(contents, 'basic.ts', 'contains the file we remapped');
 			});
 		}
-	});
+	}
 });
