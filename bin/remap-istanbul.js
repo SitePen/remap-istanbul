@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 
-'use strict';
-
+const Collector = require('istanbul/lib/collector');
+const MemoryStore = require('istanbul/lib/store/memory');
 const loadCoverage = require('../src/loadCoverage');
 const remap = require('../src/remap');
 const writeReport = require('../src/writeReport');
-const MemoryStore = require('istanbul/lib/store/memory');
-const Collector = require('istanbul/lib/collector');
 
 /**
  * Helper function that reads from standard in and resolves a Promise with the

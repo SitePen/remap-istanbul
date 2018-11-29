@@ -1,8 +1,0 @@
-{
-	"presets": [ "@babel/preset-env" ],
-	"plugins": [
-		"./babel-plugin/module-exports",
-		"@babel/plugin-transform-modules-amd",
-		"./babel-plugin/amd-define"
-	]
-}

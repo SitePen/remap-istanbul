@@ -1,8 +1,12 @@
 {
 	"suites": [
-		"tests/unit/lib/main.js"
-	],
-	"disabledSuites": [
-		"tests/unit/lib/writeReport.js"
+		"tests/unit/bin/remap-istanbul.js",
+		"tests/unit/tasks/remapIstanbul.js",
+		"tests/unit/lib/main.js",
+		"tests/unit/lib/gulpRemapIstanbul.js",
+		"tests/unit/lib/loadCoverage.js",
+		"tests/unit/lib/remap.js",
+		"tests/unit/lib/writeReport.js",
+		"tests/unit/lib/intern-reporters/JsonCoverage.js"
 	]
 }

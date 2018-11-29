@@ -1,4 +1,4 @@
-define([], function () {
+module.exports = function () {
 	return {
 		coverage: {
 			'test.js': {
@@ -25,4 +25,4 @@ define([], function () {
 			}
 		}
 	};
-});
+};
