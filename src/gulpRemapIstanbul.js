@@ -1,9 +1,9 @@
 const MemoryStore = require('istanbul/lib/store/memory');
 const PluginError = require('plugin-error');
 const through = require('through2');
+const checkThreshold = require('./checkThreshold');
 const remap = require('./remap');
 const writeReport = require('./writeReport');
-const checkThreshold = require('./checkThreshold');
 
 module.exports = function gulpPlugin(opts = {}) {
 	return through.obj((file, enc, cb) => {

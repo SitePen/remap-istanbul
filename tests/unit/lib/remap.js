@@ -1,6 +1,6 @@
-const path = require('path');
 const Collector = require('istanbul/lib/collector');
 const MemoryStore = require('istanbul/lib/store/memory');
+const path = require('path');
 const loadCoverage = require('../../../src/loadCoverage');
 const remap = require('../../../src/remap');
 
