@@ -46,7 +46,7 @@ module.exports = function gulpPlugin(opts = {}) {
 			});
 		}
 
-		file.contents = new Buffer(JSON.stringify(collector.getFinalCoverage()));
+		file.contents = Buffer.from(JSON.stringify(collector.getFinalCoverage()));
 
 		Promise.all(p).then(() => {
 			if (thresholdCheckFailed) {

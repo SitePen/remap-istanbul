@@ -34,6 +34,9 @@
     "lint": "eslint ./src/",
     "test": "rimraf ./tmp && npx intern config=tests/intern.json"
   },
+  "dependencies-comment": {
+    "source-map": "0.7+ releases introduce breaking changes"
+  },
   "dependencies": {
     "istanbul": "0.4.5",
     "minimatch": "^3.0.4",

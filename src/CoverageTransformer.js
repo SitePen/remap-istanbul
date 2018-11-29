@@ -89,7 +89,7 @@ class CoverageTransformer {
 			if (match) {
 				if (match[1]) {
 					if (match[2]) {
-						rawSourceMap = JSON.parse((new Buffer(match[3], 'base64').toString('utf8')));
+						rawSourceMap = JSON.parse((Buffer.from(match[3], 'base64').toString('utf8')));
 					} else {
 						rawSourceMap = JSON.parse(decodeURIComponent(match[3]));
 					}

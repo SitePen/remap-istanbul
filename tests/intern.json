@@ -1,3 +1,8 @@
 {
-	"suites": "tests/unit/lib/writeReport.js"
+	"suites": [
+		"tests/unit/lib/main.js"
+	],
+	"disabledSuites": [
+		"tests/unit/lib/writeReport.js"
+	]
 }
