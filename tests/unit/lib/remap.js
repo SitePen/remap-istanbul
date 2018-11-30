@@ -6,17 +6,18 @@ const remap = require('../../../src/remap');
 
 const registerSuite = intern.getPlugin('interface.object').registerSuite;
 const assert = intern.getPlugin('chai').assert;
+const sourceFilePath = path.join('tests', 'unit', 'support', 'basic.ts');
 
 registerSuite('remap-istanbul/lib/remap', {
 	'remapping': function () {
 		var coverage = remap(loadCoverage('tests/unit/support/coverage.json'));
 		assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
-		assert(coverage.store.map['tests/unit/support/basic.ts'],
+		assert(coverage.store.map[sourceFilePath],
 			'The Collector should have a remapped key');
 		assert.strictEqual(Object.keys(coverage.store.map).length, 1,
 			'Collector should only have one map');
-		var map = JSON.parse(coverage.store.map['tests/unit/support/basic.ts']);
-		assert.strictEqual(map.path, 'tests/unit/support/basic.ts');
+		var map = JSON.parse(coverage.store.map[sourceFilePath]);
+		assert.strictEqual(map.path, sourceFilePath);
 		assert.strictEqual(Object.keys(map.statementMap).length, 28, 'Map should have 28 statements');
 		assert.strictEqual(Object.keys(map.fnMap).length, 6, 'Map should have 6 functions');
 		assert.strictEqual(Object.keys(map.branchMap).length, 6, 'Map should have 6 branches');
@@ -25,12 +26,12 @@ registerSuite('remap-istanbul/lib/remap', {
 	'base64 source map': function () {
 		var coverage = remap(loadCoverage('tests/unit/support/inline-coverage.json'));
 		assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
-		assert(coverage.store.map['tests/unit/support/basic.ts'],
+		assert(coverage.store.map[sourceFilePath],
 			'The Collector should have a remapped key');
 		assert.strictEqual(Object.keys(coverage.store.map).length, 1,
 			'Collector should only have one map');
-		var map = JSON.parse(coverage.store.map['tests/unit/support/basic.ts']);
-		assert.strictEqual(map.path, 'tests/unit/support/basic.ts');
+		var map = JSON.parse(coverage.store.map[sourceFilePath]);
+		assert.strictEqual(map.path, sourceFilePath);
 		assert.strictEqual(Object.keys(map.statementMap).length, 28, 'Map should have 28 statements');
 		assert.strictEqual(Object.keys(map.fnMap).length, 6, 'Map should have 6 functions');
 		assert.strictEqual(Object.keys(map.branchMap).length, 6, 'Map should have 6 branches');
@@ -49,7 +50,8 @@ registerSuite('remap-istanbul/lib/remap', {
 		var coverage = remap(loadCoverage('tests/unit/support/coverage-inlinesource.json'), {
 			basePath: basePath
 		});
-		assert(coverage.store.map[basePath + '/inlinesource.ts'], 'Source should have been retrieved from source map using base path');
+		var inlineSourcePath = path.join('foo', 'bar', 'inlinesource.ts');
+		assert(coverage.store.map[inlineSourcePath], 'Source should have been retrieved from source map using base path');
 	},
 
 	'coverage includes code': function () {
@@ -71,13 +73,13 @@ registerSuite('remap-istanbul/lib/remap', {
 	'coverage includes code but missing sourceMappingURL': function () {
 		var coverage = remap(loadCoverage('tests/unit/support/coverage-code-withoutSourceMappingURL.json'));
 		assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
-		assert(coverage.store.map['tests/unit/support/basic.ts'] || coverage.store.map['tests\\unit\\support\\basic.ts']);
+		assert(coverage.store.map[sourceFilePath]);
 	},
 
 	'coverage includes code as array but missing sourceMappingURL': function () {
 		var coverage = remap(loadCoverage('tests/unit/support/coverage-code-array-withoutSourceMappingURL.json'));
 		assert.instanceOf(coverage, Collector, 'Return values should be instance of Collector');
-		assert(coverage.store.map['tests/unit/support/basic.ts'] || coverage.store.map['tests\\unit\\support\\basic.ts']);
+		assert(coverage.store.map[sourceFilePath]);
 	},
 
 	'coverage includes sourcemap': function () {
@@ -95,11 +97,12 @@ registerSuite('remap-istanbul/lib/remap', {
 			basePath : 'foo/bar'
 		});
 
-		assert(coverage.store.map['foo/bar/basic.ts'],  'The base path provided should have been used');
+		var basicFilePath = path.join('foo', 'bar', 'basic.ts');
+		assert(coverage.store.map[basicFilePath],  'The base path provided should have been used');
 		assert.strictEqual(Object.keys(coverage.store.map).length, 1,
 			'Collector should only have one map');
-		var map = JSON.parse(coverage.store.map['foo/bar/basic.ts']);
-		assert.strictEqual(map.path, 'foo/bar/basic.ts', 'The base path should be used in the map as well');
+		var map = JSON.parse(coverage.store.map[basicFilePath]);
+		assert.strictEqual(map.path, basicFilePath, 'The base path should be used in the map as well');
 	},
 
 	'missing coverage source': function () {
@@ -129,8 +132,9 @@ registerSuite('remap-istanbul/lib/remap', {
 			warn: warn
 		});
 
+		// TODO: why would you expect no warnings? There is a bad sourceMappingURL in duplicatemap.js
 		assert.strictEqual(warnStack.length, 0);
-		assert(coverage.store.map['tests/unit/support/duplicatemap.ts'] || coverage.store.map['tests\\unit\\support\\duplicatemap.ts']);
+		assert(coverage.store.map['tests/unit/support/duplicatemap.ts']);
 	},
 
 	'missing source map': function () {
@@ -142,9 +146,10 @@ registerSuite('remap-istanbul/lib/remap', {
 			warn: warn
 		});
 
+		var mapFilePath = path.join('tests', 'unit', 'support', 'missingmap.js.map');
 		assert.strictEqual(warnStack.length, 2, 'warn should have been called twice');
 		assert.instanceOf(warnStack[0][0], Error, 'should have been called with error');
-		assert.strictEqual(warnStack[0][0].message, 'Could not find file: "tests/unit/support/missingmap.js.map"',
+		assert.strictEqual(warnStack[0][0].message, 'Could not find file: "' + mapFilePath + '"',
 			'proper error message should have been returned');
 		assert.instanceOf(warnStack[1][0], Error, 'should have been called with error');
 		assert.strictEqual(warnStack[1][0].message, 'Could not find source map for: "tests/unit/support/missingmap.js"',
@@ -153,8 +158,9 @@ registerSuite('remap-istanbul/lib/remap', {
 
 	'unicode in map': function () {
 		var coverage = remap(loadCoverage('tests/unit/support/coverage-unicode.json'));
+		var sourceFilePath = path.join('tests', 'unit', 'support', 'unicode.ts');
 
-		assert(coverage.store.map['tests/unit/support/unicode.ts'], 'The file should have been properly mapped.');
+		assert(coverage.store.map[sourceFilePath], 'The file should have been properly mapped.');
 		assert.strictEqual(Object.keys(coverage.store.map).length, 1,
 			'Collector should have only one map.');
 	},
@@ -162,7 +168,7 @@ registerSuite('remap-istanbul/lib/remap', {
 	'skip in source map': function () {
 		var coverage = remap(loadCoverage('tests/unit/support/coverage-skip.json'));
 
-		var coverageData = JSON.parse(coverage.store.map['tests/unit/support/basic.ts']);
+		var coverageData = JSON.parse(coverage.store.map[sourceFilePath]);
 		assert.isTrue(coverageData.statementMap['18'].skip, 'skip is perpetuated');
 		assert.isUndefined(coverageData.statementMap['1'].skip, 'skip is not present');
 		assert.isTrue(coverageData.fnMap['5'].skip, 'skip is perpetuated');
@@ -243,13 +249,14 @@ registerSuite('remap-istanbul/lib/remap', {
 				warnStack.push(arguments);
 			},
 			mapFileName: function (filename) {
-				return 'bar/' + filename;
+				return path.join('bar', filename);
 			}
 		});
 
 		assert.strictEqual(warnStack.length, 0);
-		var coverageData = JSON.parse(coverage.store.map['bar/tests/unit/support/basic.ts']);
-		assert.strictEqual(coverageData.path, 'bar/tests/unit/support/basic.ts');
+		var sourceFilePath = path.join('bar', 'tests', 'unit', 'support', 'basic.ts');
+		var coverageData = JSON.parse(coverage.store.map[sourceFilePath]);
+		assert.strictEqual(coverageData.path, sourceFilePath);
 	},
 
 	'mapFileName with sources': function () {
@@ -278,14 +285,16 @@ registerSuite('remap-istanbul/lib/remap', {
 
 	'fnMap with decl': function () {
 		var coverage = remap(loadCoverage('tests/unit/support/nyc_coverage.json'));
-		var coverageData = JSON.parse(coverage.store.map['tests/unit/support/nyc_coverage.ts']);
+		var sourceFilePath = path.join('tests', 'unit', 'support', 'nyc_coverage.ts');
+		var coverageData = JSON.parse(coverage.store.map[sourceFilePath]);
 
 		assert(coverageData.fnMap[1].decl);
 	},
 
 	'branchMap with loc': function () {
 		var coverage = remap(loadCoverage('tests/unit/support/nyc_coverage.json'));
-		var coverageData = JSON.parse(coverage.store.map['tests/unit/support/nyc_coverage.ts']);
+		var sourceFilePath = path.join('tests', 'unit', 'support', 'nyc_coverage.ts');
+		var coverageData = JSON.parse(coverage.store.map[sourceFilePath]);
 
 		assert(coverageData.branchMap[1].loc);
 	},
