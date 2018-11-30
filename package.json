@@ -12,12 +12,8 @@
   ],
   "maintainers": [
     {
-      "name": "kitsonk",
-      "email": "me@kitsonkelly.com"
-    },
-    {
-      "name": "bryanforbes",
-      "email": "bryan@reigndropsfall.net"
+      "name": "dylans",
+      "email": "dylan@dojotoolkit.org"
     }
   ],
   "bugs": {
