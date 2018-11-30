@@ -1,4 +1,4 @@
-const loadCoverage = require('../../../src/loadCoverage');
+const loadCoverage = require('../../../lib/loadCoverage');
 
 const registerSuite = intern.getPlugin('interface.object').registerSuite;
 const assert = intern.getPlugin('chai').assert;

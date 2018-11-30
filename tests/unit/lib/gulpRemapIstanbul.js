@@ -1,6 +1,6 @@
 const fs = require('fs');
 const gulp = require('gulp');
-const remapIstanbul = require('../../../src/gulpRemapIstanbul');
+const remapIstanbul = require('../../../lib/gulpRemapIstanbul');
 
 const registerSuite = intern.getPlugin('interface.object').registerSuite;
 const assert = intern.getPlugin('chai').assert;

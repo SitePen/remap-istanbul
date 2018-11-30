@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const MemoryStore = require('istanbul/lib/store/memory');
-const loadCoverage = require('../../../src/loadCoverage');
-const remap = require('../../../src/remap');
-const writeReport = require('../../../src/writeReport');
+const loadCoverage = require('../../../lib/loadCoverage');
+const remap = require('../../../lib/remap');
+const writeReport = require('../../../lib/writeReport');
 
 const registerSuite = intern.getPlugin('interface.object').registerSuite;
 const assert = intern.getPlugin('chai').assert;
+const sourceFilePath = path.join('tests', 'unit', 'support', 'basic.ts');
 let coverage;
 let consoleLog;
 let consoleOutput = [];
@@ -34,7 +35,7 @@ registerSuite('remap-istanbul/lib/writeReport', {
 			return writeReport(coverage, 'clover', {}, 'tmp/clover.xml').then(function () {
 				var contents = fs.readFileSync('tmp/clover.xml', { encoding: 'utf8' });
 				assert(contents, 'the report should exist');
-				assert.include(contents, 'path="' + path.join('tests', 'unit', 'support', 'basic.ts') + '"', 'contains the remapped file');
+				assert.include(contents, 'path="' + sourceFilePath + '"', 'contains the remapped file');
 			});
 		},
 
@@ -42,7 +43,7 @@ registerSuite('remap-istanbul/lib/writeReport', {
 			return writeReport(coverage, 'cobertura', {}, 'tmp/cobertura.xml').then(function () {
 				var contents = fs.readFileSync('tmp/cobertura.xml', { encoding: 'utf8' });
 				assert(contents, 'the report should exist');
-				assert.include(contents, 'filename="' + path.join('tests', 'unit', 'support', 'basic.ts') + '"', 'contains the remapped file');
+				assert.include(contents, 'filename="' + sourceFilePath + '"', 'contains the remapped file');
 			});
 		},
 
@@ -60,8 +61,8 @@ registerSuite('remap-istanbul/lib/writeReport', {
 				sources: sources
 			});
 			return writeReport(inlineSourceCoverage, 'html', {}, 'tmp/html-report-inline', sources).then(function () {
-				// Istanbul does not place supporting HTML files in the same directory structure for all OSes.  It is not super important
-				// because the parent index.html is always in the destination directory.
+				// Istanbul does not place supporting HTML files in the same directory structure for all OSes.  It is
+				// not super important because the parent index.html is always in the destination directory.
 				assert(fs.existsSync('tmp/html-report-inline/index.html'));
 				var path = 'tmp/html-report-inline/support/inlinesource.ts.html';
 				if (!fs.existsSync(path)) {
@@ -78,7 +79,7 @@ registerSuite('remap-istanbul/lib/writeReport', {
 				var contents = fs.readFileSync('tmp/summary.json', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
 				var summary = JSON.parse(contents);
-				assert(summary[path.join('tests', 'unit', 'support', 'basic.ts')], 'there should be a key with a summary');
+				assert(summary[sourceFilePath], 'there should be a key with a summary');
 				assert(summary.total, 'there should be a total key');
 				assert.strictEqual(Object.keys(summary).length, 2, 'there should be only two keys');
 			});
@@ -89,7 +90,7 @@ registerSuite('remap-istanbul/lib/writeReport', {
 				var contents = fs.readFileSync('tmp/coverage-out.json', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
 				var report = JSON.parse(contents);
-				assert(report[path.join('tests', 'unit', 'support', 'basic.ts')], 'there should be a key with coverage');
+				assert(report[sourceFilePath], 'there should be a key with coverage');
 				assert.strictEqual(Object.keys(report).length, 1, 'there should be only one key in report');
 			});
 		},
@@ -98,7 +99,7 @@ registerSuite('remap-istanbul/lib/writeReport', {
 			return writeReport(coverage, 'lcovonly', {}, 'tmp/lcov.info').then(function () {
 				var contents = fs.readFileSync('tmp/lcov.info', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
-				assert.include(contents, 'SF:'+ path.join('tests', 'unit', 'support', 'basic.ts'),
+				assert.include(contents, 'SF:'+ sourceFilePath,
 					'should contain the name of the remapped file');
 			});
 		},
@@ -120,7 +121,7 @@ registerSuite('remap-istanbul/lib/writeReport', {
 					console.log = consoleLog;
 					assert.strictEqual(consoleOutput.length, 59,
 						'console should have the right number of lines');
-					assert.strictEqual(consoleOutput[1][0], 'SF:'+ path.join('tests', 'unit', 'support', 'basic.ts'),
+					assert.strictEqual(consoleOutput[1][0], 'SF:'+sourceFilePath,
 						'console should have logged the right file');
 					consoleOutput = [];
 				});
@@ -131,7 +132,7 @@ registerSuite('remap-istanbul/lib/writeReport', {
 				}).then(function () {
 					assert.strictEqual(consoleOutput.length, 59,
 						'console should have the right number of lines');
-					assert.strictEqual(consoleOutput[1][0], 'SF:'+ path.join('tests', 'unit', 'support', 'basic.ts'),
+					assert.strictEqual(consoleOutput[1][0], 'SF:'+ sourceFilePath,
 						'console should have logged the right file');
 					consoleOutput = [];
 				});

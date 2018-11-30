@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const main = require('../../../src/main');
+const main = require('../../../lib/main');
 
 const registerSuite = intern.getPlugin('interface.object').registerSuite;
 const assert = intern.getPlugin('chai').assert;
@@ -38,8 +38,17 @@ registerSuite('main', {
 		return main('tests/unit/support/coverage-inlinesource.json', {
 			'html': 'tmp/html-report-main'
 		}).then(function () {
-			// TODO: path of this file is OS-dependent
-			assert.isTrue(fs.existsSync('tmp/html-report-main/support/inlinesource.ts.html'));
+			// Istanbul does not place supporting HTML files in the same directory structure for all OSes.  It is not
+			// super important because the parent index.html is always in the destination directory.
+			var reportExists = false;
+			if (fs.existsSync('tmp/html-report-main/support/inlinesource.ts.html')) {
+				reportExists = true;
+			}
+			else if (fs.existsSync('tmp/html-report-main/tests/unit/support/inlinesource.ts.html')) {
+				reportExists = true;
+			}
+
+			assert(reportExists);
 		});
 	}
 });

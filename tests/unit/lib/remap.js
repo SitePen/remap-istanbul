@@ -1,8 +1,8 @@
 const Collector = require('istanbul/lib/collector');
 const MemoryStore = require('istanbul/lib/store/memory');
 const path = require('path');
-const loadCoverage = require('../../../src/loadCoverage');
-const remap = require('../../../src/remap');
+const loadCoverage = require('../../../lib/loadCoverage');
+const remap = require('../../../lib/remap');
 
 const registerSuite = intern.getPlugin('interface.object').registerSuite;
 const assert = intern.getPlugin('chai').assert;
@@ -132,8 +132,8 @@ registerSuite('remap-istanbul/lib/remap', {
 			warn: warn
 		});
 
-		// TODO: why would you expect no warnings? There is a bad sourceMappingURL in duplicatemap.js
-		assert.strictEqual(warnStack.length, 0);
+		// There should be a warning for `sourceMappingURL=wrongmatch.js.map` in duplicatemap.js
+		assert.strictEqual(warnStack.length, 1);
 		assert(coverage.store.map['tests/unit/support/duplicatemap.ts']);
 	},
 

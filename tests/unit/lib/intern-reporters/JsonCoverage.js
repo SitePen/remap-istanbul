@@ -1,6 +1,6 @@
 const fs = require('fs');
 const mock = require('./support/mocks');
-const JsonCoverage = require('../../../../src/intern-reporters/JsonCoverage');
+const JsonCoverage = require('../../../../lib/intern-reporters/JsonCoverage');
 
 const registerSuite = intern.getPlugin('interface.object').registerSuite;
 const assert = intern.getPlugin('chai').assert;

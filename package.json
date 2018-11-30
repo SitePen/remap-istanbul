@@ -24,14 +24,14 @@
     "url": "https://github.com/SitePen/remap-istanbul"
   },
   "license": "BSD-3-Clause",
-  "main": "./src/main.js",
+  "main": "./lib/main.js",
   "bin": "./bin/remap-istanbul.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SitePen/remap-istanbul.git"
   },
   "scripts": {
-    "lint": "eslint ./src/",
+    "lint": "eslint ./lib/",
     "test": "rimraf ./tmp && npx intern config=tests/intern.json"
   },
   "dependencies-comment": {
