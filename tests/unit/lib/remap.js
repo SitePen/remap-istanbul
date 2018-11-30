@@ -132,9 +132,12 @@ registerSuite('remap-istanbul/lib/remap', {
 			warn: warn
 		});
 
+		assert.strictEqual(warnStack.length, 2);
 		// There should be a warning for `sourceMappingURL=wrongmatch.js.map` in duplicatemap.js
-		assert.strictEqual(warnStack.length, 1);
-		assert(coverage.store.map['tests/unit/support/duplicatemap.ts']);
+		assert.include(warnStack[0][0].message, 'Could not find file:');
+		// There should also be a warning failing to find the source map
+		assert.include(warnStack[1][0].message, 'Could not find source map for:');
+		assert.exists(coverage.store.map['tests/unit/support/duplicatemap.js'], 'Could not find source map');
 	},
 
 	'missing source map': function () {
