@@ -7,7 +7,7 @@ const getMapping = require('./getMapping');
 const remapFunction = require('./remapFunction');
 const remapBranch = require('./remapBranch');
 
-const sourceMapRegEx = /(?:\/{2}[#@]{1,2}|\/\*)\s+sourceMappingURL\s*=\s*(data:(?:[^;]+;)*(base64)?,)?(\S+)(?:\n\s*)?$/;
+const sourceMapRegEx = /(?:\/{2}[#@]{1,2}|\/\*)\s+sourceMappingURL\s*=\s*(data:(?:[^;]+;)*(base64)?,)?(\S+)(?:\n\s*)?/;
 
 class CoverageTransformer {
 	constructor(options) {
