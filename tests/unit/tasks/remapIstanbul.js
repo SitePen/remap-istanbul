@@ -1,93 +1,92 @@
-define([
-	'intern!object',
-	'intern/chai!assert',
-	'../../../utils/node!grunt',
-	'../../../utils/node!fs',
-  	'../../../utils/node!../../../tasks/remapIstanbul'
-], function (registerSuite, assert, grunt, fs, gruntPlugin) {
+const fs = require('fs');
+const grunt = require('grunt');
+const gruntPlugin = require('../../../tasks/remapIstanbul');
 
-	/* creating a mock for logging */
-	var logStack = [];
-	var log = function log() {
-		logStack.push(arguments);
-	};
-	log.logStack = logStack;
+const registerSuite = intern.getPlugin('interface.object').registerSuite;
+const assert = intern.getPlugin('chai').assert;
 
-	function runGruntTask(taskName, callback) {
-		var task = grunt.task._taskPlusArgs(taskName);
-		task.task.fn.apply({
-			nameArgs: task.nameArgs,
-			name: task.task.name,
-			args: task.args,
-			flags: task.flags,
-			async: function() { return callback; }
-		}, task.args);
-	}
+/* creating a mock for logging */
+const logStack = [];
+function log() {
+	logStack.push(arguments);
+}
+log.logStack = logStack;
 
-	registerSuite({
-		name: 'tasks/remapIstanbul',
-		setup: function () {
-			grunt.initConfig({
-				remapIstanbul: {
-					basic: {
-						options: {
-							reports: {
-								'clover': 'tmp/remapIstanbul.clover.xml',
-								'cobertura': 'tmp/remapIstanbul.cobertura.xml',
-								'html': 'tmp/remap-html-report',
-								'json-summary': 'tmp/remapInstanbul.coverage-summary.json',
-								'json': 'tmp/remapIstanbul.coverage.json',
-								'lcovonly': 'tmp/remapIstanbul.lcov.info',
-								'teamcity': 'tmp/remapIstanbul.teamcity.txt',
-								'text-lcov': log,
-								'text-summary': 'tmp/remapIstanbul.text-summary.txt',
-								'text': 'tmp/remapIstanbul.text.txt'
-							}
-						},
-						src: 'tests/unit/support/coverage.json'
+function runGruntTask(taskName, callback) {
+	var task = grunt.task._taskPlusArgs(taskName);
+	task.task.fn.apply({
+		nameArgs: task.nameArgs,
+		name: task.task.name,
+		args: task.args,
+		flags: task.flags,
+		async: function() { return callback; }
+	}, task.args);
+}
+
+registerSuite('tasks/remapIstanbul', {
+	before: function () {
+		grunt.initConfig({
+			remapIstanbul: {
+				basic: {
+					options: {
+						reports: {
+							'clover': 'tmp/remapIstanbul.clover.xml',
+							'cobertura': 'tmp/remapIstanbul.cobertura.xml',
+							'html': 'tmp/remap-html-report',
+							'json-summary': 'tmp/remapInstanbul.coverage-summary.json',
+							'json': 'tmp/remapIstanbul.coverage.json',
+							'lcovonly': 'tmp/remapIstanbul.lcov.info',
+							'teamcity': 'tmp/remapIstanbul.teamcity.txt',
+							'text-lcov': log,
+							'text-summary': 'tmp/remapIstanbul.text-summary.txt',
+							'text': 'tmp/remapIstanbul.text.txt'
+						}
 					},
+					src: 'tests/unit/support/coverage.json'
+				},
 
-					srcdest: {
-						files: [ {
-							src: 'tests/unit/support/coverage.json',
-							dest: 'tmp/srcdest.coverage.json',
-							type: 'json'
-						} ]
+				srcdest: {
+					files: [ {
+						src: 'tests/unit/support/coverage.json',
+						dest: 'tmp/srcdest.coverage.json',
+						type: 'json'
+					} ]
+				},
+
+				inlineSource: {
+					options: {
+						reports: {
+							'html': 'tmp/remap-html-report-inline'
+						}
 					},
+					src: 'tests/unit/support/coverage-inlinesource.json'
+				},
 
-					inlineSource: {
-						options: {
-							reports: {
-								'html': 'tmp/remap-html-report-inline'
-							}
-						},
-						src: 'tests/unit/support/coverage-inlinesource.json'
+				nonTrans: {
+					options: {
+						reports: {
+							'html': 'tmp/grunt-html-report-nontrans'
+						}
 					},
+					src: 'tests/unit/support/coverage-import.json'
+				},
 
-					nonTrans: {
-						options: {
-							reports: {
-								'html': 'tmp/grunt-html-report-nontrans'
-							}
-						},
-						src: 'tests/unit/support/coverage-import.json'
+				nonTransFail: {
+					options: {
+						fail: true,
+						reports: {
+							'html': 'tmp/grunt-html-report-fail'
+						}
 					},
-
-					nonTransFail: {
-						options: {
-							fail: true,
-							reports: {
-								'html': 'tmp/grunt-html-report-fail'
-							}
-						},
-						src: 'tests/unit/support/coverage-import.json'
-					}
-
+					src: 'tests/unit/support/coverage-import.json'
 				}
-			});
-      		gruntPlugin(grunt);
-		},
 
+			}
+		});
+		gruntPlugin(grunt);
+	},
+
+	tests: {
 		'basic': function () {
 			var dfd = this.async();
 			runGruntTask('remapIstanbul:basic', dfd.callback(function () {
@@ -126,5 +125,5 @@ define([
 				}));
 			}
 		}
-	});
+	},
 });

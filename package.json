@@ -12,12 +12,8 @@
   ],
   "maintainers": [
     {
-      "name": "kitsonk",
-      "email": "me@kitsonkelly.com"
-    },
-    {
-      "name": "bryanforbes",
-      "email": "bryan@reigndropsfall.net"
+      "name": "dylans",
+      "email": "dylan@dojotoolkit.org"
     }
   ],
   "bugs": {
@@ -31,31 +27,27 @@
     "url": "https://github.com/SitePen/remap-istanbul.git"
   },
   "scripts": {
-    "lint": "eslint ./src/",
-    "test": "tests/run.sh",
-    "build": "rimraf lib && babel src --out-dir ./lib --source-maps",
-    "prepublish": "npm run build"
+    "lint": "eslint ./lib/",
+    "test": "rimraf ./tmp && npx intern config=tests/intern.json"
+  },
+  "dependencies-comment": {
+    "source-map": "0.7+ releases introduce breaking changes"
   },
   "dependencies": {
-    "amdefine": "^1.0.0",
     "istanbul": "0.4.5",
-    "minimatch": "^3.0.3",
-    "plugin-error": "^0.1.2",
-    "source-map": "^0.6.1",
-    "through2": "2.0.1"
+    "minimatch": "^3.0.4",
+    "plugin-error": "^1.0.1",
+    "source-map": "0.6.1",
+    "through2": "3.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.16.0",
-    "babel-core": "^6.17.0",
-    "babel-plugin-transform-es2015-modules-amd": "^6.18.0",
-    "babel-preset-es2015": "^6.16.0",
     "codecov.io": "0.1.6",
-    "eslint": "^3.7.0",
-    "eslint-config-airbnb-base": "^10.0.1",
-    "eslint-plugin-import": "^2.0.1",
-    "grunt": "^1.0.1",
-    "gulp": "4.0.0",
-    "intern": "^3.3.0",
-    "rimraf": "^2.5.4"
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "grunt": "^1.0.3",
+    "gulp": "^3.9.1",
+    "intern": "^4.3.3",
+    "rimraf": "^2.6.2"
   }
 }

@@ -1,27 +1,27 @@
-define([
-	'intern!object',
-	'intern/chai!assert',
-	'../../../utils/node!fs',
-	'../../../utils/node!istanbul/lib/store/memory',
-	'../../../utils/node!../../../lib/loadCoverage',
-	'../../../utils/node!../../../lib/remap',
-	'../../../utils/node!../../../lib/writeReport'
-], function (registerSuite, assert, fs, MemoryStore, loadCoverage, remap, writeReport) {
-	var coverage;
-	var consoleLog;
-	var consoleOutput = [];
+const fs = require('fs');
+const path = require('path');
+const MemoryStore = require('istanbul/lib/store/memory');
+const loadCoverage = require('../../../lib/loadCoverage');
+const remap = require('../../../lib/remap');
+const writeReport = require('../../../lib/writeReport');
 
-	function mockLog() {
-		consoleOutput.push(arguments);
-	}
+const registerSuite = intern.getPlugin('interface.object').registerSuite;
+const assert = intern.getPlugin('chai').assert;
+const sourceFilePath = path.join('tests', 'unit', 'support', 'basic.ts');
+let coverage;
+let consoleLog;
+let consoleOutput = [];
 
-	registerSuite({
-		name: 'remap-istanbul/lib/writeReport',
+function mockLog() {
+	consoleOutput.push(arguments);
+}
 
-		setup: function () {
-			coverage = remap(loadCoverage('tests/unit/support/coverage.json'));
-		},
+registerSuite('remap-istanbul/lib/writeReport', {
+	before: function () {
+		coverage = remap(loadCoverage('tests/unit/support/coverage.json'));
+	},
 
+	tests: {
 		'invalid': function () {
 			var dfd = this.async();
 			writeReport(coverage, 'foo', {}, 'bar').then(dfd.reject, dfd.callback(function (error) {
@@ -35,7 +35,7 @@ define([
 			return writeReport(coverage, 'clover', {}, 'tmp/clover.xml').then(function () {
 				var contents = fs.readFileSync('tmp/clover.xml', { encoding: 'utf8' });
 				assert(contents, 'the report should exist');
-				assert.include(contents, 'path="tests/unit/support/basic.ts"', 'contains the remapped file');
+				assert.include(contents, 'path="' + sourceFilePath + '"', 'contains the remapped file');
 			});
 		},
 
@@ -43,7 +43,7 @@ define([
 			return writeReport(coverage, 'cobertura', {}, 'tmp/cobertura.xml').then(function () {
 				var contents = fs.readFileSync('tmp/cobertura.xml', { encoding: 'utf8' });
 				assert(contents, 'the report should exist');
-				assert.include(contents, 'filename="tests/unit/support/basic.ts"', 'contains the remapped file');
+				assert.include(contents, 'filename="' + sourceFilePath + '"', 'contains the remapped file');
 			});
 		},
 
@@ -61,7 +61,14 @@ define([
 				sources: sources
 			});
 			return writeReport(inlineSourceCoverage, 'html', {}, 'tmp/html-report-inline', sources).then(function () {
-				var html = fs.readFileSync('tmp/html-report-inline/support/inlinesource.ts.html', { encoding: 'utf8' });
+				// Istanbul does not place supporting HTML files in the same directory structure for all OSes.  It is
+				// not super important because the parent index.html is always in the destination directory.
+				assert(fs.existsSync('tmp/html-report-inline/index.html'));
+				var path = 'tmp/html-report-inline/support/inlinesource.ts.html';
+				if (!fs.existsSync(path)) {
+					path = 'tmp/html-report-inline/tests/unit/support/inlinesource.ts.html';
+				}
+				var html = fs.readFileSync(path, { encoding: 'utf8' });
 				assert(html, 'should have content for inlinesource.ts');
 				assert.include(html, "let foo = new Foo", 'should contain some of the origin file');
 			});
@@ -70,9 +77,9 @@ define([
 		'json-summary': function () {
 			return writeReport(coverage, 'json-summary', {}, 'tmp/summary.json').then(function () {
 				var contents = fs.readFileSync('tmp/summary.json', { encoding: 'utf8' });
-				assert(contents, 'there should be contensts');
+				assert(contents, 'there should be contents');
 				var summary = JSON.parse(contents);
-				assert(summary['tests/unit/support/basic.ts'], 'there should be a key with a summary');
+				assert(summary[sourceFilePath], 'there should be a key with a summary');
 				assert(summary.total, 'there should be a total key');
 				assert.strictEqual(Object.keys(summary).length, 2, 'there should be only two keys');
 			});
@@ -83,7 +90,7 @@ define([
 				var contents = fs.readFileSync('tmp/coverage-out.json', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
 				var report = JSON.parse(contents);
-				assert(report['tests/unit/support/basic.ts'], 'there should be a key with coverage');
+				assert(report[sourceFilePath], 'there should be a key with coverage');
 				assert.strictEqual(Object.keys(report).length, 1, 'there should be only one key in report');
 			});
 		},
@@ -92,7 +99,7 @@ define([
 			return writeReport(coverage, 'lcovonly', {}, 'tmp/lcov.info').then(function () {
 				var contents = fs.readFileSync('tmp/lcov.info', { encoding: 'utf8' });
 				assert(contents, 'there should be contents');
-				assert.include(contents, 'SF:tests/unit/support/basic.ts',
+				assert.include(contents, 'SF:'+ sourceFilePath,
 					'should contain the name of the remapped file');
 			});
 		},
@@ -114,7 +121,7 @@ define([
 					console.log = consoleLog;
 					assert.strictEqual(consoleOutput.length, 59,
 						'console should have the right number of lines');
-					assert.strictEqual(consoleOutput[1][0], 'SF:tests/unit/support/basic.ts',
+					assert.strictEqual(consoleOutput[1][0], 'SF:'+sourceFilePath,
 						'console should have logged the right file');
 					consoleOutput = [];
 				});
@@ -125,7 +132,7 @@ define([
 				}).then(function () {
 					assert.strictEqual(consoleOutput.length, 59,
 						'console should have the right number of lines');
-					assert.strictEqual(consoleOutput[1][0], 'SF:tests/unit/support/basic.ts',
+					assert.strictEqual(consoleOutput[1][0], 'SF:'+ sourceFilePath,
 						'console should have logged the right file');
 					consoleOutput = [];
 				});
@@ -147,5 +154,5 @@ define([
 				assert.include(contents, 'basic.ts', 'contains the file we remapped');
 			});
 		}
-	});
+	}
 });

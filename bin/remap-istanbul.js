@@ -1,17 +1,15 @@
 #!/usr/bin/env node
 
-'use strict';
-
+const Collector = require('istanbul/lib/collector');
+const MemoryStore = require('istanbul/lib/store/memory');
 const loadCoverage = require('../lib/loadCoverage');
 const remap = require('../lib/remap');
 const writeReport = require('../lib/writeReport');
-const MemoryStore = require('istanbul/lib/store/memory');
-const Collector = require('istanbul/lib/collector');
 
 /**
  * Helper function that reads from standard in and resolves a Promise with the
  * data or rejects with any errors.
- * @return {Promise} A promsie that is resolved with the data from standard in
+ * @return {Promise} A promise that is resolved with the data from standard in
  *                   or rejected with any errors.
  */
 function readStdIn() {
