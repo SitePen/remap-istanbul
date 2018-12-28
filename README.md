@@ -10,7 +10,11 @@
 
 A package that provides the ability to remap [Istanbul](https://gotwarlost.github.io/istanbul/) code coverage information to its original source positions based on a JavaScript [Source Maps v3](https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit#heading=h.djovrt4kdvga).
 
-`remap-istanbul` requires NodeJS 8 or later.
+`remap-istanbul` requires Node.js 8 or later.
+
+## Important Information
+
+This package adds remapping functionality for the deprecated 0.x version of [Istanbul](https://github.com/gotwarlost/istanbul). The newer and actively maintained [IstanbulJS](https://github.com/istanbuljs/istanbuljs) includes remapping functionality directly, so this package (remap-istanbul) is not needed for anyone working with IstanbulJS. We strongly encourage developers to leverage IstanbulJS, and only use this package (remap-istanbul) when needing to support legacy versions of Istanbul.
 
 ## How to get Help
 
