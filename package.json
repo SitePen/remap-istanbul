@@ -41,7 +41,6 @@
     "through2": "3.0.0"
   },
   "devDependencies": {
-    "codecov.io": "0.1.6",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",

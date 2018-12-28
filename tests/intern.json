@@ -1,4 +1,9 @@
 {
+	"coverage": [
+		"bin/**/*.js",
+		"lib/**/*.js",
+		"tasks/**/*.js"
+	],
 	"suites": [
 		"tests/unit/bin/remap-istanbul.js",
 		"tests/unit/tasks/remapIstanbul.js",
