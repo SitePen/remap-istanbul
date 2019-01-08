@@ -1,6 +1,6 @@
 {
   "name": "remap-istanbul",
-  "version": "0.13.0-pre",
+  "version": "0.13.0",
   "description": "A tool for remapping Istanbul coverage via Source Maps",
   "homepage": "https://github.com/SitePen/remap-istanbul",
   "keywords": [
