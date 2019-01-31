@@ -16,6 +16,9 @@ A package that provides the ability to remap [Istanbul](https://gotwarlost.githu
 
 This package adds remapping functionality for the deprecated 0.x version of [Istanbul](https://github.com/gotwarlost/istanbul). The newer and actively maintained [IstanbulJS](https://github.com/istanbuljs/istanbuljs) includes remapping functionality directly, so this package (remap-istanbul) is not needed for anyone working with IstanbulJS. We strongly encourage developers to leverage IstanbulJS, and only use this package (remap-istanbul) when needing to support legacy versions of Istanbul.
 
+## Important Information
+This package adds remapping functionality for the deprecated 0.x version of [Istanbul](https://github.com/gotwarlost/istanbul). The newer and actively maintained [IstanbulJS](https://github.com/istanbuljs/istanbuljs) includes remapping functionality directly, so this package is not needed for anyone working with IstanbulJS. We strongly encourage developers to leverage IstanbulJS, and only use this rempa-istanbul package when needing to support legacy versions of Istanbul.
+
 ## How to get Help
 
 This is covered in depth in the [CONTRIBUTING.md](CONTRIBUTING.md#how-to-get-help) document in the repo.
